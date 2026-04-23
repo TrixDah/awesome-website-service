@@ -7,6 +7,7 @@ unique_ids:
     frmLogin: '1776910979772111100630362.82114'
     frmMessaging: '1776914349341794473779657.0797'
     frmMessaging.ItemTemplate1: '1776914644830693161186253.0377'
+    frmMessaging.ItemTemplate2: '1776986181553389158412832.7599'
   modules: {}
   scripts: {}
   server_modules:

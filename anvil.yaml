@@ -1,5 +1,20 @@
 allow_embedding: false
 db_schema:
+  chats:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      client_hidden: false
+      name: ChatName
+      type: string
+    - admin_ui: {order: 1, width: 200}
+      client_hidden: false
+      name: Participants
+      target: users
+      type: link_multiple
+    indexes: []
+    server: full
+    title: Chats
   messages:
     client: none
     columns:
@@ -15,6 +30,11 @@ db_schema:
       client_hidden: false
       name: TimeSent
       type: datetime
+    - admin_ui: {order: 3, width: 200}
+      client_hidden: false
+      name: TargetChat
+      target: chats
+      type: link_single
     indexes: []
     server: full
     title: Messages

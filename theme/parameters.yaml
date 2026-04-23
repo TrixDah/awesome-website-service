@@ -1,2 +1,3 @@
 roles:
-- {name: chat-bubble}
+- {name: bubble-me}
+- {name: bubble-other}

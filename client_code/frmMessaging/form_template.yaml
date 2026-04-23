@@ -30,6 +30,28 @@ components:
   name: column_panel_2
   properties: {}
   type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'AHKYTG,OQINYG'}
+    name: txtNewChatUser
+    properties: {placeholder: 'Enter username to DM:'}
+    type: TextBox
+  - components:
+    - layout_properties: {grid_position: 'JGDGSK,KABYTK'}
+      name: btnCreateChart
+      properties: {text: Start Chat}
+      type: Button
+    layout_properties: {grid_position: 'AHKYTG,XYICOP'}
+    name: column_panel_7
+    properties: {}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'GOGVEC,MAKFMS'}
+    name: rpChatList
+    properties: {item_template: frmMessaging.ItemTemplate2}
+    type: RepeatingPanel
+  layout_properties: {grid_position: 'IGAPXR,GSQWEM'}
+  name: pnlSidebar
+  properties: {}
+  type: ColumnPanel
 - layout_properties: {grid_position: 'BQSKJL,IJNRMX'}
   name: rpMessages
   properties: {item_template: frmMessaging.ItemTemplate1}
