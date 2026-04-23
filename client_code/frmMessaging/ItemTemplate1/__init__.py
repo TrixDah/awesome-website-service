@@ -10,16 +10,28 @@ import anvil.tz
 
 class ItemTemplate1(ItemTemplate1Template):
   def __init__(self, **properties):
-    # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    # Now we manually format the time using Python!
-    # We check if there is a time saved to avoid errors on empty rows
-    if self.item['TimeSent']:
-      # 1. Grab the time from the database
-      db_time = self.item['TimeSent']
-      # 2. Convert it to Melbourne time
+
+    sender = self.item['Sender']
+    db_time = self.item['TimeSent']
+
+    self.lblMessageText.text = self.item['MessageText']
+    self.lblSender.text = sender
+
+    if db_time:
       melbourne_time = db_time.astimezone(anvil.tz.tzlocal())
-      # 3. Format it and set it to the label
       self.lblTime.text = melbourne_time.strftime("%b %d, %I:%M %p")
 
-    # Any code you write here will run before the form opens.
+    # iMessage Alignment Logic
+    current_user = get_open_form().current_user 
+
+    if sender == current_user:
+      self.lblMessageText.role = "bubble-me"
+      self.lblMessageText.align = "right"
+      self.lblTime.align = "right"
+      self.lblSender.visible = False 
+    else:
+      self.lblMessageText.role = "bubble-other"
+      self.lblMessageText.align = "left"
+      self.lblTime.align = "left"
+      self.lblSender.visible = True
