@@ -8,4 +8,5 @@ unique_ids:
     frmMessaging.ItemTemplate1: '1776914644830693161186253.0377'
   modules: {}
   scripts: {}
-  server_modules: {}
+  server_modules:
+    ServerModule1: '1776919181978959709727115.9071'
