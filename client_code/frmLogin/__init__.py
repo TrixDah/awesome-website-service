@@ -6,6 +6,7 @@ import anvil.server
 from anvil import open_form
 from anvil import *
 
+
 class frmLogin(frmLoginTemplate):
   def __init__(self, **properties):
     self.init_components(**properties)

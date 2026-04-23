@@ -32,7 +32,7 @@ db_schema:
     indexes: []
     server: full
     title: Users
-metadata: {title: Educational Enrichment Strategies}
+metadata: {logo_img: 'asset:chatlogo_69e9a8f7b63de_vips_69e9a8f7c2ed2.jpg', title: Educational Enrichment Strategies}
 name: Awesome Messaging Site
 package_name: Awesome_Messaging_Site
 runtime_options:
