@@ -27,7 +27,7 @@ components:
   type: ColumnPanel
 - components:
   - data_bindings:
-    - {code: '"Message: " + self.item[''MessageText'']', property: text, writeback: false}
+    - {code: '"Message: " + self.item[''TimeSent''].astimezone(anvil.tz.tzlocal()).strftime("%b %d, %I:%M %p")', property: text, writeback: false}
     layout_properties: {grid_position: 'KJXJCC,PZAMDB'}
     name: lblMessageText
     properties: {}
