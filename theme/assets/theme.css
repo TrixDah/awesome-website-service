@@ -1,0 +1,10 @@
+.anvil-role-chat-bubble {
+  background-color: #0084ff; /* Classic iMessage Blue */
+  color: white;              /* White text so it is easy to read */
+  border-radius: 18px;       /* This makes the corners round! */
+  padding: 10px 15px;        /* Adds space inside the bubble */
+  margin-top: 5px;           /* Adds a little space between messages */
+  margin-bottom: 5px;
+  display: inline-block;     /* Keeps the bubble tight to the text */
+  word-wrap: break-word;     /* Stops long words from breaking the bubble */
+}
