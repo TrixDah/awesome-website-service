@@ -15,7 +15,7 @@ components:
   type: ColumnPanel
 - components:
   - layout_properties: {grid_position: 'PCCBBN,GLZTQF'}
-    name: bxLogin
+    name: txtUsername
     properties: {placeholder: 'Username:'}
     type: TextBox
   layout_properties: {grid_position: 'ZJCWSK,DAJPYC'}
@@ -32,7 +32,7 @@ components:
   type: ColumnPanel
 - components:
   - layout_properties: {grid_position: 'PRXPQG,SJYHOR'}
-    name: bxPassword
+    name: txtPassword
     properties: {hide_text: true, placeholder: 'Password:'}
     type: TextBox
   layout_properties: {grid_position: 'PJILUF,ZXHWUX'}
@@ -60,5 +60,24 @@ components:
   name: column_panel_8
   properties: {}
   type: ColumnPanel
-container: {type: ColumnPanel}
+- layout_properties: {grid_position: 'QQNIMP,RNKQIH'}
+  name: column_panel_10
+  properties: {}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'WRVBEH,OLDGEG'}
+    name: lblError
+    properties: {align: center, foreground: '#ff0000', text: '', visible: false}
+    type: Label
+  layout_properties: {grid_position: 'QQNIMP,SJPGXF'}
+  name: column_panel_12
+  properties: {}
+  type: ColumnPanel
+- layout_properties: {grid_position: 'QQNIMP,AJMXRU'}
+  name: column_panel_11
+  properties: {}
+  type: ColumnPanel
+container:
+  properties: {visible: true}
+  type: ColumnPanel
 is_package: true

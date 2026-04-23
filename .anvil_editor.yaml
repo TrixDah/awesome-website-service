@@ -3,7 +3,9 @@ unique_ids:
     standard-page.html: NFU26LQ4RDHHXWYVNKE22RH5QL5C5YXU
     theme.css: LLLGQ7IPKFF25SWILZAGA7X3K3BLVEIM
   forms:
-    pnlLogin: '1776910979772111100630362.82114'
+    frmLogin: '1776910979772111100630362.82114'
+    frmMessaging: '1776914349341794473779657.0797'
+    frmMessaging.ItemTemplate1: '1776914644830693161186253.0377'
   modules: {}
   scripts: {}
   server_modules: {}
