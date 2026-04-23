@@ -20,8 +20,20 @@ def create_chat(current_username, target_username):
   user2 = app_tables.users.get(Username=target_username)
 
   if not user2:
-    return None 
+    return None # Target user doesn't exist
 
+    # --- NEW LOGIC: Check for an existing DM ---
+    # First, get all chats that user1 is a part of
+  user1_chats = app_tables.chats.search(Participants=[user1])
+
+  for chat in user1_chats:
+    participants = chat['Participants']
+    # If a chat has exactly 2 people, and user2 is one of them...
+    if len(participants) == 2 and user2 in participants:
+      return chat # We found it! Return the existing chat immediately.
+    # -------------------------------------------
+
+    # If the code makes it down here, no existing chat was found, so we create a new one.
   chat_name = f"Chat with {target_username}"
   new_chat = app_tables.chats.add_row(
     ChatName=chat_name,

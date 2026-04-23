@@ -22,7 +22,8 @@ components:
   properties: {}
   type: ColumnPanel
 - components:
-  - layout_properties: {grid_position: 'LOLXQW,ADIVMB'}
+  - event_bindings: {click: btnSwitchChats_click}
+    layout_properties: {grid_position: 'LOLXQW,ADIVMB'}
     name: btnSwitchChats
     properties: {text: < Back To Chats}
     type: Button
@@ -57,7 +58,8 @@ components:
   properties: {}
   type: ColumnPanel
 - components:
-  - layout_properties: {grid_position: 'YKIKPX,CLWOKS'}
+  - event_bindings: {click: btnLogout_click}
+    layout_properties: {grid_position: 'YKIKPX,CLWOKS'}
     name: btnLogout
     properties: {text: Logout}
     type: Button
@@ -74,7 +76,8 @@ components:
   name: column_panel_6
   properties: {}
   type: ColumnPanel
-- layout_properties: {grid_position: 'HDBPMA,ZPLZHD IAJBGH,PKRTSB'}
+- event_bindings: {}
+  layout_properties: {grid_position: 'HDBPMA,ZPLZHD IAJBGH,PKRTSB'}
   name: btnRefresh
   properties: {text: Refresh Page}
   type: Button

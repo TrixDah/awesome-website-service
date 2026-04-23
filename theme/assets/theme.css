@@ -4,10 +4,12 @@
   color: white;
   border-radius: 18px 18px 4px 18px; 
   padding: 10px 15px;
-  margin: 2px 0;
-  display: inline-block;
+  margin: 2px 0 2px auto; /* The 'auto' on the left pushes it entirely to the right! */
+  display: block;         /* Must be block for the margin trick to work */
+  width: fit-content;     /* Keeps the bubble tight around your text */
+  max-width: 80%;         /* Stops long paragraphs from stretching across the whole screen */
   word-wrap: break-word;
-  text-align: left; 
+  text-align: left;       /* Keeps the words reading left-to-right */
 }
 
 /* Their Messages (Gray, Left-aligned tail) */
@@ -16,8 +18,10 @@
   color: black;
   border-radius: 18px 18px 18px 4px; 
   padding: 10px 15px;
-  margin: 2px 0;
-  display: inline-block;
+  margin: 2px auto 2px 0; /* Keeps them locked to the left */
+  display: block;
+  width: fit-content;
+  max-width: 80%;
   word-wrap: break-word;
   text-align: left;
 }

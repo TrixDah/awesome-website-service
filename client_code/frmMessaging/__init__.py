@@ -68,3 +68,8 @@ class frmMessaging(frmMessagingTemplate):
 
   def btnLogout_click(self, **event_args):
     open_form('frmLogin')
+
+  @handle("btnRefresh", "click")
+  def btnRefresh_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass  # Write Code Here
