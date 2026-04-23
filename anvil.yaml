@@ -1,0 +1,8 @@
+allow_embedding: false
+name: Custom HTML 1
+package_name: Custom_HTML_1
+runtime_options:
+  client_version: '3'
+  server_spec: {base: python310-minimal}
+  version: 3
+services: []
