@@ -71,5 +71,10 @@ class frmMessaging(frmMessagingTemplate):
 
   @handle("btnRefresh", "click")
   def btnRefresh_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    pass  # Write Code Here
+    # If a chat is currently open, refresh the messages
+    if self.current_chat is not None:
+      self.refresh_messages()
+
+    # If no chat is open, we must be on the home screen, so fetch the chat list directly
+    else:
+      self.rpChatList.items = anvil.server.call('get_user_chats', self.current_user)

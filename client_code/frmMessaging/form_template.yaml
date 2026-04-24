@@ -44,7 +44,8 @@ components:
   name: pnlSidebar
   properties: {}
   type: ColumnPanel
-- layout_properties: {grid_position: 'IGAPXR,BDBCTI'}
+- event_bindings: {}
+  layout_properties: {grid_position: 'IGAPXR,BDBCTI'}
   name: timer_1
   properties: {interval: 2}
   type: Timer
