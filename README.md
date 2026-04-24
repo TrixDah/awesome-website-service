@@ -28,7 +28,7 @@ https://awesomewebsiteservice.anvil.app
 currently, all passwords are stored as sha256 hashes. to reset someone password, replace the hash with the plaintext password and paste this into the database repl:
 
 ```python
-from ServerModule1 import migrate_plain_text_passwords
+from .ServerModule1 import migrate_plain_text_passwords
 print(migrate_plain_text_passwords())
 ```
 
