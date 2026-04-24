@@ -9,6 +9,11 @@ class frmMessaging(frmMessagingTemplate):
     self.current_user = current_user
     self.current_chat = None 
 
+    # Wait until the form is fully open on the screen before loading the data!
+    self.set_event_handler('show', self.form_show)
+
+  def form_show(self, **event_args):
+    # This runs the exact millisecond the form becomes visible
     self.show_chat_list_view()
 
   def show_chat_list_view(self):
@@ -35,6 +40,18 @@ class frmMessaging(frmMessagingTemplate):
 
   def set_active_chat(self, chat_row):
     self.current_chat = chat_row
+
+    participants = chat_row['Participants']
+    display_name = chat_row['ChatName'] # Default fallback
+
+    # Calculate the other person's name again for the header
+    if len(participants) == 2:
+      for person in participants:
+        if person['Username'] != self.current_user:
+          display_name = person['Username']
+
+    self.lblWelcome.text = f"Chatting with: {display_name}"
+
     self.show_messages_view()
     self.refresh_messages()
 
@@ -71,6 +88,13 @@ class frmMessaging(frmMessagingTemplate):
 
   @handle("btnRefresh", "click")
   def btnRefresh_click(self, **event_args):
+    # If a chat is currently open, refresh the messages
+    if self.current_chat is not None:
+      self.refresh_messages()
+
+    # If no chat is open, we must be on the home screen, so fetch the chat list directly
+    else:
+      self.rpChatList.items = anvil.server.call('get_user_chats', self.current_user)
     """This method is called when the button is clicked"""
     pass  # Write Code Here
 
