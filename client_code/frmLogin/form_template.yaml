@@ -73,10 +73,6 @@ components:
   name: column_panel_12
   properties: {}
   type: ColumnPanel
-- layout_properties: {grid_position: 'QQNIMP,AJMXRU'}
-  name: column_panel_11
-  properties: {}
-  type: ColumnPanel
 container:
   properties: {visible: true}
   type: ColumnPanel
