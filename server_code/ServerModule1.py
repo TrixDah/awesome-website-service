@@ -56,3 +56,24 @@ def send_message(sender, message_text, chat_row):
     TimeSent=datetime.now(timezone.utc),
     TargetChat=chat_row 
   )
+
+@anvil.server.callable
+def get_general_chat(username):
+  user_row = app_tables.users.get(Username=username)
+
+    # Check if a chat specifically named "General Chat" exists
+  general_chat = app_tables.chats.get(ChatName="General Chat")
+
+    # If the app is brand new and it doesn't exist yet, create it!
+  if not general_chat:
+    general_chat = app_tables.chats.add_row(
+      ChatName="General Chat",
+      Participants=[user_row]
+      )
+  else:
+      # If it exists, ensure this specific user is in the Participants list
+    participants = general_chat['Participants']
+    if user_row not in participants:
+      general_chat['Participants'] = participants + [user_row]
+
+  return general_chat

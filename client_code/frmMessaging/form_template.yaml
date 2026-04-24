@@ -25,7 +25,7 @@ components:
   - event_bindings: {click: btnSwitchChats_click}
     layout_properties: {grid_position: 'LOLXQW,ADIVMB'}
     name: btnSwitchChats
-    properties: {text: < Back To Chats}
+    properties: {text: Select Chat}
     type: Button
   layout_properties: {grid_position: 'HCDKNL,JRMFQN'}
   name: column_panel_2

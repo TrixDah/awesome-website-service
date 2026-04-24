@@ -13,8 +13,11 @@ class frmMessaging(frmMessagingTemplate):
     self.set_event_handler('show', self.form_show)
 
   def form_show(self, **event_args):
-    # This runs the exact millisecond the form becomes visible
-    self.show_chat_list_view()
+  # Fetch the General Chat (this also ensures the user is added to it!)
+    general_chat = anvil.server.call('get_general_chat', self.current_user)
+
+    # Open the General Chat immediately!
+    self.set_active_chat(general_chat)
 
   def show_chat_list_view(self):
     self.rpChatList.visible = True
@@ -45,7 +48,8 @@ class frmMessaging(frmMessagingTemplate):
     display_name = chat_row['ChatName'] # Default fallback
 
     # Calculate the other person's name again for the header
-    if len(participants) == 2:
+    # Calculate the other person's name (BUT ignore the General Chat!)
+    if len(participants) == 2 and chat_row['ChatName'] != "General Chat":
       for person in participants:
         if person['Username'] != self.current_user:
           display_name = person['Username']
@@ -63,7 +67,9 @@ class frmMessaging(frmMessagingTemplate):
   def btnSwitchChats_click(self, **event_args):
     self.current_chat = None
     self.show_chat_list_view()
- 
+
+
+  
   @handle('btnCreateChat', "click")
   def btnCreateChat_click(self, **event_args):
     target = self.txtNewChatUser.text
@@ -82,7 +88,8 @@ class frmMessaging(frmMessagingTemplate):
       anvil.server.call('send_message', self.current_user, new_message, self.current_chat)
       self.txtNewMessage.text = "" 
       self.refresh_messages()      
-
+  
+  @handle("btnLogout","click")
   def btnLogout_click(self, **event_args):
     open_form('frmLogin')
 
