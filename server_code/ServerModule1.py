@@ -2,7 +2,22 @@ import anvil.server
 import anvil.tables as tables
 from anvil.tables import app_tables
 from datetime import datetime, timezone
+from datetime import timedelta
+import anvil.tables.query as q
 
+message_lifetime_hours: int = 12
+
+@anvil.server.background_task
+def scheduled_prune_messages():
+  """This function will be triggered by Anvil's scheduler."""
+  cutoff = datetime.now(timezone.utc) - timedelta(hours=1)
+
+  old_messages = app_tables.messages.search(
+    TimeSent=q.less_than(cutoff)
+  )
+
+  for msg in old_messages:
+    msg.delete()
 
 @anvil.server.callable
 def verify_login(username, password):
