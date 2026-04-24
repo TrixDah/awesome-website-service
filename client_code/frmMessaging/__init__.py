@@ -73,3 +73,9 @@ class frmMessaging(frmMessagingTemplate):
   def btnRefresh_click(self, **event_args):
     """This method is called when the button is clicked"""
     pass  # Write Code Here
+
+  @handle("txtNewMessage", "pressed_enter")
+  def txtNewMessage_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    self.btnSend_click() # simulate a send button click
+
