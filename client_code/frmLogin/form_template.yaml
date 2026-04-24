@@ -8,75 +8,35 @@ components:
   name: lblTitle
   properties: {}
   type: ColumnPanel
-- components: []
-  layout_properties: {grid_position: 'ZJCWSK,JRUQAT'}
-  name: column_panel_1
-  properties: {}
-  type: ColumnPanel
+- layout_properties: {grid_position: 'EHXHTA,KGOXLD VDLOZC,UXXUKT'}
+  name: spacer_2
+  properties: {height: 169.60000610351562}
+  type: Spacer
 - components:
-  - layout_properties: {grid_position: 'PCCBBN,GLZTQF'}
+  - layout_properties: {grid_position: 'IIAKDF,MHMMGT'}
     name: txtUsername
     properties: {placeholder: 'Username:'}
     type: TextBox
-  layout_properties: {grid_position: 'ZJCWSK,DAJPYC'}
-  name: column_panel_3
-  properties: {}
-  type: ColumnPanel
-- layout_properties: {grid_position: 'ZJCWSK,SKCXCL'}
-  name: column_panel_2
-  properties: {}
-  type: ColumnPanel
-- layout_properties: {grid_position: 'PJILUF,QINCEF'}
-  name: column_panel_4
-  properties: {}
-  type: ColumnPanel
-- components:
-  - layout_properties: {grid_position: 'PRXPQG,SJYHOR'}
+  - layout_properties: {grid_position: 'ITMODJ,OOZYAG'}
     name: txtPassword
     properties: {hide_text: true, placeholder: 'Password:'}
     type: TextBox
-  layout_properties: {grid_position: 'PJILUF,ZXHWUX'}
-  name: column_panel_6
-  properties: {}
-  type: ColumnPanel
-- layout_properties: {grid_position: 'PJILUF,VMBAPQ'}
-  name: column_panel_5
-  properties: {}
-  type: ColumnPanel
-- layout_properties: {grid_position: 'FLYSKO,UVYQDC'}
-  name: column_panel_7
-  properties: {}
-  type: ColumnPanel
-- components:
-  - layout_properties: {grid_position: 'ANKTXW,XRCJXP'}
+  - layout_properties: {grid_position: 'NWMHJL,DVNFBL'}
     name: btnLogin
     properties: {text: Login}
     type: Button
-  layout_properties: {grid_position: 'FLYSKO,NYCSRX'}
-  name: column_panel_9
-  properties: {}
-  type: ColumnPanel
-- layout_properties: {grid_position: 'FLYSKO,OXEBKH'}
-  name: column_panel_8
-  properties: {}
-  type: ColumnPanel
-- layout_properties: {grid_position: 'QQNIMP,RNKQIH'}
-  name: column_panel_10
-  properties: {}
-  type: ColumnPanel
-- components:
-  - layout_properties: {grid_position: 'WRVBEH,OLDGEG'}
+  - layout_properties: {grid_position: 'WFPNMD,LJBPTP'}
     name: lblError
     properties: {align: center, foreground: '#ff0000', text: '', visible: false}
     type: Label
-  layout_properties: {grid_position: 'QQNIMP,SJPGXF'}
-  name: column_panel_12
+  layout_properties: {grid_position: 'EHXHTA,TEQPCP'}
+  name: column_panel_2
   properties: {}
   type: ColumnPanel
-- layout_properties: {grid_position: 'QQNIMP,AJMXRU'}
-  name: column_panel_11
-  properties: {}
-  type: ColumnPanel
+- layout_properties: {grid_position: 'EHXHTA,QJXLYP'}
+  name: spacer_1
+  properties: {height: 175.19998168945312}
+  type: Spacer
 container:
   properties: {visible: true}
   type: ColumnPanel
