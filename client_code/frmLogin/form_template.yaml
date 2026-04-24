@@ -8,14 +8,10 @@ components:
   name: lblTitle
   properties: {}
   type: ColumnPanel
-- layout_properties: {grid_position: 'EHXHTA,KGOXLD VDLOZC,UXXUKT'}
+- layout_properties: {grid_position: 'EHXHTA,KGOXLD'}
   name: spacer_2
-  properties: {height: 135}
+  properties: {height: 172.60000610351562}
   type: Spacer
-- layout_properties: {grid_position: 'EHXHTA,KGOXLD FGGEIO,QISONS'}
-  name: label_2
-  properties: {italic: true, text: working on devbranch}
-  type: Label
 - components:
   - layout_properties: {grid_position: 'IIAKDF,MHMMGT'}
     name: txtUsername
