@@ -54,6 +54,11 @@ components:
   name: rpMessages
   properties: {item_template: frmMessaging.ItemTemplate1}
   type: RepeatingPanel
+- layout_properties: {grid_position: 'BQSKJL,IJNRMX'}
+  name: lblNoMessages
+  properties: {align: center, font_size: 14, italic: true, text: 'No messages yet. Be the first to say hello!'}
+  type: Label
+  visible: false
 - components:
   - event_bindings: {}
     layout_properties: {grid_position: 'LRGORS,EZCLHF'}

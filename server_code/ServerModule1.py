@@ -4,6 +4,7 @@ from anvil.tables import app_tables
 from datetime import datetime, timezone
 from datetime import timedelta
 import anvil.tables.query as q
+import hashlib
 
 message_lifetime_hours: int = 12
 
@@ -21,8 +22,43 @@ def scheduled_prune_messages():
 
 @anvil.server.callable
 def verify_login(username, password):
-  user = app_tables.users.get(Username=username, Password=password)
+  """Verify login credentials. Password is hashed on receipt."""
+  password_hash = hashlib.sha256(password.encode()).hexdigest()
+  user = app_tables.users.get(Username=username, Password=password_hash)
   return True if user else False
+
+
+@anvil.server.callable
+def create_user(username, password):
+  """Create a new user with a hashed password."""
+  existing = app_tables.users.get(Username=username)
+  if existing:
+    return None  # User already exists
+
+  password_hash = hashlib.sha256(password.encode()).hexdigest()
+  return app_tables.users.add_row(Username=username, Password=password_hash)
+
+
+@anvil.server.callable
+def migrate_plain_text_passwords():
+  """Migration: Hash all plain text passwords in the users table.
+  Run this ONCE to upgrade existing users to the new hashed password format.
+  """
+  all_users = app_tables.users.search()
+  migrated_count = 0
+
+  for user in all_users:
+    password = user['Password']
+    # Skip if already hashed (SHA256 produces 64-char hex strings)
+    if len(password) == 64 and all(c in '0123456789abcdef' for c in password):
+      continue
+
+    # Hash the plain text password and update
+    password_hash = hashlib.sha256(password.encode()).hexdigest()
+    user['Password'] = password_hash
+    migrated_count += 1
+
+  return f"Migration complete. {migrated_count} users migrated to hashed passwords."
 
 @anvil.server.callable
 def get_user_chats(username):
@@ -35,20 +71,20 @@ def create_chat(current_username, target_username):
   user2 = app_tables.users.get(Username=target_username)
 
   if not user2:
-    return None # Target user doesn't exist
+    return None  # Target user doesn't exist
 
-    # --- NEW LOGIC: Check for an existing DM ---
-    # First, get all chats that user1 is a part of
+  # --- NEW LOGIC: Check for an existing DM ---
+  # First, get all chats that user1 is a part of
   user1_chats = app_tables.chats.search(Participants=[user1])
 
   for chat in user1_chats:
     participants = chat['Participants']
     # If a chat has exactly 2 people, and user2 is one of them...
     if len(participants) == 2 and user2 in participants:
-      return chat # We found it! Return the existing chat immediately.
-    # -------------------------------------------
+      return chat  # We found it! Return the existing chat immediately.
+  # -------------------------------------------
 
-    # If the code makes it down here, no existing chat was found, so we create a new one.
+  # If the code makes it down here, no existing chat was found, so we create a new one.
   chat_name = f"Chat with {target_username}"
   new_chat = app_tables.chats.add_row(
     ChatName=chat_name,

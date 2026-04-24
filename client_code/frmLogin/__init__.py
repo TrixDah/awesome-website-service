@@ -17,7 +17,7 @@ class frmLogin(frmLoginTemplate):
     username = self.txtUsername.text
     password = self.txtPassword.text
 
-    # Call the server to check credentials
+    # Call the server to check credentials (server handles hashing)
     is_valid = anvil.server.call('verify_login', username, password)
 
     if is_valid:
