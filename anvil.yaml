@@ -59,6 +59,13 @@ runtime_options:
   client_version: '3'
   server_spec: {base: python310-minimal}
   version: 3
+scheduled_tasks:
+- job_id: TKQFZXRP
+  task_name: scheduled_prune_messages
+  time_spec:
+    at: {minute: 0}
+    every: hour
+    n: 5
 services:
 - client_config: {enable_v2: true}
   server_config: {}
