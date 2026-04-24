@@ -5,6 +5,7 @@ from anvil.tables import app_tables
 import anvil.server
 from anvil import open_form
 from anvil import *
+import hashlib
 
 
 class frmLogin(frmLoginTemplate):
@@ -17,8 +18,11 @@ class frmLogin(frmLoginTemplate):
     username = self.txtUsername.text
     password = self.txtPassword.text
 
+    # Hash password before sending to server
+    password_hash = hashlib.sha256(password.encode()).hexdigest()
+
     # Call the server to check credentials
-    is_valid = anvil.server.call('verify_login', username, password)
+    is_valid = anvil.server.call('verify_login', username, password_hash)
 
     if is_valid:
       open_form('frmMessaging', current_user=username)
