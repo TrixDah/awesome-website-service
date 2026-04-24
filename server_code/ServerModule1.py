@@ -21,7 +21,9 @@ def scheduled_prune_messages():
     msg.delete()
 
 @anvil.server.callable
-def verify_login(username, password_hash):
+def verify_login(username, password):
+  """Verify login credentials. Password is hashed on receipt."""
+  password_hash = hashlib.sha256(password.encode()).hexdigest()
   user = app_tables.users.get(Username=username, Password=password_hash)
   return True if user else False
 
