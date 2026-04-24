@@ -57,18 +57,7 @@ class frmMessaging(frmMessagingTemplate):
 
   def refresh_messages(self):
     if self.current_chat:
-      messages = anvil.server.call('get_chat_messages', self.current_chat)
-      self.rpMessages.items = messages
-
-      # Show/hide placeholder based on message count
-      if len(messages) == 0:
-        self.lblNoMessages.visible = True
-        self.rpMessages.visible = False
-      else:
-        self.lblNoMessages.visible = False
-        self.rpMessages.visible = True
-        # Auto-scroll to bottom (last message)
-        self.rpMessages.scroll_to_bottom()
+      self.rpMessages.items = anvil.server.call('get_chat_messages', self.current_chat)
 
   
   def btnSwitchChats_click(self, **event_args):
@@ -99,10 +88,15 @@ class frmMessaging(frmMessagingTemplate):
 
   @handle("btnRefresh", "click")
   def btnRefresh_click(self, **event_args):
+    # If a chat is currently open, refresh the messages
     if self.current_chat is not None:
       self.refresh_messages()
+
+    # If no chat is open, we must be on the home screen, so fetch the chat list directly
     else:
       self.rpChatList.items = anvil.server.call('get_user_chats', self.current_user)
+    """This method is called when the button is clicked"""
+    pass  # Write Code Here
 
   @handle("txtNewMessage", "pressed_enter")
   def txtNewMessage_pressed_enter(self, **event_args):
