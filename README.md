@@ -4,7 +4,7 @@ We will beat Amazon Web Services (they are cheap knockoffs).
 
 ### Branch Semantics
 
-- ** Master branch`master`
+- **Master branch `master`**
   Stable, production-ready code. Direct commits are avoided; all changes arrive via pull requests.
 
 - **Feature branches (`feature/<name>`)**  
