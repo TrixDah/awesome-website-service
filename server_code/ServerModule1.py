@@ -107,6 +107,3 @@ def send_message(sender, message_text, chat_row):
     TimeSent=datetime.now(timezone.utc),
     TargetChat=chat_row 
   )
-
-  @anvil.server.callable
-  def 
