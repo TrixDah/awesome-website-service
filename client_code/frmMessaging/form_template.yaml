@@ -36,7 +36,7 @@ components:
     name: txtNewChatUser
     properties: {placeholder: 'Enter username to DM:'}
     type: TextBox
-  - layout_properties: {grid_position: 'GOGVEC,MAKFMS'}
+  - layout_properties: {grid_position: 'OVKAAE,KZIKUL'}
     name: rpChatList
     properties: {item_template: frmMessaging.ItemTemplate2}
     type: RepeatingPanel
