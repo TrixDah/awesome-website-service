@@ -67,9 +67,6 @@ class frmMessaging(frmMessagingTemplate):
       else:
         self.lblNoMessages.visible = False
         self.rpMessages.visible = True
-        # Auto-scroll to bottom (last message)
-        self.rpMessages.scroll_to_bottom()
-
   
   def btnSwitchChats_click(self, **event_args):
     self.current_chat = None
