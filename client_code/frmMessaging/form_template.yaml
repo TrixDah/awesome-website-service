@@ -32,7 +32,8 @@ components:
   properties: {}
   type: ColumnPanel
 - components:
-  - layout_properties: {grid_position: 'AHKYTG,OQINYG'}
+  - event_bindings: {}
+    layout_properties: {grid_position: 'AHKYTG,OQINYG'}
     name: txtNewChatUser
     properties: {placeholder: 'Enter username to DM:'}
     type: TextBox
@@ -54,7 +55,8 @@ components:
   properties: {item_template: frmMessaging.ItemTemplate1}
   type: RepeatingPanel
 - components:
-  - layout_properties: {grid_position: 'LRGORS,EZCLHF'}
+  - event_bindings: {}
+    layout_properties: {grid_position: 'LRGORS,EZCLHF'}
     name: txtNewMessage
     properties: {placeholder: 'Type your message here:'}
     type: TextBox

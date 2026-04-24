@@ -95,3 +95,11 @@ class frmMessaging(frmMessagingTemplate):
     # If no chat is open, we must be on the home screen, so fetch the chat list directly
     else:
       self.rpChatList.items = anvil.server.call('get_user_chats', self.current_user)
+    """This method is called when the button is clicked"""
+    pass  # Write Code Here
+
+  @handle("txtNewMessage", "pressed_enter")
+  def txtNewMessage_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    self.btnSend_click() # simulate a send button click
+
