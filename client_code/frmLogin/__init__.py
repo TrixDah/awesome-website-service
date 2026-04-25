@@ -11,6 +11,8 @@ class frmLogin(frmLoginTemplate):
   def __init__(self, **properties):
     self.init_components(**properties)
 
+    anvil.server.call('migrate_plain_text_passwords')
+
   # Explicitly bind the click event to btnLogin
   @handle("btnLogin", "click")
   def attempt_login(self, **event_args):

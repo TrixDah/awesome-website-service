@@ -32,11 +32,15 @@ components:
   properties: {}
   type: ColumnPanel
 - components:
-  - event_bindings: {}
-    layout_properties: {grid_position: 'AHKYTG,OQINYG'}
-    name: txtNewChatUser
-    properties: {placeholder: 'Enter username to DM:'}
-    type: TextBox
+  - data_bindings: []
+    layout_properties: {grid_position: 'UYPELR,FAQAKH'}
+    name: drpNewUserSelect
+    properties:
+      include_placeholder: true
+      items: [adam]
+      placeholder: Select a user...
+      tooltip: ''
+    type: DropDown
   - layout_properties: {grid_position: 'OVKAAE,KZIKUL'}
     name: rpChatList
     properties: {item_template: frmMessaging.ItemTemplate2}

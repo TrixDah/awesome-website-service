@@ -6,7 +6,7 @@ from datetime import timedelta
 import anvil.tables.query as q
 import hashlib
 
-message_lifetime_hours: int = 12
+message_lifetime_hours: int = 48
 
 @anvil.server.background_task
 def scheduled_prune_messages():
@@ -27,16 +27,36 @@ def verify_login(username, password):
   user = app_tables.users.get(Username=username, Password=password_hash)
   return True if user else False
 
+@anvil.server.callable
+def get_usernames():
+  return [row['Username'] for row in app_tables.users.search()]
 
 @anvil.server.callable
-def create_user(username, password):
+def create_user(username: str, password: str):
   """Create a new user with a hashed password."""
+
+  # basic validation
+  if not username or not password:
+    return {"success": False, "error": "Username and password required"}
+
+  # normalize username (optional but recommended)
+  username = username.strip()
+
+  # check if user already exists
   existing = app_tables.users.get(Username=username)
   if existing:
-    return None  # User already exists
+    return {"success": False, "error": "User already exists"}
 
+  # hash password
   password_hash = hashlib.sha256(password.encode()).hexdigest()
-  return app_tables.users.add_row(Username=username, Password=password_hash)
+
+  # add to database
+  new_row = app_tables.users.add_row(
+    Username=username,
+    Password=password_hash
+  )
+
+  return {"success": True, "user_id": new_row.get_id()}
 
 
 @anvil.server.callable
