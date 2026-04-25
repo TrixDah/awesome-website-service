@@ -1,6 +1,7 @@
 from ._anvil_designer import frmMessagingTemplate
 from anvil import *
 import anvil.server
+from anvil.tables import app_tables
 
 class frmMessaging(frmMessagingTemplate):
   def __init__(self, current_user, **properties):
@@ -12,13 +13,16 @@ class frmMessaging(frmMessagingTemplate):
     # Wait until the form is fully open on the screen before loading the data!
     self.set_event_handler('show', self.form_show)
 
+    # initialize the dropdown
+    self.drpNewUserSelect.items = anvil.server.call('get_usernames')
+
   def form_show(self, **event_args):
     # This runs the exact millisecond the form becomes visible
     self.show_chat_list_view()
 
   def show_chat_list_view(self):
     self.rpChatList.visible = True
-    self.txtNewChatUser.visible = True
+    self.drpNewUserSelect.visible = True
     self.btnCreateChat.visible = True
 
     self.rpMessages.visible = False
@@ -35,7 +39,7 @@ class frmMessaging(frmMessagingTemplate):
     self.btnSwitchChats.visible = True 
 
     self.rpChatList.visible = False
-    self.txtNewChatUser.visible = False
+    self.drpNewUserSelect.visible = False
     self.btnCreateChat.visible = False
 
   def set_active_chat(self, chat_row):
@@ -74,11 +78,11 @@ class frmMessaging(frmMessagingTemplate):
  
   @handle('btnCreateChat', "click")
   def btnCreateChat_click(self, **event_args):
-    target = self.txtNewChatUser.text
+    target = self.drpNewUserSelect.selected_value
     if target:
       new_chat = anvil.server.call('create_chat', self.current_user, target)
       if new_chat:
-        self.txtNewChatUser.text = ""
+        self.drpNewUserSelect.selected_value = None
         self.set_active_chat(new_chat)
       else:
         alert("User not found!")
