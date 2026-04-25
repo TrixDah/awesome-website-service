@@ -28,8 +28,12 @@ def verify_login(username, password):
   return True if user else False
 
 @anvil.server.callable
-def get_usernames():
-  return [row['Username'] for row in app_tables.users.search()]
+def get_usernames(logged_in_user: str):
+  return [
+    row['Username']
+    for row in app_tables.users.search()
+    if row['Username'] != logged_in_user
+  ]
 
 @anvil.server.callable
 def create_user(username: str, password: str):
