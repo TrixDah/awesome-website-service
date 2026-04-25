@@ -14,7 +14,7 @@ class frmMessaging(frmMessagingTemplate):
     self.set_event_handler('show', self.form_show)
 
     # initialize the dropdown
-    self.drpNewUserSelect.items = anvil.server.call('get_usernames')
+    self.drpNewUserSelect.items = anvil.server.call('get_usernames', self.current_user)
 
   def form_show(self, **event_args):
     # This runs the exact millisecond the form becomes visible
