@@ -11,8 +11,7 @@ message_lifetime_hours: int = 48
 @anvil.server.background_task
 def scheduled_prune_messages():
   """This function will be triggered by Anvil's scheduler."""
-  cutoff = datetime.now(timezone.utc) - timedelta(hours=1)
-
+  cutoff = datetime.now(timezone.utc) - timedelta(hours=message_lifetime_hours)
   old_messages = app_tables.messages.search(
     TimeSent=q.less_than(cutoff)
   )
