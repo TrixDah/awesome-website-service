@@ -6,7 +6,7 @@ from datetime import timedelta
 import anvil.tables.query as q
 import hashlib
 
-message_lifetime_hours: int = 48
+message_lifetime_hours: int = 48 #Change this to set message deletion time threshold 
 
 @anvil.server.background_task
 def scheduled_prune_messages():
