@@ -2,6 +2,9 @@ from ._anvil_designer import frmMessagingTemplate
 from anvil import *
 import anvil.server
 from anvil.tables import app_tables
+import time
+
+msgCharLimit = 256
 
 class frmMessaging(frmMessagingTemplate):
   def __init__(self, current_user, **properties):
@@ -91,15 +94,19 @@ class frmMessaging(frmMessagingTemplate):
   def btnSend_click(self, **event_args):
     new_message = self.txtNewMessage.text
     if new_message.strip() != "" and self.current_chat:
-      anvil.server.call('send_message', self.current_user, new_message, self.current_chat)
-      self.txtNewMessage.text = "" 
-      self.refresh_messages()      
+      if len(new_message) <= msgCharLimit:
+        anvil.server.call('send_message', self.current_user, new_message, self.current_chat)
+        self.txtNewMessage.text = "" 
+        self.refresh_messages() 
+      else:
+        alert(f"Error: Message exceeds {msgCharLimit} character limit.")
 
   def btnLogout_click(self, **event_args):
     open_form('frmLogin')
 
   @handle("btnRefresh", "click")
   def btnRefresh_click(self, **event_args):
+    time.sleep(1)
     if self.current_chat is not None:
       self.refresh_messages()
     else:
