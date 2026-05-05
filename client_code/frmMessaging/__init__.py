@@ -12,6 +12,7 @@ class frmMessaging(frmMessagingTemplate):
 
     self.current_user = current_user
     self.current_chat = None 
+    self.last_refresh_time = 0
 
     # Wait until the form is fully open on the screen before loading the data!
     self.set_event_handler('show', self.form_show)
@@ -106,7 +107,16 @@ class frmMessaging(frmMessagingTemplate):
 
   @handle("btnRefresh", "click")
   def btnRefresh_click(self, **event_args):
-    time.sleep(1)
+    current_time = time.time()
+
+    # Check if 3 seconds have passed since the last click
+    if current_time - self.last_refresh_time < 3:
+      # You could also show a small Notification here: "Please wait before refreshing again."
+      return 
+
+    self.last_refresh_time = current_time
+
+    # Run the actual refresh logic
     if self.current_chat is not None:
       self.refresh_messages()
     else:
