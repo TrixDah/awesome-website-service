@@ -5,7 +5,7 @@ from anvil.tables import app_tables
 import anvil.server
 from anvil import open_form
 from anvil import *
-
+loginCharacterLimit = 50
 
 class frmLogin(frmLoginTemplate):
   def __init__(self, **properties):
@@ -19,11 +19,22 @@ class frmLogin(frmLoginTemplate):
     username = self.txtUsername.text
     password = self.txtPassword.text
 
-    # Call the server to check credentials (server handles hashing)
-    is_valid = anvil.server.call('verify_login', username, password)
 
-    if is_valid:
-      open_form('frmMessaging', current_user=username)
-    else:
-      self.lblError.text = "Invalid username or password."
+    #Check to ensure password and username is not too long, to prevent malicious actors.
+    if len(password) >= loginCharacterLimit or len(username) >= loginCharacterLimit:
+      self.lblError.text = "Input length too long. Nice try Rory."
       self.lblError.visible = True
+
+    # Call the server to check credentials (server handles hashing).
+    else:
+      is_valid = anvil.server.call('verify_login', username, password)
+      if is_valid:
+        open_form('frmMessaging', current_user=username)
+      else:
+        self.lblError.text = "Invalid username or password."
+        self.lblError.visible = True
+
+  @handle("txtPassword", "pressed_enter")
+  def txtPassword_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    self.attempt_login() # simulate a send button click

@@ -2,6 +2,9 @@ from ._anvil_designer import frmMessagingTemplate
 from anvil import *
 import anvil.server
 from anvil.tables import app_tables
+import time
+
+msgCharLimit = 256
 
 class frmMessaging(frmMessagingTemplate):
   def __init__(self, current_user, **properties):
@@ -9,6 +12,7 @@ class frmMessaging(frmMessagingTemplate):
 
     self.current_user = current_user
     self.current_chat = None 
+    self.last_refresh_time = 0
 
     # Wait until the form is fully open on the screen before loading the data!
     self.set_event_handler('show', self.form_show)
@@ -91,15 +95,28 @@ class frmMessaging(frmMessagingTemplate):
   def btnSend_click(self, **event_args):
     new_message = self.txtNewMessage.text
     if new_message.strip() != "" and self.current_chat:
-      anvil.server.call('send_message', self.current_user, new_message, self.current_chat)
-      self.txtNewMessage.text = "" 
-      self.refresh_messages()      
+      if len(new_message) <= msgCharLimit:
+        anvil.server.call('send_message', self.current_user, new_message, self.current_chat)
+        self.txtNewMessage.text = "" 
+        self.refresh_messages() 
+      else:
+        alert(f"Error: Message exceeds {msgCharLimit} character limit.")
 
   def btnLogout_click(self, **event_args):
     open_form('frmLogin')
 
   @handle("btnRefresh", "click")
   def btnRefresh_click(self, **event_args):
+    current_time = time.time()
+
+    # Check if 3 seconds have passed since the last click
+    if current_time - self.last_refresh_time < 3:
+      # You could also show a small Notification here: "Please wait before refreshing again."
+      return 
+
+    self.last_refresh_time = current_time
+
+    # Run the actual refresh logic
     if self.current_chat is not None:
       self.refresh_messages()
     else:
