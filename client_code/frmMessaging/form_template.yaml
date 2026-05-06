@@ -23,7 +23,7 @@ components:
   type: ColumnPanel
 - components:
   - event_bindings: {click: btnSwitchChats_click}
-    layout_properties: {grid_position: 'LOLXQW,ADIVMB'}
+    layout_properties: {grid_position: 'JDQKOX,XEXYFE'}
     name: btnSwitchChats
     properties: {text: < Back To Chats}
     type: Button
@@ -77,12 +77,16 @@ components:
   - event_bindings: {click: btnLogout_click}
     layout_properties: {grid_position: 'YKIKPX,CLWOKS'}
     name: btnLogout
-    properties: {text: Logout}
+    properties: {background: '', text: Logout}
     type: Button
   layout_properties: {grid_position: 'HDBPMA,NEGOUB'}
   name: column_panel_4
   properties: {}
   type: ColumnPanel
+- layout_properties: {grid_position: 'HDBPMA,HNPCAE'}
+  name: file_loader_1
+  properties: {file_types: image/*}
+  type: FileLoader
 - components:
   - layout_properties: {grid_position: 'EHIGCJ,NFNDNL'}
     name: btnSend
@@ -96,6 +100,11 @@ components:
   layout_properties: {grid_position: 'HDBPMA,ZPLZHD IAJBGH,PKRTSB'}
   name: btnRefresh
   properties: {text: Refresh Page}
+  type: Button
+- event_bindings: {click: btnSwitchChats_click}
+  layout_properties: {grid_position: 'HDBPMA,ZPLZHD IAJBGH,UYHFJC'}
+  name: btnSwitchChats_2
+  properties: {text: < Back To Chats}
   type: Button
 container: {type: ColumnPanel}
 is_package: true

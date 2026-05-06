@@ -18,6 +18,8 @@ class ItemTemplate1(ItemTemplate1Template):
 
     self.lblMessageText.text = self.item['MessageText']
     self.lblSender.text = sender
+    if self.item['MessageImage'] is None:
+      self.image_1.visible = False
 
     if db_time:
       melbourne_time = db_time.astimezone(anvil.tz.tzlocal())
