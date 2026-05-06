@@ -145,13 +145,13 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
     user_row['timeout_until'] = now + timedelta(minutes=5)
     return {"success": False, "error": "Spam detected. You are timed out for 5 minutes."}
   
-    # Save the message AND the image
-    app_tables.messages.add_row(
-      Sender=sender_username,
-      MessageText=message_text,
-      TimeSent=now, 
-      TargetChat=chat_row,
-      MessageImage=image_file # Save to the new column
-    )
+  # Save the message AND the image
+  app_tables.messages.add_row(
+    Sender=sender_username,
+    MessageText=message_text,
+    TimeSent=now, 
+    TargetChat=chat_row,
+    MessageImage=image_file # Save to the new column
+  )
   
   return {"success": True}
