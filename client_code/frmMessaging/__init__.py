@@ -13,6 +13,7 @@ class frmMessaging(frmMessagingTemplate):
     self.current_user = current_user
     self.current_chat = None 
     self.last_refresh_time = 0
+    self.last_send_time = 0
 
     # Wait until the form is fully open on the screen before loading the data!
     self.set_event_handler('show', self.form_show)
@@ -93,12 +94,31 @@ class frmMessaging(frmMessagingTemplate):
 
   @handle("btnSend", "click")
   def btnSend_click(self, **event_args):
+    # 2. Check the throttle cooldown (1 second is best for chat)
+    current_time = time.time()
+    cooldown = 1 
+  
+    if current_time - self.last_send_time < cooldown:
+      # We just silently ignore the click so we don't spam them with alerts
+      return 
+  
+      # Update the tracker with the new time
+    self.last_send_time = current_time
+  
     new_message = self.txtNewMessage.text
+  
     if new_message.strip() != "" and self.current_chat:
       if len(new_message) <= msgCharLimit:
-        anvil.server.call('send_message', self.current_user, new_message, self.current_chat)
-        self.txtNewMessage.text = "" 
-        self.refresh_messages() 
+        # 3. Disable the button explicitly by name
+        self.btnSend.enabled = False
+  
+        try:
+          anvil.server.call('send_message', self.current_user, new_message, self.current_chat)
+          self.txtNewMessage.text = "" 
+          self.refresh_messages() 
+        finally:
+          # 4. Re-enable the button once the server finishes and the UI refreshes
+          self.btnSend.enabled = True
       else:
         alert(f"Error: Message exceeds {msgCharLimit} character limit.")
 
