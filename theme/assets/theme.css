@@ -1,27 +1,55 @@
-/* Your Messages (Blue, Right-aligned tail) */
-.anvil-role-bubble-me {
-  background-color: #0084ff;
-  color: white;
-  border-radius: 18px 18px 4px 18px; 
-  padding: 10px 15px;
-  margin: 2px 0 2px auto; /* The 'auto' on the left pushes it entirely to the right! */
-  display: block;         /* Must be block for the margin trick to work */
-  width: fit-content;     /* Keeps the bubble tight around your text */
-  max-width: 80%;         /* Stops long paragraphs from stretching across the whole screen */
-  word-wrap: break-word;
-  text-align: left;       /* Keeps the words reading left-to-right */
-}
+components:
+- components:
+- data_bindings:
+- {code: 'self.item[''Sender'']', property: text, writeback: false}
+layout_properties: {grid_position: 'FSYZPE,XMTEWR'}
+name: lblSender
+properties: {}
+type: Label
+layout_properties: {grid_position: 'MUZSNM,KTLCMM'}
+name: columnion
+properties: {}
+type: ColumnPanel
 
-/* Their Messages (Gray, Left-aligned tail) */
-.anvil-role-bubble-other {
-  background-color: #e5e5ea;
-  color: black;
-  border-radius: 18px 18px 18px 4px; 
-  padding: 10px 15px;
-  margin: 2px auto 2px 0; /* Keeps them locked to the left */
-  display: block;
-  width: fit-content;
-  max-width: 80%;
-  word-wrap: break-word;
-  text-align: left;
-}
+- components:
+- data_bindings:
+- {code: '', property: text, writeback: false}
+layout_properties: {grid_position: 'EIZMBN,PFOWGQ'}
+name: lblTime
+properties: {}
+type: Label
+layout_properties: {grid_position: 'MUZSNM,PFZKMG'}
+name: eeee
+properties: {}
+type: ColumnPanel
+
+- layout_properties: {grid_position: 'MUZSNM,OOMUKC'}
+name: column_panel_3
+properties: {}
+type: ColumnPanel
+
+- components:
+- data_bindings:
+- {code: 'f"{self.item[''MessageText'']}"', property: text, writeback: false}
+layout_properties: {grid_position: 'KJXJCC,PZAMDB'}
+name: lblMessageText
+properties: {role: chat-bubble, wrap_text: true}
+type: Label
+
+- data_bindings:
+- {code: 'self.item[''MessageImage'']', property: source, writeback: false}
+layout_properties: {grid_position: 'KJXJCC,PZAMDB'}
+name: image_1
+properties: 
+height: 200
+source: 'self.item[''MessageImage'']'
+spacing_below: small
+type: Image
+
+layout_properties: {grid_position: 'OCPIHR,IQVIXP'}
+name: column_panel_2
+properties: {spacing: small}
+type: ColumnPanel
+
+container: {type: ColumnPanel}
+is_package: true

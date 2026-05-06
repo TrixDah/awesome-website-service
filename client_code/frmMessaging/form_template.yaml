@@ -85,7 +85,7 @@ components:
   type: ColumnPanel
 - layout_properties: {grid_position: 'HDBPMA,HNPCAE'}
   name: file_loader_1
-  properties: {file_types: image/*}
+  properties: {file_types: image/*, text: Upload Image}
   type: FileLoader
 - components:
   - layout_properties: {grid_position: 'EHIGCJ,NFNDNL'}
