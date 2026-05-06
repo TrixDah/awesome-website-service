@@ -122,6 +122,7 @@ def get_chat_messages(chat_row):
     TargetChat=chat_row
   )
 
+@anvil.server.callable
 def send_message(sender_username, message_text, chat_row):
   now = datetime.now(timezone.utc)
 
@@ -162,8 +163,3 @@ def send_message(sender_username, message_text, chat_row):
   )
 
   return {"success": True}
-
-  # Return success so the frontend knows to clear the text box
-  return {"success": True}
-
-  
