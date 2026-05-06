@@ -3,6 +3,7 @@ from anvil import *
 import anvil.server
 from anvil.tables import app_tables
 import time
+import datetime
 
 msgCharLimit = 256
 
@@ -12,8 +13,9 @@ class frmMessaging(frmMessagingTemplate):
 
     self.current_user = current_user
     self.current_chat = None 
-    self.last_refresh_time = 0
+    self.last_refresh_time = datetime.datetime.now() - datetime.timedelta(seconds=30)
     self.last_send_time = 0
+    self.last_click_time = datetime.datetime.now()
 
     # Wait until the form is fully open on the screen before loading the data!
     self.set_event_handler('show', self.form_show)
@@ -34,6 +36,8 @@ class frmMessaging(frmMessagingTemplate):
     self.txtNewMessage.visible = False
     self.btnSend.visible = False
     self.btnSwitchChats.visible = False 
+    self.file_loader_1.visible = False
+    self.btnRefresh.visible = False
 
     self.rpChatList.items = anvil.server.call('get_user_chats', self.current_user)
 
@@ -42,6 +46,8 @@ class frmMessaging(frmMessagingTemplate):
     self.txtNewMessage.visible = True
     self.btnSend.visible = True
     self.btnSwitchChats.visible = True 
+    self.file_loader_1.visible = True
+    self.btnRefresh.visible = True
 
     self.rpChatList.visible = False
     self.drpNewUserSelect.visible = False
@@ -76,8 +82,18 @@ class frmMessaging(frmMessagingTemplate):
       else:
         self.lblNoMessages.visible = False
         self.rpMessages.visible = True
-  
+
   def btnSwitchChats_click(self, **event_args):
+    now = datetime.datetime.now()
+    # Check if 0.5 seconds have passed
+    if (now - self.last_click_time).total_seconds() < 2:
+      return
+  
+    self.last_click_time = now
+    self.current_chat = None
+    self.show_chat_list_view()
+  
+    self.last_click_time = now
     self.current_chat = None
     self.show_chat_list_view()
  
@@ -94,61 +110,57 @@ class frmMessaging(frmMessagingTemplate):
 
   @handle("btnSend", "click")
   def btnSend_click(self, **event_args):
-    # 1. Frontend Throttle: Ignore clicks if they happen faster than 1 per second
     current_time = time.time()
     if current_time - self.last_send_time < 1:
       return 
     self.last_send_time = current_time
 
     new_message = self.txtNewMessage.text
+    image_to_send = self.file_loader_1.file # Grab the image
 
-    if new_message.strip() != "" and self.current_chat:
+    # Check if there is EITHER text OR an image to send
+    if (new_message.strip() != "" or image_to_send is not None) and self.current_chat:
       if len(new_message) <= msgCharLimit:
-        # 2. Disable the button explicitly while the server is thinking
         self.btnSend.enabled = False
 
         try:
-          # 3. Call the server and capture the returned dictionary
-          result = anvil.server.call('send_message', self.current_user, new_message, self.current_chat)
+          # Pass the image_to_send to the server
+          result = anvil.server.call('send_message', self.current_user, new_message, self.current_chat, image_to_send)
 
-          # 4. Check the backend rate-limit response
           if result["success"] == False:
-            # If they are timed out, show them the error message from the backend
             alert(result["error"]) 
           else:
-            # If success is True, the message went through!
             self.txtNewMessage.text = "" 
+            self.file_loader_1.clear() # Clear the image upload so it's ready for the next one!
             self.refresh_messages() 
 
         finally:
-          # 5. Always turn the button back on, even if the server call fails
           self.btnSend.enabled = True
 
       else:
         alert(f"Error: Message exceeds {msgCharLimit} character limit.")
 
+  @handle("txtNewMessage", "pressed_enter")
+  def txtNewMessage_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    self.btnSend_click() # simulate a send button click
+
+  @handle("btnLogout", "click") 
   def btnLogout_click(self, **event_args):
     open_form('frmLogin')
 
   @handle("btnRefresh", "click")
   def btnRefresh_click(self, **event_args):
-    current_time = time.time()
+    now = datetime.datetime.now()
 
-    # Check if 3 seconds have passed since the last click
-    if current_time - self.last_refresh_time < 3:
-      # You could also show a small Notification here: "Please wait before refreshing again."
-      return 
+    # Throttle: Only allow refresh if it's been more than 2 seconds
+    if (now - self.last_refresh_time).total_seconds() < 2:
+      # Optional: Notification to tell the user to slow down
+      # n = Notification("Refreshing too fast! Please wait a moment.", timeout=2)
+      # n.show()
+      return
 
-    self.last_refresh_time = current_time
-
-    # Run the actual refresh logic
-    if self.current_chat is not None:
-      self.refresh_messages()
-    else:
-      self.rpChatList.items = anvil.server.call('get_user_chats', self.current_user)
-
-  @handle("txtNewMessage", "pressed_enter")
-  def txtNewMessage_pressed_enter(self, **event_args):
-    """This method is called when the user presses Enter in this text box"""
-    self.btnSend_click() # simulate a send button click
+    # Update the timestamp and run the refresh
+    self.last_refresh_time = now
+    self.refresh_messages()
 

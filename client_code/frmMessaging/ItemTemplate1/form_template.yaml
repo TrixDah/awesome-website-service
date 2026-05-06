@@ -30,11 +30,17 @@ components:
     - {code: 'f"{self.item[''MessageText'']}"', property: text, writeback: false}
     layout_properties: {grid_position: 'KJXJCC,PZAMDB'}
     name: lblMessageText
-    properties: {role: chat-bubble}
+    properties: {role: null}
     type: Label
   layout_properties: {grid_position: 'OCPIHR,IQVIXP'}
   name: column_panel_2
   properties: {}
   type: ColumnPanel
+- data_bindings:
+  - {code: 'self.item[''MessageImage'']', property: source, writeback: false}
+  layout_properties: {grid_position: 'XVBXDW,ATKATA'}
+  name: image_1
+  properties: {height: 188, source: 'self.item[''MessageImage'']'}
+  type: Image
 container: {type: ColumnPanel}
 is_package: true

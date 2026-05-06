@@ -9,6 +9,7 @@ class ItemTemplate2(ItemTemplate2Template):
     participants = self.item['Participants']
     display_name = self.item['ChatName'] # Default fallback
 
+
     # If it is a 1-on-1 DM, find the OTHER person's name
     if len(participants) == 2:
       for person in participants:
