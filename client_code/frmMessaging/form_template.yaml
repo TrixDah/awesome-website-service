@@ -3,32 +3,26 @@ components:
   name: label_1
   properties: {align: center, font_size: 30, text: 'Awesome Website Service™ '}
   type: Label
+- layout_properties: {grid_position: 'HCDKNL,MGOBHS'}
+  name: spacer_1
+  properties: {height: 44}
+  type: Spacer
 - components:
-  - layout_properties: {grid_position: 'CPZABP,BJNIND'}
-    name: btnCreateChat
-    properties: {text: Start Chat}
-    type: Button
+  - layout_properties: {grid_position: 'VDEJEZ,RQVVJT'}
+    name: lblWelcome
+    properties: {align: center, text: 'Messages:'}
+    type: Label
   layout_properties: {grid_position: 'HCDKNL,YPHYBE'}
   name: column_panel_1
   properties: {}
   type: ColumnPanel
 - components:
-  - layout_properties: {grid_position: 'VVOYAT,OBTRUG'}
-    name: lblWelcome
-    properties: {align: center, text: 'Messages:'}
-    type: Label
+  - layout_properties: {grid_position: 'JKHWFN,MFDMIX'}
+    name: btnCreateChat
+    properties: {text: Start Chat}
+    type: Button
   layout_properties: {grid_position: 'HCDKNL,PJVEID'}
   name: column_panel_3
-  properties: {}
-  type: ColumnPanel
-- components:
-  - event_bindings: {click: btnSwitchChats_click}
-    layout_properties: {grid_position: 'JDQKOX,XEXYFE'}
-    name: btnSwitchChats
-    properties: {text: < Back To Chats}
-    type: Button
-  layout_properties: {grid_position: 'HCDKNL,JRMFQN'}
-  name: column_panel_2
   properties: {}
   type: ColumnPanel
 - components:
@@ -79,32 +73,37 @@ components:
     name: btnLogout
     properties: {background: '', text: Logout}
     type: Button
+  - layout_properties: {grid_position: 'YKIKPX,GTKRAI'}
+    name: file_loader_1
+    properties: {file_types: image/*, text: Upload Image}
+    type: FileLoader
   layout_properties: {grid_position: 'HDBPMA,NEGOUB'}
   name: column_panel_4
   properties: {}
   type: ColumnPanel
-- layout_properties: {grid_position: 'HDBPMA,HNPCAE'}
-  name: file_loader_1
-  properties: {file_types: image/*, text: Upload Image}
-  type: FileLoader
 - components:
-  - layout_properties: {grid_position: 'EHIGCJ,NFNDNL'}
+  - layout_properties: {grid_position: 'TFYVCI,MHWQHR'}
     name: btnSend
     properties: {text: Send Message}
     type: Button
-  layout_properties: {grid_position: 'HDBPMA,ARBTLC'}
+  - event_bindings: {}
+    layout_properties: {grid_position: 'TFYVCI,XIYTSK'}
+    name: btnRefresh
+    properties: {text: 'Refresh '}
+    type: Button
+  - event_bindings: {click: btnSwitchChats_click}
+    layout_properties: {grid_position: 'TFYVCI,ZYSHDQ'}
+    name: btnSwitchChats
+    properties: {text: '< Back '}
+    type: Button
+  layout_properties: {grid_position: 'HDBPMA,ZPLZHD KDPAKY,RKJSSZ'}
+  name: column_panel_2
+  properties: {col_widths: '{"MHWQHR":20,"XIYTSK":20,"ZYSHDQ":20}'}
+  type: ColumnPanel
+- components: []
+  layout_properties: {grid_position: 'HDBPMA,ZPLZHD IAJBGH,ZIGLRF'}
   name: column_panel_6
   properties: {}
   type: ColumnPanel
-- event_bindings: {}
-  layout_properties: {grid_position: 'HDBPMA,ZPLZHD IAJBGH,PKRTSB'}
-  name: btnRefresh
-  properties: {text: Refresh Page}
-  type: Button
-- event_bindings: {click: btnSwitchChats_click}
-  layout_properties: {grid_position: 'HDBPMA,ZPLZHD IAJBGH,UYHFJC'}
-  name: btnSwitchChats_2
-  properties: {text: < Back To Chats}
-  type: Button
 container: {type: ColumnPanel}
 is_package: true

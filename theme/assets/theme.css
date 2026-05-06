@@ -4,10 +4,12 @@
   color: white !important;
   padding: 8px 14px 8px 14px !important;
   display: inline-block !important;
-  max-width: 90% !important;
+  max-width: 85% !important;
   word-wrap: break-word !important;
   margin-left: auto !important;
   text-align: left !important;
+  border-radius: 18px 18px 4px 18px !important;
+
 }
 
 /* Grey bubble for others */
@@ -17,7 +19,7 @@
   border-radius: 18px 18px 18px 4px !important;
   padding: 8px 14px 8px 14px !important;
   display: inline-block !important;
-  max-width: 90% !important;
+  max-width: 85% !important;
   word-wrap: break-word !important;
   margin-right: auto !important;
   text-align: left !important;

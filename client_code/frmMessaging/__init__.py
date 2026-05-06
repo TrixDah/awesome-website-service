@@ -3,6 +3,7 @@ from anvil import *
 import anvil.server
 from anvil.tables import app_tables
 import time
+import datetime
 
 msgCharLimit = 256
 
@@ -12,8 +13,9 @@ class frmMessaging(frmMessagingTemplate):
 
     self.current_user = current_user
     self.current_chat = None 
-    self.last_refresh_time = 0
+    self.last_refresh_time = datetime.datetime.now() - datetime.timedelta(seconds=30)
     self.last_send_time = 0
+    self.last_click_time = datetime.datetime.now()
 
     # Wait until the form is fully open on the screen before loading the data!
     self.set_event_handler('show', self.form_show)
@@ -76,8 +78,18 @@ class frmMessaging(frmMessagingTemplate):
       else:
         self.lblNoMessages.visible = False
         self.rpMessages.visible = True
-  
+
   def btnSwitchChats_click(self, **event_args):
+    now = datetime.datetime.now()
+    # Check if 0.5 seconds have passed
+    if (now - self.last_click_time).total_seconds() < 2:
+      return
+  
+    self.last_click_time = now
+    self.current_chat = None
+    self.show_chat_list_view()
+  
+    self.last_click_time = now
     self.current_chat = None
     self.show_chat_list_view()
  
@@ -129,8 +141,22 @@ class frmMessaging(frmMessagingTemplate):
     """This method is called when the user presses Enter in this text box"""
     self.btnSend_click() # simulate a send button click
 
-  @handle("btnLogout", "click") # Use this if you are using the anvil.events decorator
+  @handle("btnLogout", "click") 
   def btnLogout_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    # Assuming your login form is called 'frmLogin'
     open_form('frmLogin')
+
+  @handle("btnRefresh", "click")
+  def btnRefresh_click(self, **event_args):
+    now = datetime.datetime.now()
+
+    # Throttle: Only allow refresh if it's been more than 2 seconds
+    if (now - self.last_refresh_time).total_seconds() < 2:
+      # Optional: Notification to tell the user to slow down
+      # n = Notification("Refreshing too fast! Please wait a moment.", timeout=2)
+      # n.show()
+      return
+
+    # Update the timestamp and run the refresh
+    self.last_refresh_time = now
+    self.refresh_messages()
+
