@@ -69,36 +69,31 @@ components:
   type: ColumnPanel
 - components:
   - event_bindings: {click: btnLogout_click}
-    layout_properties: {grid_position: 'YKIKPX,CLWOKS'}
+    layout_properties: {grid_position: 'TFYVCI,IKNDTR'}
     name: btnLogout
     properties: {background: '', text: Logout}
     type: Button
-  - layout_properties: {grid_position: 'YKIKPX,GTKRAI'}
+  - layout_properties: {grid_position: 'TFYVCI,ERKXEO'}
     name: file_loader_1
     properties: {file_types: image/*, text: Upload Image}
     type: FileLoader
-  layout_properties: {grid_position: 'HDBPMA,NEGOUB'}
-  name: column_panel_4
-  properties: {}
-  type: ColumnPanel
-- components:
-  - layout_properties: {grid_position: 'TFYVCI,MHWQHR'}
-    name: btnSend
-    properties: {text: Send Message}
-    type: Button
   - event_bindings: {}
-    layout_properties: {grid_position: 'TFYVCI,XIYTSK'}
+    layout_properties: {grid_position: 'TFYVCI,ADYCAI'}
     name: btnRefresh
     properties: {text: 'Refresh '}
     type: Button
+  - layout_properties: {grid_position: 'TFYVCI,TMYRRQ'}
+    name: btnSend
+    properties: {text: Send Message}
+    type: Button
   - event_bindings: {click: btnSwitchChats_click}
-    layout_properties: {grid_position: 'TFYVCI,ZYSHDQ'}
+    layout_properties: {grid_position: 'TFYVCI,ZHNBZI'}
     name: btnSwitchChats
     properties: {text: '< Back '}
     type: Button
   layout_properties: {grid_position: 'HDBPMA,ZPLZHD KDPAKY,RKJSSZ'}
   name: column_panel_2
-  properties: {col_widths: '{"MHWQHR":20,"XIYTSK":20,"ZYSHDQ":20}'}
+  properties: {col_widths: '{"ADYCAI":20,"ZHNBZI":20}'}
   type: ColumnPanel
 - components: []
   layout_properties: {grid_position: 'HDBPMA,ZPLZHD IAJBGH,ZIGLRF'}
