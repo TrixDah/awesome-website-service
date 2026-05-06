@@ -35,6 +35,10 @@ db_schema:
       name: TargetChat
       target: chats
       type: link_single
+    - admin_ui: {order: 4, width: 200}
+      client_hidden: false
+      name: MessageImage
+      type: media
     indexes: []
     server: full
     title: Messages
