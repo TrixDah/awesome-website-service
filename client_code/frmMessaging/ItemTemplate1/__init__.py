@@ -24,8 +24,8 @@ class ItemTemplate1(ItemTemplate1Template):
       self.image_1.visible = False
     else:
       self.image_1.visible = True
-      # Set max width for responsive image sizing
-      self.image_1.height = 200  # or adjust as needed
+      # Set max height for responsive image sizing
+      self.image_1.height = 200  # adjust as needed
 
     if db_time:
       melbourne_time = db_time.astimezone(anvil.tz.tzlocal())
@@ -41,8 +41,7 @@ class ItemTemplate1(ItemTemplate1Template):
       self.lblTime.align = "right"
       self.lblSender.visible = False
       self.image_1.align = "right"
-      self.column_panel_2.align = "right"  # Message bubble container
-
+      
     else:
       # Other user's messages - align LEFT
       self.lblMessageText.role = "bubble-other"
@@ -50,4 +49,3 @@ class ItemTemplate1(ItemTemplate1Template):
       self.lblTime.align = "left"
       self.lblSender.visible = True
       self.image_1.align = "left"
-      self.column_panel_2.align = "left"  # Message bubble container
