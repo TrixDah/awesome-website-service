@@ -35,17 +35,18 @@ class ItemTemplate1(ItemTemplate1Template):
     current_user = get_open_form().current_user 
 
     if sender == current_user:
-      # User's own messages - align RIGHT (blue bubbles)
       self.lblMessageText.role = "bubble-me"
       self.lblMessageText.align = "right"
       self.lblTime.align = "right"
       self.lblSender.visible = False
       self.image_1.align = "right"
-      
+      self.column_panel_2.role = "bubble-me-container"
     else:
-      # Other user's messages - align LEFT (grey bubbles)
       self.lblMessageText.role = "bubble-other"
       self.lblMessageText.align = "left"
       self.lblTime.align = "left"
       self.lblSender.visible = True
       self.image_1.align = "left"
+      self.column_panel_2.role = "bubble-other-container"
+
+

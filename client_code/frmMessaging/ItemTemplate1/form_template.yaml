@@ -30,7 +30,7 @@ components:
     - {code: 'f"{self.item[''MessageText'']}"', property: text, writeback: false}
     layout_properties: {grid_position: 'KJXJCC,PZAMDB'}
     name: lblMessageText
-    properties: {role: chat-bubble}
+    properties: {role: null}
     type: Label
   layout_properties: {grid_position: 'OCPIHR,IQVIXP'}
   name: column_panel_2
