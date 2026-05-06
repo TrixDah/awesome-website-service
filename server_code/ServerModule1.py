@@ -122,13 +122,48 @@ def get_chat_messages(chat_row):
     TargetChat=chat_row
   )
 
-@anvil.server.callable
-def send_message(sender, message_text, chat_row):
+def send_message(sender_username, message_text, chat_row):
+  now = datetime.now(timezone.utc)
+
+  # 1. Fetch the actual database row for the user
+  # IMPORTANT: Change 'users' and 'Username' to match the table/column you use for logins
+  user_row = app_tables.users.get(Username=sender_username)
+
+  # Optional safety check in case the user row isn't found
+  if user_row is None:
+    return {"success": False, "error": "Error: User account not found."}
+
+    # 2. Check the timeout on the USER'S ROW, not the string
+  timeout_end = user_row.get('timeout_until') 
+
+  if timeout_end is not None and timeout_end > now:
+    mins_left = int((timeout_end - now).total_seconds() / 60) + 1
+    return {"success": False, "error": f"You are timed out. Please wait {mins_left} minutes."}
+
+    # 3. Count messages sent in the last 1 minute
+  one_minute_ago = now - timedelta(minutes=1)
+
+  recent_messages = app_tables.messages.search(
+    Sender=sender_username, # Keeps your string logic exactly the same
+    TimeSent=q.greater_than(one_minute_ago)
+  )
+
+  # 4. If they hit the limit, apply the 5-minute timeout to the USER'S ROW
+  if len(recent_messages) >= 10:
+    user_row['timeout_until'] = now + timedelta(minutes=5)
+    return {"success": False, "error": "Spam detected. You are timed out for 5 minutes."}
+
+    # 5. Save the message using your exact column names
   app_tables.messages.add_row(
-    Sender=sender,
+    Sender=sender_username,
     MessageText=message_text,
-    TimeSent=datetime.now(timezone.utc),
+    TimeSent=now, 
     TargetChat=chat_row 
   )
+
+  return {"success": True}
+
+  # Return success so the frontend knows to clear the text box
+  return {"success": True}
 
   

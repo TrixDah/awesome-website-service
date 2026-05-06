@@ -94,31 +94,36 @@ class frmMessaging(frmMessagingTemplate):
 
   @handle("btnSend", "click")
   def btnSend_click(self, **event_args):
-    # 2. Check the throttle cooldown (1 second is best for chat)
+    # 1. Frontend Throttle: Ignore clicks if they happen faster than 1 per second
     current_time = time.time()
-    cooldown = 1 
-  
-    if current_time - self.last_send_time < cooldown:
-      # We just silently ignore the click so we don't spam them with alerts
+    if current_time - self.last_send_time < 1:
       return 
-  
-      # Update the tracker with the new time
     self.last_send_time = current_time
-  
+
     new_message = self.txtNewMessage.text
-  
+
     if new_message.strip() != "" and self.current_chat:
       if len(new_message) <= msgCharLimit:
-        # 3. Disable the button explicitly by name
+        # 2. Disable the button explicitly while the server is thinking
         self.btnSend.enabled = False
-  
+
         try:
-          anvil.server.call('send_message', self.current_user, new_message, self.current_chat)
-          self.txtNewMessage.text = "" 
-          self.refresh_messages() 
+          # 3. Call the server and capture the returned dictionary
+          result = anvil.server.call('send_message', self.current_user, new_message, self.current_chat)
+
+          # 4. Check the backend rate-limit response
+          if result["success"] == False:
+            # If they are timed out, show them the error message from the backend
+            alert(result["error"]) 
+          else:
+            # If success is True, the message went through!
+            self.txtNewMessage.text = "" 
+            self.refresh_messages() 
+
         finally:
-          # 4. Re-enable the button once the server finishes and the UI refreshes
+          # 5. Always turn the button back on, even if the server call fails
           self.btnSend.enabled = True
+
       else:
         alert(f"Error: Message exceeds {msgCharLimit} character limit.")
 

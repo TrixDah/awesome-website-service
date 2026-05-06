@@ -49,6 +49,10 @@ db_schema:
       client_hidden: false
       name: Password
       type: string
+    - admin_ui: {order: 2, width: 200}
+      client_hidden: false
+      name: timeout_until
+      type: datetime
     indexes: []
     server: full
     title: Users
