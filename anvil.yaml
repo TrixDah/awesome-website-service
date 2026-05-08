@@ -85,6 +85,10 @@ db_schema:
       client_hidden: true
       name: signed_up
       type: datetime
+    - admin_ui: {order: 10, width: 200}
+      client_hidden: true
+      name: remembered_logins
+      type: simpleObject
     indexes: []
     server: full
     title: Users
@@ -106,7 +110,7 @@ services:
 - client_config: {enable_v2: true}
   server_config: {}
   source: /runtime/services/tables.yml
-- client_config: {allow_signup: true, confirm_email: true, enable_automatically: false, use_email: false, use_google: true, use_token: false}
+- client_config: {allow_remember_me: true, allow_signup: true, confirm_email: true, enable_automatically: false, remember_me_days: 7, use_email: false, use_google: true, use_token: false}
   server_config: {user_table: users}
   source: /runtime/services/anvil/users.yml
 - client_config: {}
