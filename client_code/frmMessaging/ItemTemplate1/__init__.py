@@ -29,6 +29,13 @@ class ItemTemplate1(ItemTemplate1Template):
       self.image_1.visible = True
       # Set max height for responsive image sizing
       self.image_1.height = 200  # adjust as needed
+    
+    if not self.item['MessageText']:
+      self.lblMessageText.visible = False
+    else:
+      self.lblMessageText.visible = True
+      self.lblMessageText.text = self.item['MessageText']
+
 
     if db_time:
       melbourne_time = db_time.astimezone(anvil.tz.tzlocal())
