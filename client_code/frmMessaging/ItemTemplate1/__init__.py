@@ -1,5 +1,6 @@
 from ._anvil_designer import ItemTemplate1Template
 from anvil import *
+import anvil.users
 from anvil import get_open_form
 import anvil.server
 import anvil.tables as tables

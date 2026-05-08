@@ -57,6 +57,30 @@ db_schema:
       client_hidden: false
       name: timeout_until
       type: datetime
+    - admin_ui: {order: 3, width: 200}
+      client_hidden: false
+      name: email
+      type: string
+    - admin_ui: {order: 4, width: 200}
+      client_hidden: true
+      name: enabled
+      type: bool
+    - admin_ui: {order: 5, width: 200}
+      client_hidden: true
+      name: last_login
+      type: datetime
+    - admin_ui: {order: 6, width: 200}
+      client_hidden: true
+      name: password_hash
+      type: string
+    - admin_ui: {order: 7, width: 200}
+      client_hidden: true
+      name: n_password_failures
+      type: number
+    - admin_ui: {order: 8, width: 200}
+      client_hidden: true
+      name: confirmed_email
+      type: bool
     indexes: []
     server: full
     title: Users
@@ -78,5 +102,8 @@ services:
 - client_config: {enable_v2: true}
   server_config: {}
   source: /runtime/services/tables.yml
+- client_config: {allow_signup: false, confirm_email: true, enable_automatically: true, use_email: true}
+  server_config: {user_table: users}
+  source: /runtime/services/anvil/users.yml
 startup: {module: frmLogin, type: form}
 startup_form: null

@@ -1,5 +1,6 @@
 from ._anvil_designer import ItemTemplate2Template
 from anvil import *
+import anvil.users
 
 class ItemTemplate2(ItemTemplate2Template):
   def __init__(self, **properties):
