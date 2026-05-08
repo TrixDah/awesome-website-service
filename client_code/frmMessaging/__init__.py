@@ -150,6 +150,7 @@ class frmMessaging(frmMessagingTemplate):
 
   @handle("btnLogout", "click") 
   def btnLogout_click(self, **event_args):
+    anvil.users.logout()
     open_form('frmLogin')
 
   @handle("btnRefresh", "click")

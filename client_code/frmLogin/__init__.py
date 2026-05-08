@@ -9,21 +9,14 @@ import anvil.google.auth, anvil.google.drive
 from anvil.google.drive import app_files
 import anvil.users
 import time
-loginCharacterLimit = 50
 
 class frmLogin(frmLoginTemplate):
   def __init__(self, **properties):
-    # Always keep this line so Anvil can load your UI!
     self.init_components(**properties) 
 
-    # 1. Catch the logged-in user row in a variable
+  @handle("btnLogin", "click")
+  def btnLogin_click(self, **event_args):
     user_row = anvil.users.login_with_form()
-
-    # 2. Check if they actually logged in (and didn't just hit the 'X' to close the popup)
     if user_row is not None:
-
-      # 3. Extract the actual text from the 'Username' column in your database
       username = user_row['Username']
-
-      # 4. NOW you can pass that defined variable to the next form!
       open_form('frmMessaging', current_user=username)
