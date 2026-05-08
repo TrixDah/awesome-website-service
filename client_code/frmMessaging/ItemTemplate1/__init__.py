@@ -1,5 +1,8 @@
 from ._anvil_designer import ItemTemplate1Template
 from anvil import *
+import anvil.google.auth, anvil.google.drive
+from anvil.google.drive import app_files
+import anvil.users
 from anvil import get_open_form
 import anvil.server
 import anvil.tables as tables
@@ -26,6 +29,13 @@ class ItemTemplate1(ItemTemplate1Template):
       self.image_1.visible = True
       # Set max height for responsive image sizing
       self.image_1.height = 200  # adjust as needed
+    
+    if not self.item['MessageText']:
+      self.lblMessageText.visible = False
+    else:
+      self.lblMessageText.visible = True
+      self.lblMessageText.text = self.item['MessageText']
+
 
     if db_time:
       melbourne_time = db_time.astimezone(anvil.tz.tzlocal())

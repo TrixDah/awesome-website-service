@@ -24,24 +24,7 @@ https://awesomewebsiteservice.anvil.app
 - **Chore branches (`chore/<name>`)**  
   Non-functional changes such as refactoring, dependency updates, or tooling adjustments.
 
-### managing the db
+### Managing The DataBase
 
-#### changing passwords
-currently, all passwords are stored as sha256 hashes. to reset someone password, replace the hash with the plaintext password and paste this into the database repl:
-
-```python
-from .ServerModule1 import migrate_plain_text_passwords
-print(migrate_plain_text_passwords())
-```
-
-this will rehash all passwords. plain text passwords cannot be derived from a hash, so make sure the password is stored elsewhere.
-
-a password reset flow is at the top of out priority list right now.
-
-#### adding new users
-to add a new user, open the server REPL and paste this:
-
-```python
-from .ServerModule1 import create_user
-create_user(username: str, password: str)
-```
+#### Adding New Users
+To add a new user, the new user must first authenticate with a google account. Then, one must enable their account in the database and give the new user a username. 

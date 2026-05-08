@@ -12,27 +12,23 @@ components:
   name: spacer_2
   properties: {height: 172.60000610351562}
   type: Spacer
+- layout_properties: {grid_position: 'EHXHTA,TEQPCP OAWXGJ,WEPUGU'}
+  name: spacer_3
+  properties: {height: 32}
+  type: Spacer
 - components:
-  - layout_properties: {grid_position: 'IIAKDF,MHMMGT'}
-    name: txtUsername
-    properties: {placeholder: 'Username:'}
-    type: TextBox
-  - layout_properties: {grid_position: 'ITMODJ,OOZYAG'}
-    name: txtPassword
-    properties: {hide_text: true, placeholder: 'Password:'}
-    type: TextBox
   - layout_properties: {grid_position: 'NWMHJL,DVNFBL'}
     name: btnLogin
-    properties: {text: Login}
+    properties: {text: Sign In With Google}
     type: Button
-  - layout_properties: {grid_position: 'WFPNMD,LJBPTP'}
-    name: lblError
-    properties: {align: center, foreground: '#ff0000', text: '', visible: false}
-    type: Label
-  layout_properties: {grid_position: 'EHXHTA,TEQPCP'}
+  layout_properties: {grid_position: 'EHXHTA,TEQPCP WEXXLT,AWRAZY'}
   name: column_panel_2
   properties: {}
   type: ColumnPanel
+- layout_properties: {grid_position: 'EHXHTA,TEQPCP IVQGWC,JWZUXJ'}
+  name: label_1
+  properties: {align: center, text: 'New Users Have To Be Manually Approved '}
+  type: Label
 - layout_properties: {grid_position: 'EHXHTA,QJXLYP'}
   name: spacer_1
   properties: {height: 175.19998168945312}

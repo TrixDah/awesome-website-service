@@ -1,5 +1,8 @@
 from ._anvil_designer import frmMessagingTemplate
 from anvil import *
+import anvil.google.auth, anvil.google.drive
+from anvil.google.drive import app_files
+import anvil.users
 import anvil.server
 from anvil.tables import app_tables
 import time
@@ -147,6 +150,7 @@ class frmMessaging(frmMessagingTemplate):
 
   @handle("btnLogout", "click") 
   def btnLogout_click(self, **event_args):
+    anvil.users.logout()
     open_form('frmLogin')
 
   @handle("btnRefresh", "click")
