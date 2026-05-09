@@ -228,3 +228,10 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
   )
   chat_row['LastActivity'] = now
   return {"success": True}
+
+# / ---- cli ---- /
+@anvil.server.http_endpoint('/ping')
+def ping():
+  print('ping')
+  return 'Ping'
+
