@@ -230,8 +230,25 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
   return {"success": True}
 
 # / ---- cli ---- /
-@anvil.server.http_endpoint('/ping')
-def ping():
-  print('ping')
-  return 'Ping'
+@anvil.server.http_endpoint("/ping/:content")
+def ping(content=None):
+  if content is None:
+    content = "ping"
+  return anvil.server.HttpResponse(200, content)
 
+@anvil.server.http_endpoint("/get_user/by_username/:username")
+def get_user(username):
+  user_to_return = app_tables.users.get(Username=username)
+
+  if user_to_return is None:
+    return anvil.server.HttpResponse(404, "404: user not found")
+
+  return anvil.server.HttpResponse(
+    status=200,
+    body=({
+      "code": 200,
+      "data": {"username": username,
+               "email": user_to_return['email']} # im not gonna return more stuff for now
+    })
+  )
+  
