@@ -46,18 +46,16 @@ class ItemTemplate1(ItemTemplate1Template):
     if sender == current_user:
       self.lblMessageText.role = "bubble-me"
       self.lblMessageText.align = "right"
-      self.lblTime.align = "right"
-      self.lnkStatus.align = "right"
       self.lblSender.visible = False
+      self.flow_panel_1.align = "right"
       self.image_1.align = "right"
       self.column_panel_2.role = "bubble-me-container"
     else:
       self.lblMessageText.role = "bubble-other"
       self.lblMessageText.align = "left"
-      self.lblTime.align = "left"
-      self.lnkStatus.align = "left"
       self.lblSender.visible = True
       self.image_1.align = "left"
+      self.flow_panel_1.align = "left"
       self.column_panel_2.role = "bubble-other-container"
     
     readers = self.item['ReadBy'] or []

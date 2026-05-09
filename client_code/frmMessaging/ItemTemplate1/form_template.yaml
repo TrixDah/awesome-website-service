@@ -2,27 +2,27 @@ components:
 - components:
   - data_bindings:
     - {code: 'self.item[''Sender'']', property: text, writeback: false}
-    - {code: 'self.item['''']', property: spacing, writeback: false}
-    layout_properties: {grid_position: 'FSYZPE,XMTEWR'}
+    layout_properties: {width: 100}
     name: lblSender
     properties:
       spacing:
+        margin: [null, 0, null, null]
         padding: [null, null, null, '0']
     type: Label
   - data_bindings:
     - {code: '', property: text, writeback: false}
-    layout_properties: {grid_position: 'FSYZPE,XTUYUN'}
+    layout_properties: {}
     name: lblTime
     properties: {}
     type: Label
-  - layout_properties: {grid_position: 'FSYZPE,HAQXMJ'}
+  - layout_properties: {}
     name: lnkStatus
     properties: {}
     type: Link
-  layout_properties: {grid_position: 'MUZSNM,KTLCMM'}
-  name: columnion
+  layout_properties: {grid_position: 'RSYYMX,UEWLOX'}
+  name: flow_panel_1
   properties: {}
-  type: ColumnPanel
+  type: FlowPanel
 - components:
   - data_bindings:
     - {code: 'f"{self.item[''MessageText'']}"', property: text, writeback: false}
