@@ -235,7 +235,10 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
 def ping(content=None, token=None):
   auth_tok = app_tables.tokens.search(token=token)
   if len(auth_tok) > 1:
-    # return anvil.server.HttpResponse(status=401, body="401 forbidden")
+    for r in auth_tok:
+      r.delete()
+      print("an issues occured authenticating auth tokens")
+      return anvil.server.HttpResponse(status=401, body="401 forbidden")
   if content is None:
     content = "ping"
   return anvil.server.HttpResponse(200, content)
