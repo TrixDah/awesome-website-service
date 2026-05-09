@@ -231,8 +231,11 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
   return {"success": True}
 
 # / ---- cli ---- /
-@anvil.server.http_endpoint("/ping/:content")
-def ping(content=None):
+@anvil.server.http_endpoint("/ping/:content/:token")
+def ping(content=None, token=None):
+  auth_tok = app_tables.tokens.search(token=token)
+  if auu
+    # return anvil.server.HttpResponse(status=401, body="401 forbidden")
   if content is None:
     content = "ping"
   return anvil.server.HttpResponse(200, content)
