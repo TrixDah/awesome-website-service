@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from datetime import timedelta
 import anvil.tables.query as q
 import hashlib
+import secrets
 
 message_lifetime_hours: int = 168 #Change this to set message deletion time threshold 
 
@@ -270,3 +271,9 @@ def create_cli_token():
 
   if not user:
     raise Exception("not logged in")
+
+  token = secrets.token_hex(32)
+
+  app_tables.tokens.add_row(token=token, user=user, created_at=datetime.datetime.utcnow())
+
+  return token

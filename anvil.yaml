@@ -51,6 +51,24 @@ db_schema:
     indexes: []
     server: full
     title: Messages
+  tokens:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      client_hidden: false
+      name: token
+      type: string
+    - admin_ui: {order: 1, width: 200}
+      client_hidden: false
+      name: user
+      type: string
+    - admin_ui: {order: 2, width: 200}
+      client_hidden: false
+      name: created_at
+      type: datetime
+    indexes: []
+    server: full
+    title: tokens
   users:
     client: none
     columns:
