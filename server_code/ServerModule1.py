@@ -265,4 +265,8 @@ def get_user(username):
 #   if user[]
 
 @anvil.server.callable
-def create_cli_token
+def create_cli_token():
+  user = anvil.users.get_user()
+
+  if not user:
+    raise Exception("not logged in")
