@@ -58,10 +58,6 @@ db_schema:
       client_hidden: false
       name: Username
       type: string
-    - admin_ui: {order: 1, width: 200}
-      client_hidden: false
-      name: Password
-      type: string
     - admin_ui: {order: 2, width: 200}
       client_hidden: false
       name: timeout_until
