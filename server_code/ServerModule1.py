@@ -87,9 +87,51 @@ def migrate_plain_text_passwords():
   return f"Migration complete. {migrated_count} users migrated to hashed passwords."
 
 @anvil.server.callable
-def get_user_chats(username):
+def get_user_chats_data(username):
+  """Fetches chats, sorts them, adds users to General, and counts unreads."""
   user_row = app_tables.users.get(Username=username)
-  return app_tables.chats.search(Participants=[user_row])
+
+  # 1. Handle General Chat automatically
+  general_chat = app_tables.chats.get(ChatName="General Chat")
+  if general_chat is not None:
+    # If the user isn't in General Chat's participant list, add them!
+    participants = general_chat['Participants'] or []
+    if user_row not in participants:
+      general_chat['Participants'] = participants + [user_row]
+
+    # 2. Get all chats this user is a part of
+  all_my_chats = app_tables.chats.search(Participants=[user_row])
+  chat_list = []
+  
+  for chat in all_my_chats:
+    # 3. Count unread messages (Messages in this chat where THIS user is not in ReadBy)
+    # We fetch the messages and filter in Python because Anvil list-column queries can be tricky
+    messages_in_chat = app_tables.messages.search(TargetChat=chat)
+    unread_count = sum(1 for m in messages_in_chat if m['ReadBy'] is None or user_row not in m['ReadBy'])
+
+    chat_list.append({
+      'chat_row': chat,
+      'chat_name': chat['ChatName'] or "Direct Message", # Fallback name
+      'last_activity': chat['LastActivity'] or datetime.min.replace(tzinfo=timezone.utc),
+      'unread_count': unread_count,
+      'is_general': chat['ChatName'] == "General Chat"
+    })
+
+    # 4. Sort the list: General Chat always first, then by LastActivity descending
+  chat_list.sort(key=lambda x: (x['is_general'], x['last_activity']), reverse=True)
+
+  return chat_list
+
+@anvil.server.callable
+def mark_chat_read(chat_row, username):
+  """Adds the user to the ReadBy list for all messages in a chat."""
+  user_row = app_tables.users.get(Username=username)
+  unread_messages = app_tables.messages.search(TargetChat=chat_row)
+
+  for msg in unread_messages:
+    readers = msg['ReadBy'] or []
+    if user_row not in readers:
+      msg['ReadBy'] = readers + [user_row]
 
 @anvil.server.callable
 def create_chat(current_username, target_username):
@@ -154,7 +196,8 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
     MessageText=message_text,
     TimeSent=now, 
     TargetChat=chat_row,
-    MessageImage=image_file # Save to the new column
+    MessageImage=image_file,
+    ReadBy=[user_row] 
   )
   
   return {"success": True}

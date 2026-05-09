@@ -41,9 +41,8 @@ class frmMessaging(frmMessagingTemplate):
     self.btnSwitchChats.visible = False 
     self.file_loader_1.visible = False
     self.btnRefresh.visible = False
-
-    self.rpChatList.items = anvil.server.call('get_user_chats', self.current_user)
-
+    self.rpChatList.items = anvil.server.call('get_user_chats_data', self.current_user)
+    
   def show_messages_view(self):
     self.rpMessages.visible = True
     self.txtNewMessage.visible = True
