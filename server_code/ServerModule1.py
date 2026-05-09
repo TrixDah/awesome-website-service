@@ -237,7 +237,7 @@ def ping(content=None):
     content = "ping"
   return anvil.server.HttpResponse(200, content)
 
-@anvil.server.http_endpoint("/get_user/by_username/:username")
+@anvil.server.http_endpoint("/get_user/by_username/:username/:token")
 def get_user(username):
   user_to_return = app_tables.users.get(Username=username)
 
@@ -266,9 +266,20 @@ def get_user(username):
 #   if user[]
 
 @anvil.server.callable
+def get_perms():
+  super_user = 'ryan@anvil.works'
+  if anvil.users.get_user() is None:
+    print("Nobody is logged in.")
+  elif anvil.users.get_user()['email'] == super_user:
+    print(f"{super_user} is allowed to see this.")
+  else:
+    print("This path is for minimum-access users.")
+
+@anvil.server.callable
 def create_cli_token():
   user = anvil.users.get_user()
-
+  
+  
   if not user:
     raise Exception("not logged in")
 
