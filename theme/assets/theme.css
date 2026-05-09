@@ -1,4 +1,6 @@
 /* Blue bubble for current user */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+
 .anvil-role-bubble-me {
   background-color: #0B93F6 !important;
   color: white !important;
@@ -39,4 +41,8 @@
 .anvil-role-bubble-other-container {
   display: flex !important;
   justify-content: flex-start !important;
+}
+
+body, .anvil-app {
+  font-family: 'Ubuntu', sans-serif;
 }

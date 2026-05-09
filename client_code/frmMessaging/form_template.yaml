@@ -1,5 +1,7 @@
 components:
-- layout_properties: {grid_position: 'SVGXQX,BVDIEY'}
+- data_bindings:
+  - {code: '', property: font, writeback: false}
+  layout_properties: {grid_position: 'SVGXQX,BVDIEY'}
   name: label_1
   properties: {align: center, font_size: 30, text: 'Awesome Website Service™ '}
   type: Label
