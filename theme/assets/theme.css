@@ -1,46 +1,42 @@
-/* Shared bubble base */
-.anvil-role-bubble {
-  padding: 8px 14px;
-  max-width: 85%;
-  display: inline-block;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
-  line-height: 1.4;
-}
-
-/* Current user (right, blue) */
+/* Blue bubble for current user */
 .anvil-role-bubble-me {
   background-color: #0B93F6 !important;
   color: white !important;
-  border-radius: 18px 18px 4px 18px;
+  padding: 8px 14px 8px 14px !important;
+  display: inline-block !important;
+  max-width: 85% !important;
+  word-wrap: break-word !important;
+  margin-left: auto !important;
+  text-align: left !important;
+  border-radius: 18px 18px 4px 18px !important;
+
 }
 
-/* Other user (left, grey) */
+/* Grey bubble for others */
 .anvil-role-bubble-other {
   background-color: #E5E5EA !important;
   color: #1c1c1e !important;
-  border-radius: 18px 18px 18px 4px;
+  border-radius: 18px 18px 18px 4px !important;
+  padding: 8px 14px 8px 14px !important;
+  display: inline-block !important;
+  max-width: 85% !important;
+  word-wrap: break-word !important;
+  margin-right: auto !important;
+  text-align: left !important;
 }
 
-/* Container alignment */
-.anvil-role-bubble-me-container,
-.anvil-role-bubble-other-container {
-  display: flex !important;
-  width: 100%;
+/* Make the container panel flex so bubbles can align */
+.anvil-panel-col .anvil-container-overflow {
+  display: flex;
+  flex-direction: column;
 }
 
 .anvil-role-bubble-me-container {
+  display: flex !important;
   justify-content: flex-end !important;
 }
 
 .anvil-role-bubble-other-container {
+  display: flex !important;
   justify-content: flex-start !important;
-}
-
-/* Main chat column layout */
-.anvil-panel-col .anvil-container-overflow {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
 }
