@@ -27,7 +27,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .build()?; 
 
     let url = format!(
-        "https://awesomewebsiteservice.anvil.app//_/api/get_user/by_username/{}",
+        "https://awesomewebsiteservice.anvil.app//_/api/get_user/by_username/{}", // this wont work until the cli-endpoint branch is merged into main, hence giving this link the endpoint. no links have the endpoint rn as that would be a security vunrebility
         urlencoding::encode(&args.query)
     );
 
