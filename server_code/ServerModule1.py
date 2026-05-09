@@ -251,4 +251,18 @@ def get_user(username):
                "email": user_to_return['email']} # im not gonna return more stuff for now
     })
   )
-  
+
+# @anvil.server.http_endpoint("/login", methods=["POST"])
+# def login(**kwargs):
+#   username = kwargs.get("username")
+#   password = kwargs.get("password")
+
+#   user = app_tables.users.get(username=username)
+
+#   if not user:
+#     return anvil.server.HttpResponse(status=401, body={"error": "401 forbidden, invalid creds"})
+
+#   if user[]
+
+@anvil.server.callable
+def create_cli_
