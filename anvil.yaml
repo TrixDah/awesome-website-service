@@ -12,6 +12,10 @@ db_schema:
       name: Participants
       target: users
       type: link_multiple
+    - admin_ui: {order: 2, width: 200}
+      client_hidden: false
+      name: LastActivity
+      type: datetime
     indexes: []
     server: full
     title: Chats
@@ -39,6 +43,11 @@ db_schema:
       client_hidden: false
       name: MessageImage
       type: media
+    - admin_ui: {order: 5, width: 200}
+      client_hidden: false
+      name: ReadBy
+      target: users
+      type: link_multiple
     indexes: []
     server: full
     title: Messages
