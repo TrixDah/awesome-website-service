@@ -58,18 +58,26 @@ class frmMessaging(frmMessagingTemplate):
   def set_active_chat(self, chat_row):
     self.current_chat = chat_row
 
-    participants = chat_row['Participants']
-    display_name = chat_row['ChatName'] # Default fallback
+    # 1. Grab the default name and participants directly from the database row
+    display_name = chat_row['ChatName'] 
+    participants = chat_row['Participants'] or []
 
-    # Calculate the other person's name again for the header
-    if len(participants) == 2:
+    # 2. If it's a DM (no formal ChatName set) and has exactly 2 people, find the other person's name
+    if not display_name and len(participants) == 2:
       for person in participants:
         if person['Username'] != self.current_user:
           display_name = person['Username']
 
+    # 3. Fallback just in case
+    if not display_name:
+      display_name = "Direct Message"
+
     self.lblWelcome.text = f"Chatting with: {display_name}"
 
     self.show_messages_view()
+
+    anvil.server.call('mark_chat_read', self.current_chat, self.current_user)
+
     self.refresh_messages()
 
   def refresh_messages(self):

@@ -22,4 +22,4 @@ class ItemTemplate2(ItemTemplate2Template):
     self.lnkChatName.text = display_name
 
   def lnkChatName_click(self, **event_args):
-    get_open_form().set_active_chat(self.item)
+    get_open_form().set_active_chat(self.item['chat_row'])

@@ -104,15 +104,33 @@ def get_user_chats_data(username):
   chat_list = []
   
   for chat in all_my_chats:
-    # 3. Count unread messages (Messages in this chat where THIS user is not in ReadBy)
-    # We fetch the messages and filter in Python because Anvil list-column queries can be tricky
+    # Fetch the messages for this chat
     messages_in_chat = app_tables.messages.search(TargetChat=chat)
+
+    # Count unread messages
     unread_count = sum(1 for m in messages_in_chat if m['ReadBy'] is None or user_row not in m['ReadBy'])
+
+    # THE FIX: Figure out the real last activity date
+    last_act = chat['LastActivity']
+
+    if not last_act: # If the column is blank (like in your older chats)
+      # Find the most recent message in this chat
+      recent_msgs = app_tables.messages.search(
+        tables.order_by("TimeSent", ascending=False), 
+        TargetChat=chat
+      )
+      if len(recent_msgs) > 0:
+        last_act = recent_msgs[0]['TimeSent']
+        # Auto-heal the database so it doesn't have to look this up next time!
+        chat['LastActivity'] = last_act 
+      else:
+        # If there are literally no messages, push it to the very bottom
+        last_act = datetime.min.replace(tzinfo=timezone.utc)
 
     chat_list.append({
       'chat_row': chat,
-      'chat_name': chat['ChatName'] or "Direct Message", # Fallback name
-      'last_activity': chat['LastActivity'] or datetime.min.replace(tzinfo=timezone.utc),
+      'chat_name': chat['ChatName'] or "Direct Message", 
+      'last_activity': last_act, # Use our newly calculated date!
       'unread_count': unread_count,
       'is_general': chat['ChatName'] == "General Chat"
     })
