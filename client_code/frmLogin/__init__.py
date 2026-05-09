@@ -1,6 +1,6 @@
 from ._anvil_designer import frmLoginTemplate
 import anvil.server
-from anvil import open_form, *
+from anvil import *
 import anvil.users
 
 class frmLogin(frmLoginTemplate):
