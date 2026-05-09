@@ -265,4 +265,4 @@ def get_user(username):
 #   if user[]
 
 @anvil.server.callable
-def create_cli_
+def create_cli_token
