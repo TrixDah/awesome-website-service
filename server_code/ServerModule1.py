@@ -106,9 +106,19 @@ def get_user_chats_data(username):
   for chat in all_my_chats:
     # Fetch the messages for this chat
     messages_in_chat = app_tables.messages.search(TargetChat=chat)
+    unread_count = 0
 
-    # Count unread messages
-    unread_count = sum(1 for m in messages_in_chat if m['ReadBy'] is None or user_row not in m['ReadBy'])
+    for m in messages_in_chat:
+      # THE FIX: If this user sent the message, ignore it! It is never "unread" to them.
+      if m['Sender'] == username: 
+        continue
+
+      readers = m['ReadBy'] or []
+
+      # Extract the unique ID of every reader, and check if our user's ID is missing
+      reader_ids = [r.get_id() for r in readers]
+      if user_row.get_id() not in reader_ids:
+        unread_count += 1
 
     # THE FIX: Figure out the real last activity date
     last_act = chat['LastActivity']
@@ -137,7 +147,6 @@ def get_user_chats_data(username):
 
     # 4. Sort the list: General Chat always first, then by LastActivity descending
   chat_list.sort(key=lambda x: (x['is_general'], x['last_activity']), reverse=True)
-
   return chat_list
 
 @anvil.server.callable
@@ -217,5 +226,5 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
     MessageImage=image_file,
     ReadBy=[user_row] 
   )
-  
+  chat_row['LastActivity'] = now
   return {"success": True}

@@ -4,5 +4,13 @@ components:
   name: lnkChatName
   properties: {text: ''}
   type: Link
+- layout_properties: {grid_position: 'UYMZZP,LWLZRU'}
+  name: lblUnread
+  properties: {foreground: '#ff0000'}
+  type: Label
+- layout_properties: {grid_position: 'UYMZZP,XCPJTR'}
+  name: spacer_1
+  properties: {height: 32}
+  type: Spacer
 container: {type: ColumnPanel}
 is_package: true
