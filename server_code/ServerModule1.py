@@ -231,15 +231,24 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
   return {"success": True}
 
 # / ---- cli ---- /
+
+# DO NOT WRITE HTTP ENDPOINTS WITHOUT KNOWING WHAT YOUR DOING!!! https://anvil.works/docs/external-resources/http-apis
+
+# unfortunatley, authenticate_users doesnt work since we are logging in with google
+# @anvil.server.http_endpoint("/ping/:content", authenticate_users=True) 
+# def ping(content=None):
+#   if content is None:
+#     content = "ping"
+#   return anvil.server.HttpResponse(200, content)
+
 @anvil.server.http_endpoint("/ping/:content/:token")
 def ping(content=None, token=None):
   auth_tok = app_tables.tokens.search(token=token)
-  if len(auth_tok) > 1:
+  if len(auth_tok) != 1:
     for r in auth_tok:
       r.delete()
       print("an issues occured authenticating auth tokens")
-      return anvil.server.HttpResponse(status=401, body="401 foir")
-    # return anvil.server.HttpResponse(status=401, body="401 forbidden")
+    return anvil.server.HttpResponse(status=401, body="401 forbidden invalid or duplicate token", headers=anvil.server.re)
   if content is None:
     content = "ping"
   return anvil.server.HttpResponse(200, content)
@@ -253,45 +262,20 @@ def get_user(username):
 
   return anvil.server.HttpResponse(
     status=200,
-    body=({
+    body={
       "code": 200,
-      "data": {"username": username,
-               "email": user_to_return['email']} # im not gonna return more stuff for now
+      "data": {"username": username, "ok": "ok"}
     })
-  )
-
-# @anvil.server.http_endpoint("/login", methods=["POST"])
-# def login(**kwargs):
-#   username = kwargs.get("username")
-#   password = kwargs.get("password")
-
-#   user = app_tables.users.get(username=username)
-
-#   if not user:
-#     return anvil.server.HttpResponse(status=401, body={"error": "401 forbidden, invalid creds"})
-
-#   if user[]
 
 @anvil.server.callable
-def get_perms():
-  super_user = 'ryan@anvil.works'
-  if anvil.users.get_user() is None:
-    print("Nobody is logged in.")
-  elif anvil.users.get_user()['email'] == super_user:
-    print(f"{super_user} is allowed to see this.")
-  else:
-    print("This path is for minimum-access users.")
-
-@anvil.server.callable
-def create_cli_token():
-  user = anvil.users.get_user()
-  
-  
-  if not user:
-    raise Exception("not logged in")
-
+def create_cli_token(user):
   token = secrets.token_hex(32)
 
   app_tables.tokens.add_row(token=token, user=user, created_at=datetime.datetime.utcnow())
 
   return token
+
+@anvil.server.callable
+def verify_token(token):
+  tokens
+  
