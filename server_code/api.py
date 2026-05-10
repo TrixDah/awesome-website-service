@@ -6,7 +6,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import secrets
 
 # / ---- cli ---- /
@@ -22,8 +22,11 @@ import secrets
 
 def _token_is_expired(created_at, lifetime):
   if not created_at:
-    True
-  return (datetime.utcnow() - created_at) > datetime.timedelta(minutes=lifetime)
+    return True
+
+  return (
+    datetime.now(timezone.utc) - created_at
+  ) > timedelta(minutes=lifetime)
 
 def _delete_tokens(rows):
   for r in list(rows):
@@ -38,30 +41,58 @@ def verify_token(token: str) -> dict:
     if not token:
       return {"success": False, "code": 401, "message": "missing token"}
 
-    token = app
+    token_returns = list(app_tables.tokens.search(token=token))
 
-  except
+    if len(token_returns) == 0:
+      return {"success": False, "code": 401, "message": "invalid token"}
 
-#   auth_tok = auth_tok[0]
-#   created_at = auth_tok['created_at']
-#   lifetime = auth_tok['lifetime']
+    if len(token_returns) > 1:
+      _delete_tokens(token_returns)
+      return {"success": False, "code": 401, "message": "duplicate token detected"}
 
-#   expired = (
-#     datetime.utcnow() - created_at
-#   ) > datetime.timedelta(minutes=lifetime)
-#   if expired:
-#     return token_status(False, 401, "expired")
+    token = token_returns[0]
 
-#   return token_status(True, 202, "ok")
+    created_at = token['created_at']
+    lifetime = token['lifetime']
 
-# @anvil.server.http_endpoint("/ping/:content/:token")
-# def ping(content=None, token=None, **k):
-#   token_response = verify_token(token)
-#   if not token_response.success:
-#     return anvil.server.HttpResponse(status=token_response.code, body=f"{token_response.code}  {token_response.message}")
-#   if content is None:
-#     content = "ping"
-#   return anvil.server.HttpResponse(status=200, body=content)
+    if _token_is_expired(created_at, lifetime):
+      try:
+        token.delete()
+      except Exception as e:
+        print("Failed deleting expired token:", repr(e))
+
+      return {"success": False, "code": 401, "message": "expired token"}
+
+    return {"success": True, "code": 200, "message": "ok"}      
+
+  except Exception as e:
+    print("verify_token exception:", repr(e))
+
+@anvil.server.callable
+def create_token(user, lifetime=10, refresh=False):
+  try:
+    token_hex = secrets.token_hex(32)
+    app_tables.tokens.add_row(token=token_hex, created_at=datetime.utcnow(), user=user, lifetime=lifetime)
+    return token_hex
+
+  except Exception as e:
+    print("an error occured whilst creating the token", repr(e))
+
+@anvil.server.http_endpoint("/ping/:content/:token")
+def ping(content=None, token=None, **k):
+  try:
+    token_response = verify_token(token)
+    if not token_response.success:
+      return anvil.server.HttpResponse(status=token_response.code, body=f"{token_response.code}  {token_response.message}")
+    if content is None:
+      content = "ping"
+    return anvil.server.HttpResponse(status=200, body=content)
+  except Exception as e:
+    print("ping endpoint exception:", repr(e))
+    return return anvil.server.HttpResponse(
+      status=500,
+      body="internal server error"
+    )
 
 # @anvil.server.callable
 # def create_cli_token(user, lifetime=10):
