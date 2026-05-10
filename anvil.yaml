@@ -70,6 +70,10 @@ db_schema:
       client_hidden: false
       name: lifetime
       type: number
+    - admin_ui: {order: 4, width: 200}
+      client_hidden: false
+      name: revoked
+      type: bool
     indexes: []
     server: full
     title: tokens

@@ -69,10 +69,10 @@ def verify_token(token: str) -> dict:
     print("verify_token exception:", repr(e))
 
 @anvil.server.callable
-def create_token(user, lifetime=10, refresh=False):
+def create_token(user, lifetime=10):
   try:
     token_hex = secrets.token_hex(32)
-    app_tables.tokens.add_row(token=token_hex, created_at=datetime.utcnow(), user=user, lifetime=lifetime)
+    app_tables.tokens.add_row(token=token_hex, created_at=datetime.utcnow(), user=user, lifetime=lifetime, revoked=False)
     return token_hex
 
   except Exception as e:
@@ -81,15 +81,22 @@ def create_token(user, lifetime=10, refresh=False):
 @anvil.server.http_endpoint("/ping/:content/:token")
 def ping(content=None, token=None, **k):
   try:
-    token_response = verify_token(token)
-    if not token_response.success:
-      return anvil.server.HttpResponse(status=token_response.code, body=f"{token_response.code}  {token_response.message}")
-    if content is None:
-      content = "ping"
-    return anvil.server.HttpResponse(status=200, body=content)
+    result = verify_token(token)
+    
+    if not result['success']:
+      return anvil.server.HttpResponse(
+        status=result["code"],
+        body=f'{result["code"]} {result["message"]}'
+      )
+      
+    return anvil.server.HttpResponse(
+      status=200,
+      body=content or "ping"
+    )
+    
   except Exception as e:
     print("ping endpoint exception:", repr(e))
-    return return anvil.server.HttpResponse(
+    return anvil.server.HttpResponse(
       status=500,
       body="internal server error"
     )

@@ -15,14 +15,35 @@ message_lifetime_hours: int = 168 #Change this to set message deletion time thre
 
 @anvil.server.background_task
 def scheduled_prune_messages():
-  """This function will be triggered by Anvil's scheduler."""
-  cutoff = datetime.now(timezone.utc) - timedelta(hours=message_lifetime_hours)
+  """Prune expired messages and old tokens."""
+
+  now = datetime.now(timezone.utc)
+
+  cutoff = now - timedelta(hours=message_lifetime_hours)
+
   old_messages = app_tables.messages.search(
     TimeSent=q.less_than(cutoff)
   )
 
   for msg in old_messages:
     msg.delete()
+
+  all_tokens = app_tables.tokens.search()
+
+  for token_row in all_tokens:
+    created_at = token_row["created_at"]
+    lifetime = token_row["lifetime"]
+
+    if not created_at or lifetime is None:
+      token_row.delete()
+      continue
+
+    expiry_time = created_at + timedelta(minutes=lifetime)
+
+    prune_time = expiry_time + timedelta(hours=1)
+
+    if now > prune_time:
+      token_row.delete()
 
 @anvil.server.callable
 def verify_login(username, password):
