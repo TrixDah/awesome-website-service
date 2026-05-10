@@ -9,6 +9,7 @@ from datetime import timedelta
 import anvil.tables.query as q
 import hashlib
 import secrets
+from dataclasses import dataclass
 
 message_lifetime_hours: int = 168 #Change this to set message deletion time threshold 
 
@@ -230,63 +231,3 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
   chat_row['LastActivity'] = now
   return {"success": True}
 
-# / ---- cli ---- /
-
-# DO NOT WRITE HTTP ENDPOINTS WITHOUT KNOWING WHAT YOUR DOING!!! https://anvil.works/docs/external-resources/http-apis
-
-# unfortunatley, authenticate_users doesnt work since we are logging in with google
-# @anvil.server.http_endpoint("/ping/:content", authenticate_users=True) 
-# def ping(content=None):
-#   if content is None:
-#     content = "ping"
-#   return anvil.server.HttpResponse(200, content)
-
-@anvil.server.http_endpoint("/ping/:content/:token")
-def ping(content=None, token=None, **k):
-  
-  
-  if content is None:
-    content = "ping"
-  return anvil.server.HttpResponse(200, content)
-
-# @anvil.server.http_endpoint("/get_user/by_username/:username/:token")
-# def get_user(username):
-#   user_to_return = app_tables.users.get(Username=username)
-
-#   if user_to_return is None:
-#     return anvil.server.HttpResponse(404, "404: user not found")
-
-#   return anvil.server.HttpResponse(
-#     status=200,
-#     body={
-#       "code": 200,
-#       "data": {"username": username, "ok": "ok"}
-#     })
-
-@anvil.server.callable
-def create_cli_token(user):
-  token = secrets.token_hex(32)
-
-  app_tables.tokens.add_row(token=token, user=user, created_at=datetime.datetime.utcnow())
-
-  return token
-
-@anvil.server.callable
-def verify_token(token):
-  auth_tok = app_tables.tokens.search(token=token)
-  if len(auth_tok) != 1:
-    for r in auth_tok:
-      r.delete()
-      print("an issues occured authenticating auth tokens")
-    return (False, "401 invalid"
-  auth_tok = auth_tok[0]
-  created_at = auth_tok['created_at']
-  lifetime = auth_tok['lifetime']
-  
-  expired = (
-    datetime.datetime.utcnow() - created_at
-  ) > datetime.timedelta(minutes=lifetime)
-  if expired:
-    return False
-  return True
-  
