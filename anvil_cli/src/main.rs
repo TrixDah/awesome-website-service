@@ -1,46 +1,36 @@
 use reqwest::blocking::Client;
-use serde::Deserialize;
 use clap::Parser;
 
 #[derive(Parser)]
 struct Args {
-    query: String,
+    content: String,
+
+    #[arg(short, long)]
+    token: String,
 }
 
-#[derive(Debug, Deserialize)]
-struct ApiResponse {
-    code: u16,
-    data: UserData,
-}
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let args = Args::parse();
 
-#[derive(Debug, Deserialize)]
-struct UserData {
-    username: String,
-    email: String,
-}
-
-fn main() -> Result<(), Box<dyn std::error::Error>> { 
-    let args: Args = Args::parse();
-
-    let client: Client = Client::builder()
+    let client = Client::builder()
         .timeout(std::time::Duration::from_secs(10))
-        .build()?; 
+        .build()?;
 
     let url = format!(
-        "https://awesomewebsiteservice.anvil.app//_/api/get_user/by_username/{}", // this wont work until the cli-endpoint branch is merged into main, hence giving this link the endpoint. no links have the endpoint rn as that would be a security vunrebility
-        urlencoding::encode(&args.query)
+        "https://awesomewebsiteservice.anvil.app/_/api/ping/{}/{}",
+        urlencoding::encode(&args.content),
+        urlencoding::encode(&args.token),
     );
 
     let resp = client
         .get(&url)
-        .send()?
-        .error_for_status()?; // fails on 4xx/5xx 
+        .send()?;
 
-    let api_response: ApiResponse = resp.json()?;
+    let status = resp.status();
+    let body = resp.text()?;
 
-    println!("status code: {}", api_response.code);
-    println!("username: {}", api_response.data.username);
-    println!("email: {}", api_response.data.email);
+    println!("http status: {}", status);
+    println!("response: {}", body);
 
     Ok(())
 }
