@@ -17,6 +17,10 @@ or they can take fields
 @anvil.server.http_endpoint("/get_user/by_username/:username/:token")
 ```
 
+paths to your endpoint can be found at `https://awesomewebsiteservice.anvil.app/_/api {path}` 
+
+if you are testing out a new endpoint, create a new private link in anvil and delete it after your session ends. for example `https://g6rtkujpqxu3v6fy.anvil.app/QIUSVHHFP5RCEB5G41J473HL/_/api/ {path}`
+
 every endpoint that you make **MUST** include a `:token` param at the end (by convention) in order to make sure the db stays secure.
 
 a function signature for a endpoint may look like this
@@ -117,5 +121,9 @@ def ping(content=None, token=None): # binds directly from the handle
 ```
 
 ## connecting your endpoints to the CLI
+
+WIP
+
+## managing API tokens
 
 WIP
