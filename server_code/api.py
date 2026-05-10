@@ -54,6 +54,10 @@ def verify_token(token: str) -> dict:
 
     created_at = token['created_at']
     lifetime = token['lifetime']
+    revoked = token['revoked']
+
+    if revoked:
+      return {"success": False, "code": 401, "message": "token revoked!"}
 
     if _token_is_expired(created_at, lifetime):
       try:
