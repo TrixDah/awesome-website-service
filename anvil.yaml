@@ -66,6 +66,10 @@ db_schema:
       client_hidden: false
       name: created_at
       type: datetime
+    - admin_ui: {order: 3, width: 200}
+      client_hidden: false
+      name: lifetime
+      type: number
     indexes: []
     server: full
     title: tokens

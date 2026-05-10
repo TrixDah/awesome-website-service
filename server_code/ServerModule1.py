@@ -242,30 +242,26 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
 #   return anvil.server.HttpResponse(200, content)
 
 @anvil.server.http_endpoint("/ping/:content/:token")
-def ping(content=None, token=None):
-  auth_tok = app_tables.tokens.search(token=token)
-  if len(auth_tok) != 1:
-    for r in auth_tok:
-      r.delete()
-      print("an issues occured authenticating auth tokens")
-    return anvil.server.HttpResponse(status=401, body="401 forbidden invalid or duplicate token", headers=anvil.server.re)
+def ping(content=None, token=None, **k):
+  
+  
   if content is None:
     content = "ping"
   return anvil.server.HttpResponse(200, content)
 
-@anvil.server.http_endpoint("/get_user/by_username/:username/:token")
-def get_user(username):
-  user_to_return = app_tables.users.get(Username=username)
+# @anvil.server.http_endpoint("/get_user/by_username/:username/:token")
+# def get_user(username):
+#   user_to_return = app_tables.users.get(Username=username)
 
-  if user_to_return is None:
-    return anvil.server.HttpResponse(404, "404: user not found")
+#   if user_to_return is None:
+#     return anvil.server.HttpResponse(404, "404: user not found")
 
-  return anvil.server.HttpResponse(
-    status=200,
-    body={
-      "code": 200,
-      "data": {"username": username, "ok": "ok"}
-    })
+#   return anvil.server.HttpResponse(
+#     status=200,
+#     body={
+#       "code": 200,
+#       "data": {"username": username, "ok": "ok"}
+#     })
 
 @anvil.server.callable
 def create_cli_token(user):
@@ -277,5 +273,20 @@ def create_cli_token(user):
 
 @anvil.server.callable
 def verify_token(token):
-  tokens
+  auth_tok = app_tables.tokens.search(token=token)
+  if len(auth_tok) != 1:
+    for r in auth_tok:
+      r.delete()
+      print("an issues occured authenticating auth tokens")
+    return (False, "401 invalid"
+  auth_tok = auth_tok[0]
+  created_at = auth_tok['created_at']
+  lifetime = auth_tok['lifetime']
+  
+  expired = (
+    datetime.datetime.utcnow() - created_at
+  ) > datetime.timedelta(minutes=lifetime)
+  if expired:
+    return False
+  return True
   
