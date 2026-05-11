@@ -73,7 +73,7 @@ def verify_token(token: str) -> dict:
     print("verify_token exception:", repr(e))
 
 @anvil.server.callable
-def create_token(user, lifetime=10):
+def create_token(user, lifetime=60):
     try:
         token_hex = secrets.token_hex(32)
         app_tables.tokens.add_row(token=token_hex, created_at=datetime.utcnow(), user=user, lifetime=lifetime, revoked=False)
