@@ -255,3 +255,113 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
 @anvil.server.callable
 def get_user_by_username(username: str):
   return app_tables.users.search(Username=username)
+
+@anvil.server.callable
+def delete_user(username: str):
+
+  user_row = app_tables.users.get(Username=username)
+
+  if not user_row:
+    raise ValueError(f"User '{username}' not found")
+
+    # iterate through every table
+  for table_name in dir(app_tables):
+
+    if table_name.startswith("_"):
+      continue
+
+    table = getattr(app_tables, table_name)
+
+    try:
+      rows = table.search()
+    except Exception:
+      continue
+
+    for row in rows:
+
+      delete_row = False
+
+      for col in table.list_columns():
+
+        try:
+          value = row[col]
+
+        except Exception:
+          continue
+
+          # -----------------------------
+          # SPECIAL CASE: ReadBy
+          # remove user from list only
+          # -----------------------------
+        if col == "ReadBy":
+
+          if isinstance(value, list):
+
+            cleaned = []
+
+            for u in value:
+              try:
+                if (
+                  u is not None and
+                  u['username'] != username
+                ):
+                  cleaned.append(u)
+              except Exception:
+                pass
+
+            row[col] = cleaned
+
+          else:
+            try:
+              if (
+                value is not None and
+                value['username'] == username
+              ):
+                row[col] = None
+            except Exception:
+              pass
+
+          continue
+
+          # -----------------------------
+          # Multi-link columns
+          # delete row if user appears
+          # -----------------------------
+        if isinstance(value, list):
+
+          for item in value:
+            try:
+              if (
+                item is not None and
+                item['Username'] == username
+              ):
+                delete_row = True
+                break
+            except Exception:
+              pass
+
+              # -----------------------------
+              # Single-link columns
+              # delete row if linked
+              # -----------------------------
+        else:
+          try:
+            if (
+              value is not None and
+              value['Username'] == username
+            ):
+              delete_row = True
+          except Exception:
+            pass
+
+        if delete_row:
+          break
+
+      if delete_row:
+        print(f"Deleting row from {table_name}: {row}")
+        row.delete()
+
+    # finally delete user
+  user_row.delete()
+
+  print(f"Deleted user: {username}")
