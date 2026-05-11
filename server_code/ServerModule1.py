@@ -254,4 +254,4 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
 
 @anvil.server.callable
 def get_user_by_username(username: str):
-  return app_tables.
+  return app_tables.users.search(Username=username)

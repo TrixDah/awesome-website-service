@@ -19,6 +19,6 @@ class frmLogin(frmLoginTemplate):
     user_row = anvil.users.login_with_form()
     if user_row is not None:
       username = user_row['Username']
-      users = app_tables.messages.search(username=username)
+      users = anvil.server.call('get_user_by_username', username)
       print(users)
       open_form('frmMessaging', current_user=username)
