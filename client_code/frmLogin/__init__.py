@@ -35,7 +35,7 @@ class frmLogin(frmLoginTemplate):
       print(new_username)
       
       if new_username:
-        anvil.server.call()
+        anvil.server.call('ad')
       else:
         return
         
