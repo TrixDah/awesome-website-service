@@ -26,3 +26,8 @@ class frmUsername(frmUsernameTemplate):
       return
 
     self.raise_event("x-close-alert", value=username)
+
+  @handle("username_box", "pressed_enter")
+  def username_box_pressed_enter(self, **event_args):
+      """This method is called when the user presses Enter in this text box"""
+      self.save_button_click()

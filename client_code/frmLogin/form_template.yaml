@@ -12,10 +12,10 @@ components:
   name: spacer_2
   properties: {height: 172.60000610351562}
   type: Spacer
-- layout_properties: {grid_position: 'EHXHTA,TEQPCP OAWXGJ,WEPUGU'}
-  name: spacer_3
-  properties: {height: 32}
-  type: Spacer
+- layout_properties: {grid_position: 'EHXHTA,TEQPCP QFYQOD,NDSEIC'}
+  name: label_2
+  properties: {align: center, bold: true, text: No one sees your email}
+  type: Label
 - components:
   - layout_properties: {grid_position: 'NWMHJL,DVNFBL'}
     name: btnLogin
@@ -31,7 +31,7 @@ components:
   type: Label
 - layout_properties: {grid_position: 'EHXHTA,TEQPCP RNHTEI,RDOMXS'}
   name: lblErr
-  properties: {align: center, bold: true, foreground: '#000000', text: This account has not been enabled by an admin!, visible: false}
+  properties: {align: center, bold: true, foreground: '#000000', text: This account has not been enabled by an admin! a request has been sent., visible: false}
   type: Label
 - layout_properties: {grid_position: 'EHXHTA,QJXLYP'}
   name: spacer_1

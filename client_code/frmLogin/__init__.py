@@ -24,15 +24,20 @@ class frmLogin(frmLoginTemplate):
       users = anvil.server.call('get_user_by_username', username)
       enabled = users[0]['enabled']
       print(list(users))
-      if not enabled: # this is here to mitagate an anvil bug (or featue) https://anvil.works/forum/t/login-with-google-allows-user-to-login-first-time-even-though-the-new-user-accounts-can-be-used-right-away-tab-is-disabled/5506/3
+      if not enabled: # this is here to mitagate an anvil bug (or featue idk) 
         print("user not enabled!")
         self.lblErr.visible = True
+        self.lblErr.text = "This account has not been enabled by an admin! a request has been sent."
         return
 
       if username is None:
         new_username = alert(frmUsername(), large=True, buttons=[])
+        shared_username = app_tables.users.search(Username=new_username)
 
-        print(new_username)
+        if shared_username:
+            self.lblErr.visible = True
+            self.lblErr.text = "That username is taken! Sorry"
+            return
       
         if new_username:
             anvil.server.call('add_username', user_row, new_username)

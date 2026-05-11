@@ -296,3 +296,7 @@ def delete_user_by_username(username):
 @anvil.server.callable
 def add_username(user_row, username: str):
   user_row['Username'] = username
+
+# all these expo
+def search_for_dupes(username: str):
+    return app_tables.users.search(Username=username)

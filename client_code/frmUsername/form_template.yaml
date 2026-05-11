@@ -1,8 +1,21 @@
 components:
 - components:
+  - layout_properties: {grid_position: 'VVUMYW,RHFBMC'}
+    name: lblTitle
+    properties: {align: center, bold: true, text: Welcome to AWS!}
+    type: Label
+  layout_properties: {grid_position: 'IRMIOP,YMYHCZ'}
+  name: column_panel_3
+  properties: {}
+  type: ColumnPanel
+- layout_properties: {grid_position: 'GYKLDA,RILFPD'}
+  name: lblDesc
+  properties: {align: center, bold: false, italic: false, text: our systems have detected that this is your first time logging in on this account. please chose a username that everyone will know you by!}
+  type: Label
+- components:
   - layout_properties: {grid_position: 'HSFHVQ,BJSUBY'}
     name: username_box
-    properties: {}
+    properties: {placeholder: enter your username}
     type: TextBox
   layout_properties: {grid_position: 'WYROHT,HLLAZG'}
   name: column_panel_1
@@ -11,7 +24,7 @@ components:
 - components:
   - layout_properties: {grid_position: 'AFJHAC,OUXGOZ'}
     name: save_button
-    properties: {align: full, text: save username}
+    properties: {align: center, text: Enter Username}
     type: Button
   layout_properties: {grid_position: 'WFLQXI,UHIKFK'}
   name: column_panel_2
