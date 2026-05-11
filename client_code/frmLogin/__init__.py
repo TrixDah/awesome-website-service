@@ -34,8 +34,9 @@ class frmLogin(frmLoginTemplate):
         if username is None:
             new_username = alert(frmUsername(), large=True, buttons=[])
             shared_username = anvil.server.call('search_for_dupes', new_username)
-            print()
-            if shared_username:
+            print(new_username, shared_username)
+            impact = len(shared_username)
+            if impact > 0:
                 self.lblErr.visible = True
                 self.lblErr.text = "That username is taken! Sorry"
                 return
