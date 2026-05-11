@@ -74,6 +74,9 @@ def verify_token(token: str) -> dict:
 
 @anvil.server.callable
 def create_token(user, lifetime=60):
+    owner = app_tables.users.get(Username=user)
+    if not owner:
+        raise Exception(f"user not found {owner}")
     try:
         token_hex = secrets.token_hex(32)
         app_tables.tokens.add_row(token=token_hex, created_at=datetime.utcnow(), user=user, lifetime=lifetime, revoked=False)
@@ -83,8 +86,10 @@ def create_token(user, lifetime=60):
         print("an error occured whilst creating the token", repr(e))
 
 @anvil.server.http_endpoint("/ping/:content/:token")
-def ping(content=None, token=None, **k):
+def ping(content=None, token: str=None, **k):
   try:
+    tok_obj = app_tables.tokens.get(token=token)
+    owner = tok_obj['user']
     result = verify_token(token)
     
     if not result['success']:
@@ -97,6 +102,7 @@ def ping(content=None, token=None, **k):
       status=200,
       body=content or "ping"
     )
+    print(repr(f"user {owner} used token {token} to ping {content}"))
     
   except Exception as e:
     print("ping endpoint exception:", repr(e))
