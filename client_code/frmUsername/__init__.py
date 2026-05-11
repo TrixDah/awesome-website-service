@@ -15,3 +15,14 @@ class frmUsername(frmUsernameTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+
+  @handle("save_button", "click")
+  def save_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    username = self.username_box.text
+
+    if not username:
+      alert("Pick a username!")
+      return
+
+    self.raise_event("x-close-alert", value=username)

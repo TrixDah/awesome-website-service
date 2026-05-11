@@ -448,3 +448,5 @@ def delete_user(username):
 
   print(f"Deleted user '{username}' successfully")
 
+@anvil.server.callable
+def add_username()

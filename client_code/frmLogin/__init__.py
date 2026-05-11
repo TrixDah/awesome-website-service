@@ -32,8 +32,10 @@ class frmLogin(frmLoginTemplate):
       if username is None:
         new_username = alert(frmUsername(), large=True, buttons=[])
 
+      print(new_username)
+      
       if new_username:
-        user_row['Username'] = new_username
+        anvil.server.call()
       else:
         return
         
