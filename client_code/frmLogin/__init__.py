@@ -23,27 +23,26 @@ class frmLogin(frmLoginTemplate):
         username = user_row['Username']
         users = anvil.server.call('get_user_by_username', username)
         print(users)
-      enabled = users['enabled']
-      print(list(users))
-      if not enabled: # this is here to mitagate an anvil bug (or featue idk) 
-        print("user not enabled!")
-        self.lblErr.visible = True
-        self.lblErr.text = "This account has not been enabled by an admin! a request has been sent."
-        return
-
-      if username is None:
-        new_username = alert(frmUsername(), large=True, buttons=[])
-        shared_username = anvil.server.call('search_for_dupes', new_username)
-
-        if shared_username:
+        enabled = users['enabled']
+        if not enabled: # this is here to mitagate an anvil bug (or featue idk) 
+            print("user not enabled!")
             self.lblErr.visible = True
-            self.lblErr.text = "That username is taken! Sorry"
+            self.lblErr.text = "This account has not been enabled by an admin! a request has been sent."
             return
-      
-        if new_username:
-            anvil.server.call('add_username', user_row, new_username)
-            username = new_username
-        else:
-            return
+    
+        if username is None:
+            new_username = alert(frmUsername(), large=True, buttons=[])
+            shared_username = anvil.server.call('search_for_dupes', new_username)
+    
+            if shared_username:
+                self.lblErr.visible = True
+                self.lblErr.text = "That username is taken! Sorry"
+                return
         
-      open_form('frmMessaging', current_user=username)
+            if new_username:
+                anvil.server.call('add_username', user_row, new_username)
+                username = new_username
+            else:
+                return
+            
+        open_form('frmMessaging', current_user=username)
