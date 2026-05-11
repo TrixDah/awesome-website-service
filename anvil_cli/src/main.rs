@@ -6,6 +6,9 @@ struct Args {
     content: String,
 
     #[arg(short, long)]
+    endpoint: String,
+
+    #[arg(short, long)]
     token: String,
 }
 
@@ -17,7 +20,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .build()?;
 
     let url = format!(
-        "https://awesomewebsiteservice.anvil.app/_/api/ping/{}/{}",
+        "https://awesomewebsiteservice.anvil.app/_/api/{}/{}/{}",
+        urlencoding::encode(&args.endpoint),
         urlencoding::encode(&args.content),
         urlencoding::encode(&args.token),
     );
