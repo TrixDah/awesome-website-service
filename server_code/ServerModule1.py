@@ -259,6 +259,31 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
 def get_user_by_username(username: str):
   return app_tables.users.search(Username=username)
 
+DELETE_SCHEMA = {
+
+    "Chats": {
+        "mode": "protected",   # never delete rows
+        "fields": {
+            "Participants": "remove_only"
+        },
+        "row_protect": lambda r: (
+            r.get("ChatName") == "General Chat"
+            or len(r.get("Participants") or []) > 2
+        )
+    },
+
+    "messages": {
+        "mode": "cascade",
+        "fields": {
+            "ReadBy": "remove_only"
+        }
+    },
+
+    "users": {
+        "mode": "target"  # the row being deleted
+    }
+}
+
 @anvil.server.callable
 def delete_user(username):
 
@@ -268,113 +293,91 @@ def delete_user(username):
 
     uid = user.get_id()
 
-    # =========================================================
-    # RULE CONFIG
-    # =========================================================
-    RULES = {
-        "Chats": {
-            "delete_row": False,
-            "link_only": ["Participants"],
-            "protect_row_if": lambda row: (
-                row.get("ChatName") == "General Chat"
-                or (isinstance(row.get("Participants"), list)
-                    and len(row["Participants"]) > 2)
-            )
-        },
+    for table_name in dir(app_tables):
 
-        "messages": {
-            "delete_row": True,
-            "link_only": ["ReadBy"]
-        }
-    }
-
-    # =========================================================
-    # ENGINE
-    # =========================================================
-    for t in dir(app_tables):
-
-        if t.startswith("_"):
+        if table_name.startswith("_"):
             continue
 
-        table = getattr(app_tables, t)
-
-        rule = RULES.get(t, {
-            "delete_row": True,
-            "link_only": []
-        })
+        table = getattr(app_tables, table_name)
 
         for row in table.search():
 
-            # -------------------------------
-            # TABLE-LEVEL PROTECTION
-            # -------------------------------
-            if "protect_row_if" in rule and rule["protect_row_if"](row):
-                # still clean links but never delete
-                delete_allowed = False
-            else:
-                delete_allowed = rule["delete_row"]
-
             should_delete = False
 
-            # -------------------------------
-            # COLUMN SCAN
-            # -------------------------------
             for col in table.list_columns():
 
-                col_name = col["name"]
+                col_name = col['name']
 
                 try:
                     value = row[col_name]
                 except Exception:
                     continue
 
-                # ---------------------------
-                # LINK REMOVAL ONLY FIELDS
-                # ---------------------------
-                if col_name in rule.get("link_only", []):
+                # =====================================================
+                # EXCEPTION 1: messages.ReadBy → remove only
+                # =====================================================
+                if table_name == "messages" and col_name == "ReadBy":
 
                     if isinstance(value, list):
+
                         row[col_name] = [
                             u for u in value
-                            if u and u.get_id() != uid
+                            if u and hasattr(u, "get_id") and u.get_id() != uid
                         ]
 
-                    elif value and value.get_id() == uid:
-                        row[col_name] = None
+                    elif value and hasattr(value, "get_id"):
+                        if value.get_id() == uid:
+                            row[col_name] = None
 
                     continue
 
-                # ---------------------------
-                # GENERIC DELETION CHECK
-                # ---------------------------
+                # =====================================================
+                # EXCEPTION 2: General Chat → remove only
+                # =====================================================
+                print(table_name, row.get("ChatName"))
+                if table_name == "Chats" and row.get("ChatName") == "General Chat":
+                    print("NN")
+
+                    if col_name == "Participants" and isinstance(value, list):
+
+                        row[col_name] = [
+                            u for u in value
+                            if u and hasattr(u, "get_id") and u.get_id() != uid
+                        ]
+
+                    continue
+
+                # =====================================================
+                # NORMAL RULE: if user found → delete row
+                # =====================================================
                 if isinstance(value, list):
 
                     for item in value:
-                        try:
-                            if item and item.get_id() == uid:
-                                should_delete = True
-                                break
-                        except Exception:
-                            pass
+                        if item and hasattr(item, "get_id"):
+                            try:
+                                if item.get_id() == uid:
+                                    should_delete = True
+                                    break
+                            except Exception:
+                                pass
 
                 else:
-                    try:
-                        if value and value.get_id() == uid:
-                            should_delete = True
-                    except Exception:
-                        pass
+
+                    if value and hasattr(value, "get_id"):
+                        try:
+                            if value.get_id() == uid:
+                                should_delete = True
+                        except Exception:
+                            pass
 
                 if should_delete:
                     break
 
-            # -------------------------------
-            # DELETE (ONLY IF ALLOWED)
-            # -------------------------------
-            if should_delete and delete_allowed:
+            if should_delete:
                 # row.delete()
-                print(list)
+                print(list(row))
 
-    user.delete()
+    # user.delete()
     
 @anvil.server.callable
 def add_username(user_row, username: str):
