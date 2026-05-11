@@ -113,15 +113,17 @@ def migrate_plain_text_passwords():
 def get_user_chats_data(username):
   """Fetches chats, sorts them, adds users to General, and counts unreads."""
   user_row = app_tables.users.get(Username=username)
+  if user_row is None:
+      return []
+    
 
   # 1. Handle General Chat automatically
   general_chat = app_tables.chats.get(ChatName="General Chat")
   if general_chat is not None:
     # If the user isn't in General Chat's participant list, add them!
-    participants = general_chat['Participants'] or []
+    participants = list(general_chat['Participants'] or [])
     if user_row not in participants:
-      general_chat['Participants'] = participants + [user_row]
-
+        general_chat.update(Participants=participants + [user_row])
     # 2. Get all chats this user is a part of
   try:
     all_my_chats = app_tables.chats.search(Participants=[user_row])
@@ -259,126 +261,35 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
 def get_user_by_username(username: str):
   return app_tables.users.search(Username=username)
 
-DELETE_SCHEMA = {
-
-    "Chats": {
-        "mode": "protected",   # never delete rows
-        "fields": {
-            "Participants": "remove_only"
-        },
-        "row_protect": lambda r: (
-            r.get("ChatName") == "General Chat"
-            or len(r.get("Participants") or []) > 2
-        )
-    },
-
-    "messages": {
-        "mode": "cascade",
-        "fields": {
-            "ReadBy": "remove_only"
-        }
-    },
-
-    "users": {
-        "mode": "target"  # the row being deleted
-    }
-}
 
 @anvil.server.callable
-def delete_user(username):
+def delete_user_by_username(username):
+    # --- 1. Find the user ---
+    user_row = app_tables.users.get(Username=username)
+    if not user_row:
+        return f"No user found with username '{username}'"
 
-    user = app_tables.users.get(Username=username)
-    if not user:
-        return
-
-    uid = user.get_id()
-
-    for table_name in dir(app_tables):
-
-        if table_name.startswith("_"):
+    for chat in app_tables.chats.search():
+        participants = chat['Participants'] or []
+        if user_row not in participants:
             continue
 
-        table = getattr(app_tables, table_name)
+        if chat['ChatName'] == 'General Chat':
+            chat.update(Participants=[p for p in participants if p != user_row])
+        else:
+            print(list(chat))
+            for message in app_tables.messages.search(TargetChat=chat):
+                message.delete()
+            chat.delete()
+           
+    for message in app_tables.messages.search():
+        read_by = message['ReadBy'] or []
+        if user_row in read_by:
+            message.update(ReadBy=[r for r in read_by if r != user_row])
 
-        for row in table.search():
+    user_row.delete()
 
-            should_delete = False
-
-            for col in table.list_columns():
-
-                col_name = col['name']
-
-                try:
-                    value = row[col_name]
-                except Exception:
-                    continue
-
-                # =====================================================
-                # EXCEPTION 1: messages.ReadBy → remove only
-                # =====================================================
-                if table_name == "messages" and col_name == "ReadBy":
-
-                    if isinstance(value, list):
-
-                        row[col_name] = [
-                            u for u in value
-                            if u and hasattr(u, "get_id") and u.get_id() != uid
-                        ]
-
-                    elif value and hasattr(value, "get_id"):
-                        if value.get_id() == uid:
-                            row[col_name] = None
-
-                    continue
-
-                # =====================================================
-                # EXCEPTION 2: General Chat → remove only
-                # =====================================================
-                print(table_name, row.get("ChatName"))
-                if table_name == "Chats" and row.get("ChatName") == "General Chat":
-                    print("ALERTQ")
-
-                    if col_name == "Participants" and isinstance(value, list):
-
-                        row[col_name] = [
-                            u for u in value
-                            if u and hasattr(u, "get_id") and u.get_id() != uid
-                        ]
-
-                    continue
-
-                # =====================================================
-                # NORMAL RULE: if user found → delete row
-                # =====================================================
-                if isinstance(value, list):
-
-                    for item in value:
-                        if item and hasattr(item, "get_id"):
-                            try:
-                                if item.get_id() == uid:
-                                    should_delete = True
-                                    break
-                            except Exception:
-                                pass
-
-                else:
-
-                    if value and hasattr(value, "get_id"):
-                        try:
-                            if value.get_id() == uid:
-                                should_delete = True
-                        except Exception:
-                            pass
-
-                if should_delete:
-                    break
-
-            if should_delete:
-                # row.delete()
-                print(list(row))
-
-    # user.delete()
-    
+    return f"User '{username}' deleted successfully."
 @anvil.server.callable
 def add_username(user_row, username: str):
   user_row['Username'] = username

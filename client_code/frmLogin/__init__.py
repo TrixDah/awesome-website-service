@@ -35,8 +35,9 @@ class frmLogin(frmLoginTemplate):
         print(new_username)
       
         if new_username:
-          anvil.server.call('add_username', user_row, new_username)
+            anvil.server.call('add_username', user_row, new_username)
+            username = new_username
         else:
-          return
+            return
         
       open_form('frmMessaging', current_user=username)
