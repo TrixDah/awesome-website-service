@@ -137,7 +137,7 @@ class frmMessaging(frmMessagingTemplate):
           # Pass the image_to_send to the server
           result = anvil.server.call('send_message', self.current_user, new_message, self.current_chat, image_to_send)
 
-          if result["success"] == False:
+          if not result["success"]:
             alert(result["error"]) 
           else:
             self.txtNewMessage.text = "" 

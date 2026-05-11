@@ -28,3 +28,7 @@ https://awesomewebsiteservice.anvil.app
 
 #### Adding New Users
 To add a new user, the new user must first authenticate with a google account. Then, one must enable their account in the database and give the new user a username. 
+
+### about the cli and writing endpoints
+
+https://github.com/TrixDah/awesome-website-service/blob/f7379297b0cf6ac0969bd09f9723b5d04d189c23/endpoints.md

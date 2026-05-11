@@ -54,23 +54,23 @@ db_schema:
   tokens:
     client: none
     columns:
-    - admin_ui: {order: 0, width: 200}
+    - admin_ui: {width: 200}
       client_hidden: false
       name: token
       type: string
-    - admin_ui: {order: 1, width: 200}
+    - admin_ui: {width: 200}
       client_hidden: false
       name: user
       type: string
-    - admin_ui: {order: 2, width: 200}
+    - admin_ui: {width: 200}
       client_hidden: false
       name: created_at
       type: datetime
-    - admin_ui: {order: 3, width: 200}
+    - admin_ui: {width: 200}
       client_hidden: false
       name: lifetime
       type: number
-    - admin_ui: {order: 4, width: 200}
+    - admin_ui: {width: 200}
       client_hidden: false
       name: revoked
       type: bool
@@ -100,7 +100,7 @@ db_schema:
       client_hidden: true
       name: last_login
       type: datetime
-    - admin_ui: {order: 6, width: 200}
+    - admin_ui: {width: 200}
       client_hidden: true
       name: password_hash
       type: string
@@ -128,6 +128,7 @@ name: Awesome Website Service
 package_name: Awesome_Website_Service
 runtime_options:
   client_version: '3'
+  server_persist: false
   server_spec: {base: python310-minimal}
   version: 3
 scheduled_tasks:

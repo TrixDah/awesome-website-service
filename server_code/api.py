@@ -74,13 +74,13 @@ def verify_token(token: str) -> dict:
 
 @anvil.server.callable
 def create_token(user, lifetime=10):
-  try:
-    token_hex = secrets.token_hex(32)
-    app_tables.tokens.add_row(token=token_hex, created_at=datetime.utcnow(), user=user, lifetime=lifetime, revoked=False)
-    return token_hex
-
-  except Exception as e:
-    print("an error occured whilst creating the token", repr(e))
+    try:
+        token_hex = secrets.token_hex(32)
+        app_tables.tokens.add_row(token=token_hex, created_at=datetime.utcnow(), user=user, lifetime=lifetime, revoked=False)
+        return token_hex
+    
+    except Exception as e:
+        print("an error occured whilst creating the token", repr(e))
 
 @anvil.server.http_endpoint("/ping/:content/:token")
 def ping(content=None, token=None, **k):
