@@ -264,6 +264,13 @@ def get_user_by_username(username: str):
     except anvil.tables.TableError:
         return None
 
+@anvil.server.callable
+def get_user_by_email(email: str):
+    try:
+        return app_tables.users.get(email=email)
+    except anvil.tables.TableError:
+        return None
+
 
 @anvil.server.callable
 def delete_user_by_username(username):
