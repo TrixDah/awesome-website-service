@@ -258,6 +258,9 @@ def get_user_by_username(username: str):
 
 @anvil.server.callable
 def delete_user(username):
+  """
+  deletes a user and deletes any links to them in a non-cascading way. does not delete their chats
+  """
 
   user_row = app_tables.users.get(Username=username)
 
@@ -445,119 +448,3 @@ def delete_user(username):
 
   print(f"Deleted user '{username}' successfully")
 
-@anvil.server.callable
-def cleanup_orphaned_links():
-
-  deleted_count = 0
-
-  # scan every table
-  for table_name in dir(app_tables):
-
-    if table_name.startswith("_"):
-      continue
-
-    table = getattr(app_tables, table_name)
-
-    try:
-      rows = list(table.search())
-    except Exception:
-      continue
-
-    for row in rows:
-
-      should_delete = False
-
-      for col in table.list_columns():
-
-        col_name = col['name']
-
-        try:
-          value = row[col_name]
-        except Exception:
-          continue
-
-          # ==========================================
-          # MULTI-LINK COLUMNS
-          # ==========================================
-        if isinstance(value, list):
-
-          cleaned = []
-          broken_found = False
-
-          for item in value:
-
-            try:
-              if item is not None:
-                item.get_id()
-                cleaned.append(item)
-
-            except Exception:
-              broken_found = True
-
-              # SPECIAL CASES:
-              # keep row, just clean links
-          if (
-            (table_name == "messages" and col_name == "ReadBy")
-            or
-            (table_name == "Chats" and col_name == "general chat")
-          ):
-
-            if broken_found:
-              row[col_name] = cleaned
-              print(
-                f"Cleaned broken links in "
-                f"{table_name}.{col_name}"
-              )
-
-              # ALL OTHER MULTI-LINKS:
-              # delete row if broken link found
-          else:
-
-            if broken_found:
-              should_delete = True
-              break
-
-              # ==========================================
-              # SINGLE LINK COLUMNS
-              # ==========================================
-        elif value is not None:
-
-          try:
-            value.get_id()
-
-          except Exception:
-
-            # SPECIAL CASES:
-            # remove broken link only
-            if (
-              (table_name == "messages" and col_name == "ReadBy")
-              or
-              (table_name == "Chats" and col_name == "general chat")
-            ):
-
-              row[col_name] = None
-
-              print(
-                f"Removed broken link from "
-                f"{table_name}.{col_name}"
-              )
-
-              # ALL OTHER LINKS:
-              # delete row
-            else:
-
-              should_delete = True
-              break
-
-      if should_delete:
-
-        try:
-          # row.delete()
-          deleted_count += 1
-
-          print(f"Deleted orphaned row from {table_name}")
-
-        except Exception as e:
-          print(f"Failed deleting row: {e}")
-
-  print(f"Cleanup complete. Deleted {deleted_count} rows.")
