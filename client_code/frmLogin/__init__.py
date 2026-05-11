@@ -21,6 +21,7 @@ class frmLogin(frmLoginTemplate):
     user_row = anvil.users.login_with_form()
     if user_row is not None:
         username = user_row['Username']
+        email = user_row['Email']
         users = anvil.server.call('get_user_by_username', username)
         print(users)
         enabled = users['enabled']
