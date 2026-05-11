@@ -257,14 +257,17 @@ def get_user_by_username(username: str):
   return app_tables.users.search(Username=username)
 
 @anvil.server.callable
-def delete_user(username: str):
+def delete_user(username):
 
   user_row = app_tables.users.get(Username=username)
 
-  if not user_row:
-    raise ValueError(f"User '{username}' not found")
+  if user_row is None:
+    print("User not found")
+    return
 
-    # iterate through every table
+  user_id = user_row.get_id()
+
+  # scan every table
   for table_name in dir(app_tables):
 
     if table_name.startswith("_"):
@@ -273,95 +276,288 @@ def delete_user(username: str):
     table = getattr(app_tables, table_name)
 
     try:
-      rows = table.search()
+      rows = list(table.search())
     except Exception:
       continue
 
     for row in rows:
 
-      delete_row = False
+      should_delete = False
 
       for col in table.list_columns():
 
-        try:
-          value = row[col]
+        col_name = col['name']
 
+        try:
+          value = row[col_name]
         except Exception:
           continue
 
-          # -----------------------------
-          # SPECIAL CASE: ReadBy
-          # remove user from list only
-          # -----------------------------
-        if col == "ReadBy":
+          # =================================================
+          # SPECIAL CASE:
+          # messages.ReadBy -> REMOVE USER ONLY
+          # =================================================
+        if table_name == "messages" and col_name == "ReadBy":
 
           if isinstance(value, list):
 
             cleaned = []
 
-            for u in value:
+            for linked_user in value:
+
               try:
                 if (
-                  u is not None and
-                  u['username'] != username
+                  linked_user is not None and
+                  linked_user.get_id() != user_id
                 ):
-                  cleaned.append(u)
+                  cleaned.append(linked_user)
+
               except Exception:
                 pass
 
-            row[col] = cleaned
+            row[col_name] = cleaned
 
-          else:
+          elif value is not None:
+
             try:
-              if (
-                value is not None and
-                value['username'] == username
-              ):
-                row[col] = None
+              if value.get_id() == user_id:
+                row[col_name] = None
             except Exception:
               pass
 
           continue
 
-          # -----------------------------
-          # Multi-link columns
-          # delete row if user appears
-          # -----------------------------
-        if isinstance(value, list):
+          # =================================================
+          # SPECIAL CASE:
+          # Chats.general chat -> REMOVE USER ONLY
+          # =================================================
+        if table_name == "Chats" and col_name == "general chat":
 
-          for item in value:
+          if isinstance(value, list):
+
+            cleaned = []
+
+            for linked_user in value:
+
+              try:
+                if (
+                  linked_user is not None and
+                  linked_user.get_id() != user_id
+                ):
+                  cleaned.append(linked_user)
+
+              except Exception:
+                pass
+
+            row[col_name] = cleaned
+
+          elif value is not None:
+
             try:
-              if (
-                item is not None and
-                item['Username'] == username
-              ):
-                delete_row = True
-                break
+              if value.get_id() == user_id:
+                row[col_name] = None
             except Exception:
               pass
 
-              # -----------------------------
-              # Single-link columns
-              # delete row if linked
-              # -----------------------------
+          continue
+
+          # =================================================
+          # messages table:
+          # delete ANY message linked to this user
+          # except ReadBy handled above
+          # =================================================
+        if table_name == "messages":
+
+          # multi-link
+          if isinstance(value, list):
+
+            for item in value:
+
+              try:
+                if (
+                  item is not None and
+                  item.get_id() == user_id
+                ):
+                  should_delete = True
+                  break
+
+              except Exception:
+                pass
+
+                # single-link
+          else:
+
+            try:
+              if (
+                value is not None and
+                value.get_id() == user_id
+              ):
+                should_delete = True
+
+            except Exception:
+              pass
+
+          if should_delete:
+            break
+
+          continue
+
+          # =================================================
+          # ALL OTHER TABLES
+          # delete rows containing user
+          # =================================================
+        if isinstance(value, list):
+
+          for item in value:
+
+            try:
+              if (
+                item is not None and
+                item.get_id() == user_id
+              ):
+                should_delete = True
+                break
+
+            except Exception:
+              pass
+
         else:
+
           try:
             if (
               value is not None and
-              value['Username'] == username
+              value.get_id() == user_id
             ):
-              delete_row = True
+              should_delete = True
+
           except Exception:
             pass
 
-        if delete_row:
+        if should_delete:
           break
 
-      if delete_row:
-        print(f"Deleting row from {table_name}: {row}")
+      if should_delete:
+        print(f"Deleting row from {table_name}")
         row.delete()
 
-    # finally delete user
-  user_row.delete()
+    # finally delete user itself
+  # user_row.delete()
 
-  print(f"Deleted user: {username}")
+  print(f"Deleted user '{username}' successfully")
+
+@anvil.server.callable
+def cleanup_orphaned_links():
+
+  deleted_count = 0
+
+  # scan every table
+  for table_name in dir(app_tables):
+
+    if table_name.startswith("_"):
+      continue
+
+    table = getattr(app_tables, table_name)
+
+    try:
+      rows = list(table.search())
+    except Exception:
+      continue
+
+    for row in rows:
+
+      should_delete = False
+
+      for col in table.list_columns():
+
+        col_name = col['name']
+
+        try:
+          value = row[col_name]
+        except Exception:
+          continue
+
+          # ==========================================
+          # MULTI-LINK COLUMNS
+          # ==========================================
+        if isinstance(value, list):
+
+          cleaned = []
+          broken_found = False
+
+          for item in value:
+
+            try:
+              if item is not None:
+                item.get_id()
+                cleaned.append(item)
+
+            except Exception:
+              broken_found = True
+
+              # SPECIAL CASES:
+              # keep row, just clean links
+          if (
+            (table_name == "messages" and col_name == "ReadBy")
+            or
+            (table_name == "Chats" and col_name == "general chat")
+          ):
+
+            if broken_found:
+              row[col_name] = cleaned
+              print(
+                f"Cleaned broken links in "
+                f"{table_name}.{col_name}"
+              )
+
+              # ALL OTHER MULTI-LINKS:
+              # delete row if broken link found
+          else:
+
+            if broken_found:
+              should_delete = True
+              break
+
+              # ==========================================
+              # SINGLE LINK COLUMNS
+              # ==========================================
+        elif value is not None:
+
+          try:
+            value.get_id()
+
+          except Exception:
+
+            # SPECIAL CASES:
+            # remove broken link only
+            if (
+              (table_name == "messages" and col_name == "ReadBy")
+              or
+              (table_name == "Chats" and col_name == "general chat")
+            ):
+
+              row[col_name] = None
+
+              print(
+                f"Removed broken link from "
+                f"{table_name}.{col_name}"
+              )
+
+              # ALL OTHER LINKS:
+              # delete row
+            else:
+
+              should_delete = True
+              break
+
+      if should_delete:
+
+        try:
+          # row.delete()
+          deleted_count += 1
+
+          print(f"Deleted orphaned row from {table_name}")
+
+        except Exception as e:
+          print(f"Failed deleting row: {e}")
+
+  print(f"Cleanup complete. Deleted {deleted_count} rows.")

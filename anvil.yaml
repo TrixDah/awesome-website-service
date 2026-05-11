@@ -128,6 +128,7 @@ name: Awesome Website Service
 package_name: Awesome_Website_Service
 runtime_options:
   client_version: '3'
+  server_persist: false
   server_spec: {base: python310-minimal}
   version: 3
 scheduled_tasks:
