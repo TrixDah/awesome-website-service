@@ -31,7 +31,7 @@ components:
   type: Label
 - layout_properties: {grid_position: 'EHXHTA,TEQPCP RNHTEI,RDOMXS'}
   name: lblErr
-  properties: {align: center, bold: true, foreground: '#000000', text: This account has not been enabled by an admin! a request has been sent., visible: false}
+  properties: {align: center, bold: true, foreground: '#d54444', text: This account has not been enabled by an admin! a request has been sent., visible: false}
   type: Label
 - layout_properties: {grid_position: 'EHXHTA,QJXLYP'}
   name: spacer_1

@@ -32,7 +32,7 @@ class frmLogin(frmLoginTemplate):
 
       if username is None:
         new_username = alert(frmUsername(), large=True, buttons=[])
-        shared_username = app_tables.users.search(Username=new_username)
+        shared_username = anvil.server.call('search_for_dupes', new_username)
 
         if shared_username:
             self.lblErr.visible = True
