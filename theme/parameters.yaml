@@ -1,3 +1,6 @@
+color_scheme:
+  colors: []
+  preset_groups: []
 roles:
 - {name: bubble-me}
 - {name: bubble-other}
