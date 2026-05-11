@@ -21,7 +21,8 @@ class frmLogin(frmLoginTemplate):
     user_row = anvil.users.login_with_form()
     if user_row is not None:
         username = user_row['Username']
-        users = anvil.server.call('get_user_by_username', username)
+        email = user_row['email']
+        users = anvil.server.call('get_user_by_email', email)
         print(users)
         enabled = users['enabled']
         if not enabled: # this is here to mitagate an anvil bug (or featue idk) 
@@ -33,8 +34,9 @@ class frmLogin(frmLoginTemplate):
         if username is None:
             new_username = alert(frmUsername(), large=True, buttons=[])
             shared_username = anvil.server.call('search_for_dupes', new_username)
-    
-            if shared_username:
+            print(new_username, shared_username)
+            impact = len(shared_username)
+            if impact > 0:
                 self.lblErr.visible = True
                 self.lblErr.text = "That username is taken! Sorry"
                 return

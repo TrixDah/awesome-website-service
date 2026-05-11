@@ -259,7 +259,17 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
 
 @anvil.server.callable
 def get_user_by_username(username: str):
-  return app_tables.users.get(Username=username)
+    try:
+        return app_tables.users.get(Username=username)
+    except anvil.tables.TableError:
+        return None
+
+@anvil.server.callable
+def get_user_by_email(email: str):
+    try:
+        return app_tables.users.get(email=email)
+    except anvil.tables.TableError:
+        return None
 
 
 @anvil.server.callable
