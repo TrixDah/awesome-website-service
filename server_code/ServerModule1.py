@@ -57,7 +57,7 @@ def get_usernames(logged_in_user: str):
   return [
     row['Username']
     for row in app_tables.users.search()
-    if row['Username'] != logged_in_user
+    if row['Username'] != logged_in_user and row['Username'] is not None
   ]
 
 @anvil.server.callable
@@ -123,52 +123,55 @@ def get_user_chats_data(username):
       general_chat['Participants'] = participants + [user_row]
 
     # 2. Get all chats this user is a part of
-  all_my_chats = app_tables.chats.search(Participants=[user_row])
-  chat_list = []
+  try:
+    all_my_chats = app_tables.chats.search(Participants=[user_row])
+    chat_list = []
+    
+    for chat in all_my_chats:
+      # Fetch the messages for this chat
+      messages_in_chat = app_tables.messages.search(TargetChat=chat)
+      unread_count = 0
   
-  for chat in all_my_chats:
-    # Fetch the messages for this chat
-    messages_in_chat = app_tables.messages.search(TargetChat=chat)
-    unread_count = 0
+      for m in messages_in_chat:
+        # THE FIX: If this user sent the message, ignore it! It is never "unread" to them.
+        if m['Sender'] == username: 
+          continue
+  
+        readers = m['ReadBy'] or []
+  
+        # Extract the unique ID of every reader, and check if our user's ID is missing
+        reader_ids = [r.get_id() for r in readers]
+        if user_row.get_id() not in reader_ids:
+          unread_count += 1
+  
+      # THE FIX: Figure out the real last activity date
+      last_act = chat['LastActivity']
+  
+      if not last_act: # If the column is blank (like in your older chats)
+        # Find the most recent message in this chat
+        recent_msgs = app_tables.messages.search(
+          tables.order_by("TimeSent", ascending=False), 
+          TargetChat=chat
+        )
+        if len(recent_msgs) > 0:
+          last_act = recent_msgs[0]['TimeSent']
+          # Auto-heal the database so it doesn't have to look this up next time!
+          chat['LastActivity'] = last_act 
+        else:
+          # If there are literally no messages, push it to the very bottom
+          last_act = datetime.min.replace(tzinfo=timezone.utc)
+  
+      chat_list.append({
+        'chat_row': chat,
+        'chat_name': chat['ChatName'] or "Direct Message", 
+        'last_activity': last_act, # Use our newly calculated date!
+        'unread_count': unread_count,
+        'is_general': chat['ChatName'] == "General Chat"
+      })
+  except anvil.tables.TableError:
+    print
 
-    for m in messages_in_chat:
-      # THE FIX: If this user sent the message, ignore it! It is never "unread" to them.
-      if m['Sender'] == username: 
-        continue
-
-      readers = m['ReadBy'] or []
-
-      # Extract the unique ID of every reader, and check if our user's ID is missing
-      reader_ids = [r.get_id() for r in readers]
-      if user_row.get_id() not in reader_ids:
-        unread_count += 1
-
-    # THE FIX: Figure out the real last activity date
-    last_act = chat['LastActivity']
-
-    if not last_act: # If the column is blank (like in your older chats)
-      # Find the most recent message in this chat
-      recent_msgs = app_tables.messages.search(
-        tables.order_by("TimeSent", ascending=False), 
-        TargetChat=chat
-      )
-      if len(recent_msgs) > 0:
-        last_act = recent_msgs[0]['TimeSent']
-        # Auto-heal the database so it doesn't have to look this up next time!
-        chat['LastActivity'] = last_act 
-      else:
-        # If there are literally no messages, push it to the very bottom
-        last_act = datetime.min.replace(tzinfo=timezone.utc)
-
-    chat_list.append({
-      'chat_row': chat,
-      'chat_name': chat['ChatName'] or "Direct Message", 
-      'last_activity': last_act, # Use our newly calculated date!
-      'unread_count': unread_count,
-      'is_general': chat['ChatName'] == "General Chat"
-    })
-
-    # 4. Sort the list: General Chat always first, then by LastActivity descending
+  # 4. Sort the list: General Chat always first, then by LastActivity descending
   chat_list.sort(key=lambda x: (x['is_general'], x['last_activity']), reverse=True)
   return chat_list
 
@@ -449,4 +452,5 @@ def delete_user(username):
   print(f"Deleted user '{username}' successfully")
 
 @anvil.server.callable
-def add_username(user_R)
+def add_username(user_row, username: str):
+  user_row['Username'] = username

@@ -32,11 +32,11 @@ class frmLogin(frmLoginTemplate):
       if username is None:
         new_username = alert(frmUsername(), large=True, buttons=[])
 
-      print(new_username)
+        print(new_username)
       
-      if new_username:
-        anvil.server.call('ad')
-      else:
-        return
+        if new_username:
+          anvil.server.call('add_username', user_row, new_username)
+        else:
+          return
         
       open_form('frmMessaging', current_user=username)
