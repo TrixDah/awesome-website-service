@@ -336,7 +336,7 @@ def delete_user(username):
                 # =====================================================
                 print(table_name, row.get("ChatName"))
                 if table_name == "Chats" and row.get("ChatName") == "General Chat":
-                    print("NN")
+                    print("ALERTQ")
 
                     if col_name == "Participants" and isinstance(value, list):
 
