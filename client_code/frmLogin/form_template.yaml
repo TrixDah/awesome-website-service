@@ -29,6 +29,10 @@ components:
   name: label_1
   properties: {align: center, text: 'New Users Have To Be Manually Approved '}
   type: Label
+- layout_properties: {grid_position: 'EHXHTA,TEQPCP RNHTEI,RDOMXS'}
+  name: lblErr
+  properties: {align: center, bold: true, foreground: '#000000', text: This account has not been enabled by an admin!, visible: false}
+  type: Label
 - layout_properties: {grid_position: 'EHXHTA,QJXLYP'}
   name: spacer_1
   properties: {height: 175.19998168945312}
