@@ -1,5 +1,6 @@
 use reqwest::blocking::Client;
 use clap::Parser;
+use std::error::Error;
 
 #[derive(Parser)]
 struct Args {
@@ -10,14 +11,28 @@ struct Args {
 
     #[arg(short, long)]
     token: String,
+
+    #[arg(long)]
+    force: bool,
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let args = Args::parse();
+fn main() -> Result<(), Box<dyn Error>> {
+    let args: Args = Args::parse();
 
-    let client = Client::builder()
+    let client: Client = Client::builder()
         .timeout(std::time::Duration::from_secs(10))
         .build()?;
+
+    let force: &bool = &args.force;
+    let endpoint: &String = &args.endpoint;
+
+    let endpoints: [&'static str; _] = [
+        "ping",
+    ];
+
+    if !endpoints.contains(&endpoint.as_str()) && !*force {
+        return Err(format!("invalid endpoint! endpoint {} not found", endpoint).into());
+    }
 
     let url = format!(
         "https://awesomewebsiteservice.anvil.app/_/api/{}/{}/{}",
@@ -30,11 +45,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .get(&url)
         .send()?;
 
-    let status = resp.status();
-    let body = resp.text()?;
+    let status: reqwest::StatusCode = resp.status();
+    let body: String = resp.text()?;
 
     println!("http status: {}", status);
     println!("response: {}", body);
 
-    Ok(())
+    return Ok(());
 }
