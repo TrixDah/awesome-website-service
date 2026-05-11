@@ -264,7 +264,10 @@ def get_user_by_username(username: str):
 
 @anvil.server.callable
 def delete_user_by_username(username):
-    # --- 1. Find the user ---
+    """
+    deletes all links to a user in a non-cascading way to ensure no null-pointers/dangling pointers
+    """
+    # NPE in python!?
     user_row = app_tables.users.get(Username=username)
     if not user_row:
         return f"No user found with username '{username}'"
