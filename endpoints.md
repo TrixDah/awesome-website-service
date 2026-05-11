@@ -7,19 +7,14 @@ an endpoint is defined with the decorator:
 @anvil.server.http_endpoint(path: str)
 ```
 
-paths can be plain
-```python
-@anvil.server.http_endpoint("/ping")
-```
-
-or they can take fields
+paths look like this
 ```python
 @anvil.server.http_endpoint("/get_user/by_username/:username/:token")
 ```
 
 paths to your endpoint can be found at `https://awesomewebsiteservice.anvil.app/_/api {path}` 
 
-if you are testing out a new endpoint, create a new private link in anvil and delete it after your session ends. for example `https://g6rtkujpqxu3v6fy.anvil.app/QIUSVHHFP5RCEB5G41J473HL/_/api/ {path}`
+if you are testing out a new endpoint, create a new private link in anvil and delete it after your session ends. for example `https://g6rtkujpqxu3v6fy.anvil.app/QIUSVHHFP5RCEB5G41J473HL/_/api {path}`
 
 every endpoint that you make **MUST** include a `:token` param at the end (by convention) in order to make sure the db stays secure.
 
@@ -120,10 +115,54 @@ def ping(content=None, token=None): # binds directly from the handle
     )
 ```
 
-## connecting your endpoints to the CLI
+## using and connecting your endpoints to the CLI
 
-WIP
+the cli is written in rust using clap.
+
+right now the args look like this
+
+```rust
+struct Args {
+    content: String,
+
+    #[arg(short, long)]
+    endpoint: String,
+
+    #[arg(short, long)]
+    token: String,
+
+    #[arg(long)]
+    force: bool,
+}
+```
+
+handling the args is as simple as this
+
+```rust
+let url: String = format!(
+    "https://awesomewebsiteservice.anvil.app/_/api/{}/{}/{}",
+    urlencoding::encode(&args.endpoint),
+    urlencoding::encode(&args.content),
+    urlencoding::encode(&args.token),
+);
+```
+
+right now we only have post actions so its pretty straight forward, just add your endpoint to the `endpoints: :[&'static str; _]` array or make it only accsesable only through --force by ommiting it
+
+```rust
+let endpoints: [&'static str; _] = [
+        "ping",
+];
+```
+
+if you want the cli to do something with the response, isolate it in its own `Result<(), Box<dyn Error>>` function
 
 ## managing API tokens
 
 WIP
+
+lifetime in mins
+```pyton
+from .api import create_token
+create_token(user: str, lifetime: int)
+```
