@@ -22,7 +22,8 @@ class frmLogin(frmLoginTemplate):
     if user_row is not None:
       username = user_row['Username']
       users = anvil.server.call('get_user_by_username', username)
-      enabled = users[0]['enabled']
+        print(users)
+      enabled = users['enabled']
       print(list(users))
       if not enabled: # this is here to mitagate an anvil bug (or featue idk) 
         print("user not enabled!")
