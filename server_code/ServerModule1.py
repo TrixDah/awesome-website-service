@@ -253,31 +253,5 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
   return {"success": True}
 
 @anvil.server.callable
-
-def cleanup_messages_readby():
-
-  fixed = 0
-
-  for msg in app_tables.messages.search():
-
-    read_by = msg['ReadBy'] or []
-    cleaned = []
-
-    for user in read_by:
-
-      try:
-        # FORCE row access
-        list(user.keys())
-
-        # Row still exists
-        cleaned.append(user)
-
-      except tables.RowDeleted:
-        fixed += 1
-        print(f"Removed deleted user from message {msg.get_id()}")
-
-        # Update only if changed
-    if len(cleaned) != len(read_by):
-      msg['ReadBy'] = cleaned
-
-  print(f"\nCleaned {fixed} deleted row reference(s).")
+def get_user_by_username(username: str):
+  return app_tables.
