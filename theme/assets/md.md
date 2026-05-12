@@ -8,15 +8,15 @@
 * [ ] Add hyperlink to official ICT Acceptable Use Policy
 * [ ] Add reporting protocol section:
 
-* [ ] State that policy breaches and safety concerns must be reported to Deputy Principal of ICT, Mr Cracknell
+  * [ ] State that policy breaches and safety concerns must be reported to Deputy Principal of ICT, Mr Cracknell
 * [ ] Add consequences section:
 
-* [ ] Explain misuse may result in account suspension and disciplinary action
+  * [ ] Explain misuse may result in account suspension and disciplinary action
 * [ ] Add privacy notice:
 
-* [ ] Explain what data is collected
-* [ ] Mention usernames, timestamps, and message content are logged for moderation
-* [ ] State that posts are visible to ICT staff and app admins/developers
+  * [ ] Explain what data is collected
+  * [ ] Mention usernames, timestamps, and message content are logged for moderation
+  * [ ] State that posts are visible to ICT staff and app admins/developers
 
 ---
 
@@ -26,18 +26,18 @@
 * [ ] Prevent generic “report user only” flow
 * [ ] Automatically attach report metadata:
 
-* [ ] Message content
-* [ ] Sender ID
-* [ ] Timestamp
+  * [ ] Message content
+  * [ ] Sender ID
+  * [ ] Timestamp
 * [ ] Send reports to admin system:
 
-* [ ] Admin dashboard and/or admin email
+  * [ ] Admin dashboard and/or admin email
 * [ ] Add report category dropdown:
 
-* [ ] Bullying / Harassment
-* [ ] Inappropriate Content
-* [ ] Spam
-* [ ] Other
+  * [ ] Bullying / Harassment
+  * [ ] Inappropriate Content
+  * [ ] Spam
+  * [ ] Other
 
 ---
 
@@ -49,14 +49,14 @@
 * [ ] Prevent blocked users from contacting/reporting victim directly
 * [ ] Add automated profanity filter
 
-* [ ] Create banned-word dictionary
-* [ ] Decide between:
+  * [ ] Create banned-word dictionary
+  * [ ] Decide between:
 
-* [ ] Censoring words (`****`)
-* [ ] Blocking message sending entirely
+    * [ ] Censoring words (`****`)
+    * [ ] Blocking message sending entirely
 * [ ] Add emergency escalation warning to reporting screen:
 
-* [ ] “If you are in immediate danger, or if this is an emergency, please contact a trusted adult, teacher, or emergency services immediately.”
+  * [ ] “If you are in immediate danger, or if this is an emergency, please contact a trusted adult, teacher, or emergency services immediately.”
 
 ---
 
@@ -66,7 +66,7 @@
 * [ ] Ensure passwords are never stored in plain text
 * [ ] Minimise stored personal data
 
-* [ ] Only collect school email and first name if possible
+  * [ ] Only collect school email and first name if possible
 * [ ] Securely store user and moderation data
 * [ ] Review backend/database security practices
 
