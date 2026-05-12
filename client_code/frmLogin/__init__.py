@@ -16,6 +16,11 @@ class frmLogin(frmLoginTemplate):
   def __init__(self, **properties):
     self.init_components(**properties) 
 
+    self.scheme = "dark"
+
+    if self.scheme == "dark":
+      self.background = app.theme_colors['dark mode bg']
+
   @handle("btnLogin", "click")
   def btnLogin_click(self, **event_args):
     user_row = anvil.users.login_with_form()

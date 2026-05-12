@@ -38,6 +38,6 @@ components:
   properties: {height: 175.19998168945312}
   type: Spacer
 container:
-  properties: {visible: true}
+  properties: {background: 'theme:light mode bg', visible: true}
   type: ColumnPanel
 is_package: true
