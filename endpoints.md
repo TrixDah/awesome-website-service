@@ -25,7 +25,7 @@ a function signature for a endpoint may look like this
 def ping(content=None, token=None, **k):
 ```
 
-content and token automatically get taken from `:content` and `:token` and anything after `?field=...` is filled into the kwargs dict. 
+content and token automatically get taken from `:content` and `:token` and anything after `?{field}=...` is filled into the kwargs dict. 
 
 ## writing endpoint bodies
 
