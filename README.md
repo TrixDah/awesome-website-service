@@ -32,3 +32,6 @@ To add a new user, the new user must first authenticate with a google account. T
 ### about the cli and writing endpoints
 
 [endpoints](endpoints.md)
+
+### todo
+[todo.md](theme/assets/todo.md)
