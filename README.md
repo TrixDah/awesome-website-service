@@ -31,4 +31,4 @@ To add a new user, the new user must first authenticate with a google account. T
 
 ### about the cli and writing endpoints
 
-https://github.com/TrixDah/awesome-website-service/blob/f7379297b0cf6ac0969bd09f9723b5d04d189c23/endpoints.md
+[endpoints](endpoints.md)
