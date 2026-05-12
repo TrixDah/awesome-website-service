@@ -22,7 +22,7 @@ class frmLogin(frmLoginTemplate):
         self.lblErr.text = "You cannot login unless you accept the TOS."
 
     if tos_accepted:
-        self.btnLogin
+        self.btnLogin_click()
 
   @handle("btnLogin", "click")
   def btnLogin_click(self, **event_args):

@@ -20,4 +20,4 @@ class frmTOS(frmTOSTemplate):
         anvil.open_form('frmLogin', True)
 
     def decline_tos(self):
-        alert("Declined")
+        anvil.open_form('frmLogin', False)
