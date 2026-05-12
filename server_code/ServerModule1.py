@@ -10,6 +10,7 @@ import anvil.tables.query as q
 import hashlib
 import secrets
 from dataclasses import dataclass
+from pathlib import Path
 
 message_lifetime_hours: int = 168 #Change this to set message deletion time threshold 
 
@@ -244,6 +245,12 @@ def send_message(sender_username, message_text, chat_row, image_file=None):
   if len(recent_messages) >= 10:
     user_row['timeout_until'] = now + timedelta(minutes=5)
     return {"success": False, "error": "Spam detected. You are timed out for 5 minutes."}
+
+  file_path = image_file
+  if file_path.exists():
+    size = file_path.stat().st_size  # Size in bwytes
+    if size > 5000000:
+      exit
   
   # Save the message AND the image
   app_tables.messages.add_row(
