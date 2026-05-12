@@ -8,6 +8,7 @@ container:
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
               <title>Terms of Service</title>
+
               <style>
                   body {
                       font-family: Arial, sans-serif;
@@ -56,6 +57,40 @@ container:
                       margin: 25px 0;
                   }
 
+                  .warning {
+                      background: #fff4e5;
+                      border-left: 4px solid #ff9800;
+                      padding: 15px;
+                      margin: 25px 0;
+                  }
+
+                  .agree-box {
+                      margin-top: 40px;
+                      padding: 20px;
+                      border: 1px solid #dddddd;
+                      border-radius: 8px;
+                      background: #fafafa;
+                  }
+
+                  button {
+                      margin-top: 15px;
+                      padding: 12px 22px;
+                      border: none;
+                      background: #111111;
+                      color: white;
+                      cursor: pointer;
+                      border-radius: 6px;
+                      font-size: 1rem;
+                  }
+
+                  button:hover {
+                      opacity: 0.9;
+                  }
+
+                  a {
+                      color: #0066cc;
+                  }
+
                   hr {
                       border: none;
                       border-top: 1px solid #e5e5e5;
@@ -63,20 +98,35 @@ container:
                   }
               </style>
           </head>
+
           <body>
 
               <div class="container">
+
                   <h1>Terms of Service</h1>
 
                   <p>
                       This service is hosted on Anvil and managed by St Bede’s College ("the Service").
-                      By accessing or using this Service, you agree to comply with these Terms of Service.
-                      Failure to comply may result in suspension, permanent bans, reporting to St Bede’s College,
-                      or referral to relevant authorities where applicable.
+                      By accessing or using this Service, you agree to comply with these Terms of Service,
+                      the St Bede’s College ICT Acceptable Use Policy, and all applicable school rules and policies.
                   </p>
 
-                  <p class="warning">
-                      Administrators reserve the sole and final right to determine whether any content or behaviour violates these Terms.
+                  <div class="notice">
+                      By using this application, you agree to be bound by the
+                      <a href="YOUR_POLICY_LINK_HERE" target="_blank">
+                          St Bede’s College ICT Acceptable Use Policy
+                      </a>.
+                  </div>
+
+                  <div class="warning">
+                      Misuse of this Service may result in account suspension,
+                      disciplinary action by St Bede’s College, permanent bans,
+                      or referral to relevant authorities where applicable.
+                  </div>
+
+                  <p>
+                      Administrators reserve the sole and final right to determine whether
+                      any content or behaviour violates these Terms.
                   </p>
 
                   <hr>
@@ -91,18 +141,52 @@ container:
                       <li>
                           <strong>Message</strong> refers to any packet of information sent by an end user to the server.
                       </li>
+
                       <li>
                           Messages may exist in two forms:
                           <ul>
-                              <li><strong>Text-Based Messages</strong> — readable text content.</li>
-                              <li><strong>Media-Based Messages</strong> — images, videos, audio, documents, or other non-text files.</li>
+                              <li>
+                                  <strong>Text-Based Messages</strong> — readable text content.
+                              </li>
+
+                              <li>
+                                  <strong>Media-Based Messages</strong> — images, videos, audio,
+                                  documents, or other non-text files.
+                              </li>
                           </ul>
                       </li>
                   </ul>
 
                   <hr>
 
-                  <h2>2. Rules for Text-Based Messages</h2>
+                  <h2>2. Privacy & Data Collection</h2>
+
+                  <p>
+                      To maintain safety, moderation, and proper operation of the Service,
+                      the application may collect and store:
+                  </p>
+
+                  <ul>
+                      <li>Usernames and account identifiers</li>
+                      <li>School email addresses</li>
+                      <li>Timestamps of messages and activity</li>
+                      <li>Message content and uploaded media</li>
+                      <li>Reports submitted by users</li>
+                  </ul>
+
+                  <p>
+                      All messages and uploaded content may be reviewed by authorised
+                      St Bede’s College ICT staff and approved application administrators/developers
+                      for moderation and safety purposes.
+                  </p>
+
+                  <p>
+                      Passwords are stored securely using encryption/hashing methods and are never stored in plain text.
+                  </p>
+
+                  <hr>
+
+                  <h2>3. Rules for Text-Based Messages</h2>
 
                   <p>Users must not send text-based messages that:</p>
 
@@ -116,13 +200,18 @@ container:
                   </ul>
 
                   <p>
-                      Profanity may be permitted only when used in a non-targeted, non-abusive,
-                      and contextually appropriate manner, as determined by the administrators.
+                      Profanity may be filtered, censored, or blocked automatically by the Service.
+                  </p>
+
+                  <p>
+                      Profanity may only be permitted when used in a non-targeted,
+                      non-abusive, and contextually appropriate manner,
+                      as determined by the administrators.
                   </p>
 
                   <hr>
 
-                  <h2>3. Rules for Media-Based Messages</h2>
+                  <h2>4. Rules for Media-Based Messages</h2>
 
                   <p>Media-based messages must not contain:</p>
 
@@ -140,7 +229,27 @@ container:
 
                   <hr>
 
-                  <h2>4. Enforcement</h2>
+                  <h2>5. Reporting & Safety</h2>
+
+                  <p>
+                      Users may report messages or content that violate these Terms.
+                      Reports may include the message content, sender information,
+                      timestamps, and related moderation data.
+                  </p>
+
+                  <p>
+                      Any policy breaches or safety concerns should also be reported
+                      to the Deputy Principal of ICT, Mr Cracknell.
+                  </p>
+
+                  <div class="warning">
+                      If you are in immediate danger, or if this is an emergency,
+                      please contact a trusted adult, teacher, or emergency services immediately.
+                  </div>
+
+                  <hr>
+
+                  <h2>6. Enforcement</h2>
 
                   <p>Violations of these Terms may result in:</p>
 
@@ -158,24 +267,42 @@ container:
 
                   <hr>
 
-                  <h2>5. User Responsibility</h2>
+                  <h2>7. User Responsibility</h2>
 
                   <p>
                       Users are solely responsible for the content they send through the Service.
-                      Attempting to bypass moderation, exploit vulnerabilities, or interfere with
-                      the operation of the Service is strictly prohibited.
+                      Attempting to bypass moderation systems, exploit vulnerabilities,
+                      impersonate others, or interfere with the operation of the Service
+                      is strictly prohibited.
                   </p>
 
                   <hr>
 
-                  <h2>6. Changes to These Terms</h2>
+                  <h2>8. Changes to These Terms</h2>
 
                   <p>
                       These Terms may be updated or modified at any time without prior notice.
                       Continued use of the Service constitutes acceptance of the latest version
                       of these Terms.
                   </p>
+
+                  <div class="agree-box">
+                      <label>
+                          <input type="checkbox" id="agreeCheckbox">
+                          I have read and agree to the Terms of Service and the
+                          St Bede’s College ICT Acceptable Use Policy.
+                      </label>
+
+                      <br>
+
+                      <button id="agreeButton" disabled>
+                          I Agree
+                      </button>
+                  </div>
+
               </div>
+
+
 
           </body>
       </html>
