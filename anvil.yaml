@@ -123,6 +123,10 @@ db_schema:
     indexes: []
     server: full
     title: Users
+dependencies:
+- dep_id: dep_8pdjtsh7fxli5c
+  resolution_hints: {app_id: C6ZZPAPN4YYF5NVJ, name: Anvil Extras, package_name: anvil_extras}
+  version: {version_tag: v3.6.3}
 metadata: {logo_img: 'asset:chatlogo_69e9a8f7b63de_vips_69e9a8f7c2ed2.jpg', title: Educational Enrichment Strategies}
 name: Awesome Website Service
 native_deps:
