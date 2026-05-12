@@ -39,7 +39,7 @@ class frmLogin(frmLoginTemplate):
             if not enabled: # this is here to mitagate an anvil bug (or featue idk) 
                 print("user not enabled!")
                 self.lblErr.visible = True
-                self.lblErr.text = "This account has not been enabled by an admin! a request has been sent."
+                self.lblErr.text = "This account has not been enabled by an admin! A request has been sent."
                 return
         
             if username is None:
@@ -49,7 +49,7 @@ class frmLogin(frmLoginTemplate):
                 impact = len(shared_username)
                 if impact > 0:
                     self.lblErr.visible = True
-                    self.lblErr.text = "That username is taken! Sorry"
+                    self.lblErr.text = "That username is taken. Sorry!"
                     return
             
                 if new_username:
