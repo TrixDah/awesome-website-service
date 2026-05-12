@@ -31,13 +31,13 @@ class frmLogin(frmLoginTemplate):
     else:
         user_row = anvil.users.login_with_form()
         if user_row is not None:
-            username = user_row['Username']
+            username = 
             email = user_row['email']
             users = anvil.server.call('get_user_by_email', email)
             print(users)
             enabled = users['enabled']
             if not enabled: # this is here to mitagate an anvil bug (or featue idk) 
-                print("user not enabled!")
+                print("User not enabled!")
                 self.lblErr.visible = True
                 self.lblErr.text = "This account has not been enabled by an admin! A request has been sent."
                 return

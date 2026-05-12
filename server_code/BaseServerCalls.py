@@ -223,6 +223,10 @@ def get_chat_messages(chat_row):
   )
 
 @anvil.server.callable
+def check_tos(sender_username):
+  user_row = app_tables.users.get(Username=sender_username)
+
+@anvil.server.callable
 def send_message(sender_username, message_text, chat_row, image_file=None):
   now = datetime.now(timezone.utc)
   user_row = app_tables.users.get(Username=sender_username)
