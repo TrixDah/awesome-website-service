@@ -147,7 +147,7 @@ let url: String = format!(
 );
 ```
 
-right now we only have post actions so its pretty straight forward, just add your endpoint to the `endpoints: :[&'static str; _]` array or make it only accsesable only through --force by ommiting it
+right now we only have post actions so its pretty straight forward, just add your endpoint to the `endpoints: :[&'static str; _]` array or make it only accsesable only through `--force` by ommiting it
 
 ```rust
 let endpoints: [&'static str; _] = [
