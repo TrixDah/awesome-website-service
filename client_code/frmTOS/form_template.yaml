@@ -8,6 +8,7 @@ container:
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
               <title>Terms of Service</title>
+
               <style>
                   body {
                       font-family: Arial, sans-serif;
@@ -61,11 +62,46 @@ container:
                       border-top: 1px solid #e5e5e5;
                       margin: 35px 0;
                   }
+
+                  .button-container {
+                      margin-top: 50px;
+                      display: flex;
+                      gap: 15px;
+                  }
+
+                  button {
+                      padding: 12px 24px;
+                      border: none;
+                      border-radius: 8px;
+                      font-size: 15px;
+                      cursor: pointer;
+                      transition: 0.2s ease;
+                  }
+
+                  .accept-btn {
+                      background: #111111;
+                      color: white;
+                  }
+
+                  .accept-btn:hover {
+                      opacity: 0.9;
+                  }
+
+                  .decline-btn {
+                      background: #f3f3f3;
+                      color: #111111;
+                      border: 1px solid #dddddd;
+                  }
+
+                  .decline-btn:hover {
+                      background: #ebebeb;
+                  }
               </style>
           </head>
           <body>
 
               <div class="container">
+
                   <h1>Terms of Service</h1>
 
                   <p>
@@ -75,49 +111,39 @@ container:
                       or referral to relevant authorities where applicable.
                   </p>
 
-                  <p class="warning">
+                  <div class="notice">
                       Administrators reserve the sole and final right to determine whether any content or behaviour violates these Terms.
-                  </p>
-
-                  <hr>
+                  </div>
 
                   <h2>1. Definitions</h2>
 
                   <p>
-                      For the purposes of these Terms:
+                      A <strong>Message</strong> refers to any packet of information sent by a user to the server.
                   </p>
 
                   <ul>
-                      <li>
-                          <strong>Message</strong> refers to any packet of information sent by an end user to the server.
-                      </li>
-                      <li>
-                          Messages may exist in two forms:
-                          <ul>
-                              <li><strong>Text-Based Messages</strong> — readable text content.</li>
-                              <li><strong>Media-Based Messages</strong> — images, videos, audio, documents, or other non-text files.</li>
-                          </ul>
-                      </li>
+                      <li><strong>Text-Based Messages</strong> — readable text content.</li>
+                      <li><strong>Media-Based Messages</strong> — images, videos, audio, documents, or other uploaded files.</li>
                   </ul>
 
                   <hr>
 
                   <h2>2. Rules for Text-Based Messages</h2>
 
-                  <p>Users must not send text-based messages that:</p>
+                  <p>Users must not send messages that:</p>
 
                   <ul>
                       <li>Harass, threaten, bully, or attack another user.</li>
                       <li>Contain hate speech, discrimination, or targeted abuse.</li>
-                      <li>Include excessive offensive or disruptive profanity.</li>
-                      <li>Discuss or promote illegal, explicit, or harmful topics.</li>
+                      <li>Contain excessive or disruptive profanity.</li>
+                      <li>Promote illegal, explicit, or harmful topics.</li>
                       <li>Encourage violence, self-harm, or dangerous behaviour.</li>
                       <li>Contain spam, scams, malicious links, or misleading information.</li>
                   </ul>
 
                   <p>
-                      Profanity may be permitted only when used in a non-targeted, non-abusive,
-                      and contextually appropriate manner, as determined by the administrators.
+                      Mild profanity may be permitted when used in a non-targeted and non-abusive manner,
+                      as determined by the administrators.
                   </p>
 
                   <hr>
@@ -127,33 +153,33 @@ container:
                   <p>Media-based messages must not contain:</p>
 
                   <ul>
-                      <li>Explicit, NSFW, or inappropriate content.</li>
+                      <li>Explicit or NSFW content.</li>
                       <li>Violent, graphic, or disturbing material.</li>
                       <li>Harassment, hate speech, or discriminatory content.</li>
-                      <li>Illegal, harmful, or sensitive material.</li>
+                      <li>Illegal or harmful material.</li>
                       <li>Malware, malicious files, or harmful software.</li>
                   </ul>
 
                   <p>
-                      Any media deemed inappropriate by the administrators may be removed without notice.
+                      Any media deemed inappropriate may be removed without notice.
                   </p>
 
                   <hr>
 
                   <h2>4. Enforcement</h2>
 
-                  <p>Violations of these Terms may result in:</p>
+                  <p>Violations may result in:</p>
 
                   <ul>
                       <li>Content removal</li>
                       <li>Temporary suspension</li>
                       <li>Permanent bans</li>
                       <li>Reporting to St Bede’s College administration</li>
-                      <li>Referral to law enforcement or relevant authorities where necessary</li>
+                      <li>Referral to law enforcement where necessary</li>
                   </ul>
 
                   <p>
-                      Enforcement decisions are made entirely at the discretion of the administrators.
+                      All enforcement decisions are made at the discretion of the administrators.
                   </p>
 
                   <hr>
@@ -175,6 +201,18 @@ container:
                       Continued use of the Service constitutes acceptance of the latest version
                       of these Terms.
                   </p>
+
+                  <!-- Anvil Compatible Buttons -->
+                  <div class="button-container">
+                      <button class="accept-btn" onclick="window.accept_tos()">
+                          Accept
+                      </button>
+
+                      <button class="decline-btn" onclick="window.decline_tos()">
+                          Decline
+                      </button>
+                  </div>
+
               </div>
 
           </body>
