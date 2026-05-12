@@ -13,6 +13,16 @@ class frmTOS(frmTOSTemplate):
     def __init__(self, **properties):
         self.init_components(**properties)
 
+        # this is how you bind js functions to anvil functions!
+        # <div class="button-container">
+        # <button class="accept-btn" onclick="window.accept_tos()">
+        #     Accept
+        #     </button>
+
+        #     <button class="decline-btn" onclick="window.decline_tos()">
+        #     Decline
+        #     </button>
+        #     </div>
         anvil.js.window.accept_tos = self.accept_tos
         anvil.js.window.decline_tos = self.decline_tos
 
