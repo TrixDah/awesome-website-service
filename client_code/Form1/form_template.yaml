@@ -1,0 +1,183 @@
+components: []
+container:
+  properties:
+    html: |-
+      <!DOCTYPE html>
+      <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Terms of Service</title>
+              <style>
+                  body {
+                      font-family: Arial, sans-serif;
+                      background: #ffffff;
+                      color: #111111;
+                      margin: 0;
+                      padding: 40px 20px;
+                  }
+
+                  .container {
+                      max-width: 850px;
+                      margin: auto;
+                  }
+
+                  h1 {
+                      font-size: 2.5rem;
+                      margin-bottom: 10px;
+                      border-bottom: 2px solid #e5e5e5;
+                      padding-bottom: 10px;
+                  }
+
+                  h2 {
+                      margin-top: 40px;
+                      font-size: 1.4rem;
+                  }
+
+                  p {
+                      line-height: 1.7;
+                      color: #333333;
+                  }
+
+                  ul {
+                      padding-left: 20px;
+                      line-height: 1.7;
+                      color: #333333;
+                  }
+
+                  li {
+                      margin-bottom: 10px;
+                  }
+
+                  .notice {
+                      background: #f5f5f5;
+                      border-left: 4px solid #111111;
+                      padding: 15px;
+                      margin: 25px 0;
+                  }
+
+                  hr {
+                      border: none;
+                      border-top: 1px solid #e5e5e5;
+                      margin: 35px 0;
+                  }
+              </style>
+          </head>
+          <body>
+
+              <div class="container">
+                  <h1>Terms of Service</h1>
+
+                  <p>
+                      This service is hosted on Anvil and managed by St Bede’s College ("the Service").
+                      By accessing or using this Service, you agree to comply with these Terms of Service.
+                      Failure to comply may result in suspension, permanent bans, reporting to St Bede’s College,
+                      or referral to relevant authorities where applicable.
+                  </p>
+
+                  <p class="warning">
+                      Administrators reserve the sole and final right to determine whether any content or behaviour violates these Terms.
+                  </p>
+
+                  <hr>
+
+                  <h2>1. Definitions</h2>
+
+                  <p>
+                      For the purposes of these Terms:
+                  </p>
+
+                  <ul>
+                      <li>
+                          <strong>Message</strong> refers to any packet of information sent by an end user to the server.
+                      </li>
+                      <li>
+                          Messages may exist in two forms:
+                          <ul>
+                              <li><strong>Text-Based Messages</strong> — readable text content.</li>
+                              <li><strong>Media-Based Messages</strong> — images, videos, audio, documents, or other non-text files.</li>
+                          </ul>
+                      </li>
+                  </ul>
+
+                  <hr>
+
+                  <h2>2. Rules for Text-Based Messages</h2>
+
+                  <p>Users must not send text-based messages that:</p>
+
+                  <ul>
+                      <li>Harass, threaten, bully, or attack another user.</li>
+                      <li>Contain hate speech, discrimination, or targeted abuse.</li>
+                      <li>Include excessive offensive or disruptive profanity.</li>
+                      <li>Discuss or promote illegal, explicit, or harmful topics.</li>
+                      <li>Encourage violence, self-harm, or dangerous behaviour.</li>
+                      <li>Contain spam, scams, malicious links, or misleading information.</li>
+                  </ul>
+
+                  <p>
+                      Profanity may be permitted only when used in a non-targeted, non-abusive,
+                      and contextually appropriate manner, as determined by the administrators.
+                  </p>
+
+                  <hr>
+
+                  <h2>3. Rules for Media-Based Messages</h2>
+
+                  <p>Media-based messages must not contain:</p>
+
+                  <ul>
+                      <li>Explicit, NSFW, or inappropriate content.</li>
+                      <li>Violent, graphic, or disturbing material.</li>
+                      <li>Harassment, hate speech, or discriminatory content.</li>
+                      <li>Illegal, harmful, or sensitive material.</li>
+                      <li>Malware, malicious files, or harmful software.</li>
+                  </ul>
+
+                  <p>
+                      Any media deemed inappropriate by the administrators may be removed without notice.
+                  </p>
+
+                  <hr>
+
+                  <h2>4. Enforcement</h2>
+
+                  <p>Violations of these Terms may result in:</p>
+
+                  <ul>
+                      <li>Content removal</li>
+                      <li>Temporary suspension</li>
+                      <li>Permanent bans</li>
+                      <li>Reporting to St Bede’s College administration</li>
+                      <li>Referral to law enforcement or relevant authorities where necessary</li>
+                  </ul>
+
+                  <p>
+                      Enforcement decisions are made entirely at the discretion of the administrators.
+                  </p>
+
+                  <hr>
+
+                  <h2>5. User Responsibility</h2>
+
+                  <p>
+                      Users are solely responsible for the content they send through the Service.
+                      Attempting to bypass moderation, exploit vulnerabilities, or interfere with
+                      the operation of the Service is strictly prohibited.
+                  </p>
+
+                  <hr>
+
+                  <h2>6. Changes to These Terms</h2>
+
+                  <p>
+                      These Terms may be updated or modified at any time without prior notice.
+                      Continued use of the Service constitutes acceptance of the latest version
+                      of these Terms.
+                  </p>
+              </div>
+
+          </body>
+      </html>
+  type: HtmlTemplate
+is_package: true
