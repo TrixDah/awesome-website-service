@@ -1,5 +1,7 @@
 color_scheme:
-  colors: []
+  colors:
+  - {color: '#484F59', name: dark mode bg}
+  - {color: '#ffffff', name: light mode bg}
   preset_groups: []
 roles:
 - {name: bubble-me}
