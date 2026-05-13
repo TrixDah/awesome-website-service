@@ -27,7 +27,6 @@ class frmLogin(frmLoginTemplate):
   @handle("btnLogin", "click")
   def btnLogin_click(self, **event_args):
     user_row = anvil.users.login_with_form()
-    if anvil.server.call('has_accepted_tos', )
     if user_row is not None:
         username = user_row['Username']
         email = user_row['email']
