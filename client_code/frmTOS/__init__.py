@@ -27,6 +27,7 @@ class frmTOS(frmTOSTemplate):
         anvil.js.window.decline_tos = self.decline_tos
 
     def accept_tos(self):
+        
         anvil.open_form('frmLogin', True)
 
     def decline_tos(self):

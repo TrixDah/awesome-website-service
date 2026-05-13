@@ -202,14 +202,13 @@ container:
                       of these Terms.
                   </p>
 
-                  <!-- Anvil Compatible Buttons -->
                   <div class="button-container">
                       <button class="accept-btn" onclick="window.accept_tos()">
-                          Accept
+                          I Agree
                       </button>
 
                       <button class="decline-btn" onclick="window.decline_tos()">
-                          Decline
+                          I Decline
                       </button>
                   </div>
 
