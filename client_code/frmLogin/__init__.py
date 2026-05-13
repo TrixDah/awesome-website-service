@@ -19,8 +19,9 @@ class frmLogin(frmLoginTemplate):
 
   @handle("btnLogin", "click")
   def btnLogin_click(self, **event_args):
-      user_row = anvil.users.login_with_form()
-    self.tos_accepted = anvil.server.call('check_tos'(user_row))
+    user_row = anvil.users.login_with_form()
+    
+    self.tos_accepted = anvil.server.call('check_tos', user_row))
 
   if not tos_accepted and tos_accepted is not None:
     self.lblErr.visible = True
