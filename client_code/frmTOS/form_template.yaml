@@ -35,13 +35,7 @@ container:
                       font-size: 1.4rem;
                   }
 
-                  p {
-                      line-height: 1.7;
-                      color: #333333;
-                  }
-
-                  ul {
-                      padding-left: 20px;
+                  p, ul {
                       line-height: 1.7;
                       color: #333333;
                   }
@@ -57,47 +51,54 @@ container:
                       margin: 25px 0;
                   }
 
+                  .warning {
+                      background: #fff4e5;
+                      border-left: 4px solid #ff9800;
+                      padding: 15px;
+                      margin: 25px 0;
+                  }
+
                   hr {
                       border: none;
                       border-top: 1px solid #e5e5e5;
                       margin: 35px 0;
                   }
 
-                  .button-container {
-                      margin-top: 50px;
-                      display: flex;
-                      gap: 15px;
+                  a {
+                      color: #0066cc;
                   }
 
-                  button {
+                  /* Checkbox agreement box */
+                  .agree-box {
+                      margin-top: 40px;
+                      padding: 20px;
+                      border: 1px solid #dddddd;
+                      border-radius: 8px;
+                      background: #fafafa;
+                  }
+
+                  .agree-box button {
+                      margin-top: 15px;
                       padding: 12px 24px;
                       border: none;
                       border-radius: 8px;
                       font-size: 15px;
                       cursor: pointer;
-                      transition: 0.2s ease;
-                  }
-
-                  .accept-btn {
                       background: #111111;
                       color: white;
+                      opacity: 0.5;
                   }
 
-                  .accept-btn:hover {
+                  .agree-box button.enabled {
+                      opacity: 1;
+                  }
+
+                  .agree-box button:hover:enabled {
                       opacity: 0.9;
-                  }
-
-                  .decline-btn {
-                      background: #f3f3f3;
-                      color: #111111;
-                      border: 1px solid #dddddd;
-                  }
-
-                  .decline-btn:hover {
-                      background: #ebebeb;
                   }
               </style>
           </head>
+
           <body>
 
               <div class="container">
@@ -106,113 +107,127 @@ container:
 
                   <p>
                       This service is hosted on Anvil and managed by St Bede’s College ("the Service").
-                      By accessing or using this Service, you agree to comply with these Terms of Service.
-                      Failure to comply may result in suspension, permanent bans, reporting to St Bede’s College,
-                      or referral to relevant authorities where applicable.
+                      By accessing or using this Service, you agree to comply with these Terms of Service,
+                      the St Bede’s College ICT Acceptable Use Policy, and all applicable rules.
                   </p>
 
                   <div class="notice">
-                      Administrators reserve the sole and final right to determine whether any content or behaviour violates these Terms.
+                      By using this application, you agree to the
+                      <a href="https://www.stbedes.catholic.edu.au/ict-policies/" target="_blank">
+                          St Bede’s College ICT Acceptable Use Policy
+                      </a>.
                   </div>
 
-                  <h2>1. Definitions</h2>
+                  <div class="warning">
+                      Misuse may result in suspension, bans, disciplinary action, or escalation to authorities where applicable.
+                  </div>
 
-                  <p>
-                      A <strong>Message</strong> refers to any packet of information sent by a user to the server.
-                  </p>
+                  <hr>
+
+                  <h2>1. Definitions</h2>
+                  <p>A <strong>Message</strong> refers to any data sent to the server.</p>
 
                   <ul>
                       <li><strong>Text-Based Messages</strong> — readable text content.</li>
-                      <li><strong>Media-Based Messages</strong> — images, videos, audio, documents, or other uploaded files.</li>
+                      <li><strong>Media-Based Messages</strong> — images, videos, audio, documents, or files.</li>
                   </ul>
 
                   <hr>
 
-                  <h2>2. Rules for Text-Based Messages</h2>
-
-                  <p>Users must not send messages that:</p>
-
+                  <h2>2. Privacy & Data Collection</h2>
                   <ul>
-                      <li>Harass, threaten, bully, or attack another user.</li>
-                      <li>Contain hate speech, discrimination, or targeted abuse.</li>
-                      <li>Contain excessive or disruptive profanity.</li>
-                      <li>Promote illegal, explicit, or harmful topics.</li>
-                      <li>Encourage violence, self-harm, or dangerous behaviour.</li>
-                      <li>Contain spam, scams, malicious links, or misleading information.</li>
+                      <li>User identifiers and emails</li>
+                      <li>Messages and uploaded media</li>
+                      <li>Activity timestamps</li>
+                      <li>Reports and moderation logs</li>
                   </ul>
 
                   <p>
-                      Mild profanity may be permitted when used in a non-targeted and non-abusive manner,
-                      as determined by the administrators.
+                      Content may be reviewed by authorised staff for safety and moderation purposes.
+                      Passwords are stored using secure hashing/encryption and never in plain text.
                   </p>
 
                   <hr>
 
-                  <h2>3. Rules for Media-Based Messages</h2>
-
-                  <p>Media-based messages must not contain:</p>
+                  <h2>3. Rules for Messages</h2>
 
                   <ul>
-                      <li>Explicit or NSFW content.</li>
-                      <li>Violent, graphic, or disturbing material.</li>
-                      <li>Harassment, hate speech, or discriminatory content.</li>
-                      <li>Illegal or harmful material.</li>
-                      <li>Malware, malicious files, or harmful software.</li>
+                      <li>No harassment, threats, bullying, or abuse</li>
+                      <li>No hate speech or discrimination</li>
+                      <li>No illegal or harmful content</li>
+                      <li>No spam, scams, or malicious links</li>
                   </ul>
-
-                  <p>
-                      Any media deemed inappropriate may be removed without notice.
-                  </p>
 
                   <hr>
 
-                  <h2>4. Enforcement</h2>
+                  <h2>4. Media Rules</h2>
 
-                  <p>Violations may result in:</p>
+                  <ul>
+                      <li>No explicit or NSFW content</li>
+                      <li>No violent or disturbing material</li>
+                      <li>No illegal or harmful files</li>
+                      <li>No malware or malicious uploads</li>
+                  </ul>
+
+                  <hr>
+
+                  <h2>5. Enforcement</h2>
 
                   <ul>
                       <li>Content removal</li>
                       <li>Temporary suspension</li>
                       <li>Permanent bans</li>
-                      <li>Reporting to St Bede’s College administration</li>
-                      <li>Referral to law enforcement where necessary</li>
+                      <li>Escalation to school or authorities</li>
                   </ul>
 
+                  <hr>
+
+                  <h2>6. User Responsibility</h2>
+
                   <p>
-                      All enforcement decisions are made at the discretion of the administrators.
+                      Users are responsible for all activity on their account.
+                      Bypassing moderation or interfering with the system is prohibited.
                   </p>
 
                   <hr>
 
-                  <h2>5. User Responsibility</h2>
+                  <h2>7. Changes</h2>
 
                   <p>
-                      Users are solely responsible for the content they send through the Service.
-                      Attempting to bypass moderation, exploit vulnerabilities, or interfere with
-                      the operation of the Service is strictly prohibited.
+                      Terms may change at any time. Continued use means acceptance.
                   </p>
 
-                  <hr>
+                  <!-- Anvil-compatible agreement section -->
+                  <div class="agree-box">
 
-                  <h2>6. Changes to These Terms</h2>
+                      <label>
+                          <input type="checkbox" id="agreeCheckbox">
+                          I agree to the Terms of Service and ICT Acceptable Use Policy.
+                      </label>
 
-                  <p>
-                      These Terms may be updated or modified at any time without prior notice.
-                      Continued use of the Service constitutes acceptance of the latest version
-                      of these Terms.
-                  </p>
+                      <br>
 
-                  <div class="button-container">
-                      <button class="accept-btn" onclick="window.accept_tos()">
+                      <button id="agreeButton" onclick="window.accept_tos()" disabled>
                           I Agree
                       </button>
 
-                      <button class="decline-btn" onclick="window.decline_tos()">
+                      <button onclick="window.decline_tos()">
                           I Decline
                       </button>
+
                   </div>
 
               </div>
+
+              <script>
+                  const checkbox = document.getElementById("agreeCheckbox");
+                  const button = document.getElementById("agreeButton");
+
+                  checkbox.addEventListener("change", () => {
+                      button.disabled = !checkbox.checked;
+                      button.classList.toggle("enabled", checkbox.checked);
+                  });
+              </script>
 
           </body>
       </html>
