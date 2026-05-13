@@ -127,7 +127,7 @@ db_schema:
     indexes: []
     server: full
     title: Users
-metadata: {logo_img: 'asset:chatlogo_69e9a8f7b63de_vips_69e9a8f7c2ed2.jpg', title: Educational Enrichment Strategies}
+metadata: {description: a awesome website service!, logo_img: 'asset:chatlogo_69e9a8f7b63de_vips_69e9a8f7c2ed2.jpg', title: Educational Enrichment Strategies}
 name: Awesome Website Service
 native_deps:
   head_html: |-
