@@ -211,7 +211,7 @@ container:
                           I Agree
                       </button>
 
-                      <button onclick="window.decline_tos()">
+                      <button style="decline" onclick="window.decline_tos()">
                           I Decline
                       </button>
 
