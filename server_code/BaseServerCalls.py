@@ -316,6 +316,15 @@ def search_for_dupes(username: str):
 @anvil.server.callable
 def accept_tos_for_email(email):
     try:
-        app_tables.users.get(email=email)
+        user = app_tables.users.get(email=email)
+        user['AcceptedTOS'] = True
+    except Exception as e:
+        print("an error has occured! ", repr(e))
+
+@anvil.server.callable
+def has_accepted_tos(email):
+    try:
+        user = app_tables.users.get(email=email)
+        return user['AcceptedTOS'] 
     except Exception as e:
         print("an error has occured! ", repr(e))
