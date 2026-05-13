@@ -152,14 +152,12 @@ container:
 
                       <p>
                           Content may be reviewed by authorised staff for safety and moderation purposes.
-                          Passwords are stored using secure hashing/encryption and never in plain text.
                       </p>
 
                       <hr>
 
                       <h2>3. Rules for Messages</h2>
-
-                      <h2>4. Media Rules</h2>
+                      
                       <ul>
                           <li>No harassment, threats, bullying, or abuse</li>
                           <li>No hate speech or discrimination</li>
@@ -182,7 +180,6 @@ container:
 
                       <h2>5. Enforcement</h2>
 
-                      <h2>6. Enforcement</h2>
                       <ul>
                           <li>Content removal</li>
                           <li>Temporary suspension</li>
@@ -196,7 +193,7 @@ container:
                           Users are responsible for all activity on their account.
                           Bypassing moderation or interfering with the system is prohibited.
                       </p>
-
+  
                       <h2>7. Changes</h2>
 
                       <p>
@@ -204,8 +201,6 @@ container:
                       </p>
 
                       <hr>
-
-                      <!-- Anvil-compatible agreement section -->
                       <div class="agree-box">
 
                           <label>
