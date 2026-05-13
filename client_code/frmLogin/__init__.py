@@ -13,26 +13,27 @@ from anvil import alert
 from ..frmUsername import frmUsername
 
 class frmLogin(frmLoginTemplate):
-    def __init__(self, veiwed_tos_accept=None, **properties):
+    def __init__(self, allowed_tos=None, **properties):
         self.init_components(**properties) 
-        
-
-    
+        self.allowed_tos = allowed_tos    
 
     @handle("btnLogin", "click")
     def btnLogin_click(self, **event_args):
         print("loggin in...")
+        print("allowed tos: ", self.allowed_tos)
         user_row = anvil.users.login_with_form()
         print(user_row)
     
         tos_accepted = anvil.server.call('has_accepted_tos', user_row['email'])
+        if self.allowed_tos:
+            tos_accepted = self.allowed_tos
     
         if not tos_accepted and tos_accepted is not None:
             self.lblErr.visible = True
             self.lblErr.text = "You cannot login unless you accept the TOS."
             open_form('frmTOS')
     
-        if :
+        if self.allowed_tos:
             self.btnLogin_click()
     
             if user_row is not None:
