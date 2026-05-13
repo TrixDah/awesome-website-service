@@ -3,226 +3,241 @@ container:
   properties:
     html: |-
       <!DOCTYPE html>
-      <html lang="en">
-          <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Terms of Service</title>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Terms of Service</title>
 
-              <style>
-                  body {
-                      font-family: Arial, sans-serif;
-                      background: #ffffff;
-                      color: #111111;
-                      margin: 0;
-                      padding: 40px 20px;
-                  }
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: #ffffff;
+                color: #111111;
+                margin: 0;
+                padding: 40px 20px;
+            }
 
-                  .container {
-                      max-width: 850px;
-                      margin: auto;
-                  }
+            .container {
+                max-width: 850px;
+                margin: auto;
+            }
 
-                  h1 {
-                      font-size: 2.5rem;
-                      margin-bottom: 10px;
-                      border-bottom: 2px solid #e5e5e5;
-                      padding-bottom: 10px;
-                  }
+            h1 {
+                font-size: 2.5rem;
+                margin-bottom: 10px;
+                border-bottom: 2px solid #e5e5e5;
+                padding-bottom: 10px;
+            }
 
-                  h2 {
-                      margin-top: 40px;
-                      font-size: 1.4rem;
-                  }
+            h2 {
+                margin-top: 40px;
+                font-size: 1.4rem;
+            }
 
-                  p, ul {
-                      line-height: 1.7;
-                      color: #333;
-                  }
+            p, ul {
+                line-height: 1.7;
+                color: #333;
+            }
 
-                  li {
-                      margin-bottom: 10px;
-                  }
+            li {
+                margin-bottom: 10px;
+            }
 
-                  .notice {
-                      background: #f5f5f5;
-                      border-left: 4px solid #111;
-                      padding: 15px;
-                      margin: 25px 0;
-                  }
+            .notice {
+                background: #f5f5f5;
+                border-left: 4px solid #111;
+                padding: 15px;
+                margin: 25px 0;
+            }
 
-                  .warning {
-                      background: #fff4e5;
-                      border-left: 4px solid #ff9800;
-                      padding: 15px;
-                      margin: 25px 0;
-                  }
+            .warning {
+                background: #fff4e5;
+                border-left: 4px solid #ff9800;
+                padding: 15px;
+                margin: 25px 0;
+            }
 
-                  hr {
-                      border: none;
-                      border-top: 1px solid #e5e5e5;
-                      margin: 35px 0;
-                  }
+            .warning {
+                background: #fff4e5;
+                border-left: 4px solid #ff9800;
+                padding: 15px;
+                margin: 25px 0;
+            }
 
-                  .agree-box {
-                      margin-top: 40px;
-                      padding: 20px;
-                      border: 1px solid #ddd;
-                      border-radius: 8px;
-                      background: #fafafa;
-                  }
+            hr {
+                border: none;
+                border-top: 1px solid #e5e5e5;
+                margin: 35px 0;
+            }
 
-                  button {
-                      margin-top: 15px;
-                      padding: 12px 22px;
-                      border: none;
-                      background: #111;
-                      color: white;
-                      cursor: pointer;
-                      border-radius: 6px;
-                      font-size: 1rem;
-                  }
+            a {
+                color: #0066cc;
+            }
 
-                  button:disabled {
-                      opacity: 0.5;
-                      cursor: not-allowed;
-                  }
+            /* Checkbox agreement box */
+            .agree-box {
+                margin-top: 40px;
+                padding: 20px;
+                border: 1px solid #dddddd;
+                border-radius: 8px;
+                background: #fafafa;
+            }
 
-                  a {
-                      color: #0066cc;
-                  }
-              </style>
-          </head>
+            .agree-box button {
+                margin-top: 15px;
+                padding: 12px 24px;
+                border: none;
+                border-radius: 8px;
+                font-size: 15px;
+                cursor: pointer;
+                background: #111111;
+                color: white;
+                opacity: 0.5;
+            }
 
-          <body>
-              <div class="container">
+            .agree-box button.enabled {
+                opacity: 1;
+            }
 
-                  <h1>Terms of Service</h1>
+            .agree-box button:hover:enabled {
+                opacity: 0.9;
+            }
+        </style>
+    </head>
 
-                  <p>
-                      This service is hosted on Anvil and managed by St Bede’s College.
-                      Use of this Service requires compliance with school policies and these Terms.
-                  </p>
+    <body>
 
-                  <div class="notice">
-                      You must also comply with the
-                      <a href="https://www.stbedes.catholic.edu.au/ict-policies/" target="_blank">
-                          St Bede’s College ICT Acceptable Use Policy
-                      </a>.
-                  </div>
+        <body>
+            <div class="container">
 
-                  <div class="warning">
-                      Misuse may result in suspension, bans, disciplinary action, or escalation where required.
-                  </div>
+                <h1>Terms of Service</h1>
 
-                  <hr>
+                <p>
+                    This service is hosted on Anvil and managed by St Bede’s College ("the Service").
+                    By accessing or using this Service, you agree to comply with these Terms of Service,
+                    the St Bede’s College ICT Acceptable Use Policy, and all applicable rules.
+                </p>
 
-                  <h2>1. Definitions</h2>
-                  <ul>
-                      <li><strong>Message</strong>: any data sent to the server.</li>
-                      <li><strong>Text Message</strong>: readable text content.</li>
-                      <li><strong>Media Message</strong>: images, video, audio, files.</li>
-                  </ul>
+                <div class="notice">
+                    By using this application, you agree to the
+                    <a href="https://www.stbedes.catholic.edu.au/ict-policies/" target="_blank">
+                        St Bede’s College ICT Acceptable Use Policy
+                    </a>.
+                </div>
 
-                  <hr>
+                <div class="warning">
+                    Misuse may result in suspension, bans, disciplinary action, or escalation to authorities where applicable.
+                </div>
 
-                  <h2>2. Privacy & Data Collection</h2>
-                  <ul>
-                      <li>User identifiers and emails</li>
-                      <li>Message timestamps</li>
-                      <li>Message content and uploads</li>
-                      <li>Reports and moderation data</li>
-                  </ul>
+                <hr>
 
-                  <p>
-                      Content may be reviewed by authorised staff for safety and moderation purposes.
-                      Passwords are securely hashed and never stored in plain text.
-                  </p>
+                <h2>1. Definitions</h2>
+                <p>A <strong>Message</strong> refers to any data sent to the server.</p>
 
-                  <hr>
+                <ul>
+                    <li><strong>Text-Based Messages</strong> — readable text content.</li>
+                    <li><strong>Media-Based Messages</strong> — images, videos, audio, documents, or files.</li>
+                </ul>
 
-                  <h2>3. Text Rules</h2>
-                  <ul>
-                      <li>No harassment, threats, or bullying</li>
-                      <li>No hate speech or discrimination</li>
-                      <li>No illegal or harmful content</li>
-                      <li>No spam or malicious links</li>
-                  </ul>
+                <hr>
 
-                  <hr>
+                <h2>2. Privacy & Data Collection</h2>
+                <ul>
+                    <li>User identifiers and emails</li>
+                    <li>Messages and uploaded media</li>
+                    <li>Activity timestamps</li>
+                    <li>Reports and moderation logs</li>
+                </ul>
 
-                  <h2>4. Media Rules</h2>
-                  <ul>
-                      <li>No explicit or NSFW content</li>
-                      <li>No violent or disturbing material</li>
-                      <li>No malware or malicious files</li>
-                  </ul>
+                <p>
+                    Content may be reviewed by authorised staff for safety and moderation purposes.
+                    Passwords are stored using secure hashing/encryption and never in plain text.
+                </p>
 
-                  <hr>
+                <hr>
 
-                  <h2>5. Reporting</h2>
-                  <p>
-                      Users may report violations. Reports may include content, sender data, and timestamps.
-                      Issues should also be escalated to ICT staff.
-                  </p>
+                <h2>3. Rules for Messages</h2>
 
-                  <div class="warning">
-                      In emergencies, contact a trusted adult or emergency services immediately.
-                  </div>
+                <h2>4. Media Rules</h2>
+                <ul>
+                    <li>No harassment, threats, bullying, or abuse</li>
+                    <li>No hate speech or discrimination</li>
+                    <li>No illegal or harmful content</li>
+                    <li>No spam, scams, or malicious links</li>
+                </ul>
 
-                  <hr>
+                <hr>
 
-                  <h2>6. Enforcement</h2>
-                  <ul>
-                      <li>Content removal</li>
-                      <li>Temporary suspension</li>
-                      <li>Permanent bans</li>
-                      <li>Escalation to administration or authorities</li>
-                  </ul>
+                <h2>4. Media Rules</h2>
 
-                  <hr>
+                <ul>
+                    <li>No explicit or NSFW content</li>
+                    <li>No violent or disturbing material</li>
+                    <li>No illegal or harmful files</li>
+                    <li>No malware or malicious uploads</li>
+                </ul>
 
-                  <h2>7. Responsibility</h2>
-                  <p>
-                      Users are responsible for their actions. Bypassing moderation or exploiting the system is prohibited.
-                  </p>
+                <hr>
 
-                  <hr>
+                <h2>5. Enforcement</h2>
 
-                  <h2>8. Changes</h2>
-                  <p>
-                      Terms may change without notice. Continued use implies acceptance.
-                  </p>
+                <h2>6. Enforcement</h2>
+                <ul>
+                    <li>Content removal</li>
+                    <li>Temporary suspension</li>
+                    <li>Permanent bans</li>
+                    <li>Escalation to school or authorities</li>
+                </ul>
 
-                  <div class="agree-box">
-                      <label>
-                          <input type="checkbox" id="agreeCheckbox">
-                          I agree to these Terms and the ICT Acceptable Use Policy.
-                      </label>
+                <h2>6. User Responsibility</h2>
 
-                      <br>
+                <p>
+                    Users are responsible for all activity on their account.
+                    Bypassing moderation or interfering with the system is prohibited.
+                </p>
+                
+                    <h2>7. Changes</h2>
 
-                      <button id="agreeButton" disabled>
-                          I Agree
-                      </button>
-                  </div>
+                    <p>
+                        Terms may change at any time. Continued use means acceptance.
+                    </p>
 
-              </div>
+                    <hr>
 
-              <script>
-                  const checkbox = document.getElementById("agreeCheckbox");
-                  const button = document.getElementById("agreeButton");
+                    <!-- Anvil-compatible agreement section -->
+                    <div class="agree-box">
 
-                  checkbox.addEventListener("change", () => {
-                      button.disabled = !checkbox.checked;
-                  });
+                        <label>
+                            <input type="checkbox" id="agreeCheckbox">
+                            I agree to the Terms of Service and ICT Acceptable Use Policy.
+                        </label>
 
-                  button.addEventListener("click", () => {
-                      alert("Terms accepted.");
-                  });
-              </script>
+                        <br>
 
-          </body>
-      </html>
+                        <button id="agreeButton" onclick="window.accept_tos()" disabled>
+                            I Agree
+                        </button>
+
+                        <button style="decline" onclick="window.decline_tos()">
+                            I Decline
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <script>
+                    const checkbox = document.getElementById("agreeCheckbox");
+                    const button = document.getElementById("agreeButton");
+
+                    checkbox.addEventListener("change", () => {
+                        button.disabled = !checkbox.checked;
+                        button.classList.toggle("enabled", checkbox.checked);
+                    });
+                </script>
+
+        </body>
+</html>
   type: HtmlTemplate
 is_package: true
