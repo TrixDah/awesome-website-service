@@ -229,7 +229,7 @@ def has_accepted_tos(email):
     has_accepted = user_row["AcceptedTOS"]
     return has_accepted
   else:
-    print(f"User {sender_username} not found.")
+    print(f"User with email {email} not found.")
     return False
   
 @anvil.server.callable
