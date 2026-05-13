@@ -35,15 +35,9 @@ container:
                       font-size: 1.4rem;
                   }
 
-                  p {
+                  p, ul {
                       line-height: 1.7;
-                      color: #333333;
-                  }
-
-                  ul {
-                      padding-left: 20px;
-                      line-height: 1.7;
-                      color: #333333;
+                      color: #333;
                   }
 
                   li {
@@ -52,7 +46,7 @@ container:
 
                   .notice {
                       background: #f5f5f5;
-                      border-left: 4px solid #111111;
+                      border-left: 4px solid #111;
                       padding: 15px;
                       margin: 25px 0;
                   }
@@ -64,10 +58,16 @@ container:
                       margin: 25px 0;
                   }
 
+                  hr {
+                      border: none;
+                      border-top: 1px solid #e5e5e5;
+                      margin: 35px 0;
+                  }
+
                   .agree-box {
                       margin-top: 40px;
                       padding: 20px;
-                      border: 1px solid #dddddd;
+                      border: 1px solid #ddd;
                       border-radius: 8px;
                       background: #fafafa;
                   }
@@ -76,221 +76,128 @@ container:
                       margin-top: 15px;
                       padding: 12px 22px;
                       border: none;
-                      background: #111111;
+                      background: #111;
                       color: white;
                       cursor: pointer;
                       border-radius: 6px;
                       font-size: 1rem;
                   }
 
-                  button:hover {
-                      opacity: 0.9;
+                  button:disabled {
+                      opacity: 0.5;
+                      cursor: not-allowed;
                   }
 
                   a {
                       color: #0066cc;
                   }
-
-                  hr {
-                      border: none;
-                      border-top: 1px solid #e5e5e5;
-                      margin: 35px 0;
-                  }
               </style>
           </head>
 
           <body>
-
               <div class="container">
 
                   <h1>Terms of Service</h1>
 
                   <p>
-                      This service is hosted on Anvil and managed by St Bede’s College ("the Service").
-                      By accessing or using this Service, you agree to comply with these Terms of Service,
-                      the St Bede’s College ICT Acceptable Use Policy, and all applicable school rules and policies.
+                      This service is hosted on Anvil and managed by St Bede’s College.
+                      Use of this Service requires compliance with school policies and these Terms.
                   </p>
 
                   <div class="notice">
-                      By using this application, you agree to be bound by the
-                      <a href="YOUR_POLICY_LINK_HERE" target="_blank">
+                      You must also comply with the
+                      <a href="https://www.stbedes.catholic.edu.au/ict-policies/" target="_blank">
                           St Bede’s College ICT Acceptable Use Policy
                       </a>.
                   </div>
 
                   <div class="warning">
-                      Misuse of this Service may result in account suspension,
-                      disciplinary action by St Bede’s College, permanent bans,
-                      or referral to relevant authorities where applicable.
+                      Misuse may result in suspension, bans, disciplinary action, or escalation where required.
                   </div>
-
-                  <p>
-                      Administrators reserve the sole and final right to determine whether
-                      any content or behaviour violates these Terms.
-                  </p>
 
                   <hr>
 
                   <h2>1. Definitions</h2>
-
-                  <p>
-                      For the purposes of these Terms:
-                  </p>
-
                   <ul>
-                      <li>
-                          <strong>Message</strong> refers to any packet of information sent by an end user to the server.
-                      </li>
-
-                      <li>
-                          Messages may exist in two forms:
-                          <ul>
-                              <li>
-                                  <strong>Text-Based Messages</strong> — readable text content.
-                              </li>
-
-                              <li>
-                                  <strong>Media-Based Messages</strong> — images, videos, audio,
-                                  documents, or other non-text files.
-                              </li>
-                          </ul>
-                      </li>
+                      <li><strong>Message</strong>: any data sent to the server.</li>
+                      <li><strong>Text Message</strong>: readable text content.</li>
+                      <li><strong>Media Message</strong>: images, video, audio, files.</li>
                   </ul>
 
                   <hr>
 
                   <h2>2. Privacy & Data Collection</h2>
-
-                  <p>
-                      To maintain safety, moderation, and proper operation of the Service,
-                      the application may collect and store:
-                  </p>
-
                   <ul>
-                      <li>Usernames and account identifiers</li>
-                      <li>School email addresses</li>
-                      <li>Timestamps of messages and activity</li>
-                      <li>Message content and uploaded media</li>
-                      <li>Reports submitted by users</li>
+                      <li>User identifiers and emails</li>
+                      <li>Message timestamps</li>
+                      <li>Message content and uploads</li>
+                      <li>Reports and moderation data</li>
                   </ul>
 
                   <p>
-                      All messages and uploaded content may be reviewed by authorised
-                      St Bede’s College ICT staff and approved application administrators/developers
-                      for moderation and safety purposes.
-                  </p>
-
-                  <p>
-                      Passwords are stored securely using encryption/hashing methods and are never stored in plain text.
+                      Content may be reviewed by authorised staff for safety and moderation purposes.
+                      Passwords are securely hashed and never stored in plain text.
                   </p>
 
                   <hr>
 
-                  <h2>3. Rules for Text-Based Messages</h2>
-
-                  <p>Users must not send text-based messages that:</p>
-
+                  <h2>3. Text Rules</h2>
                   <ul>
-                      <li>Harass, threaten, bully, or attack another user.</li>
-                      <li>Contain hate speech, discrimination, or targeted abuse.</li>
-                      <li>Include excessive offensive or disruptive profanity.</li>
-                      <li>Discuss or promote illegal, explicit, or harmful topics.</li>
-                      <li>Encourage violence, self-harm, or dangerous behaviour.</li>
-                      <li>Contain spam, scams, malicious links, or misleading information.</li>
+                      <li>No harassment, threats, or bullying</li>
+                      <li>No hate speech or discrimination</li>
+                      <li>No illegal or harmful content</li>
+                      <li>No spam or malicious links</li>
                   </ul>
-
-                  <p>
-                      Profanity may be filtered, censored, or blocked automatically by the Service.
-                  </p>
-
-                  <p>
-                      Profanity may only be permitted when used in a non-targeted,
-                      non-abusive, and contextually appropriate manner,
-                      as determined by the administrators.
-                  </p>
 
                   <hr>
 
-                  <h2>4. Rules for Media-Based Messages</h2>
-
-                  <p>Media-based messages must not contain:</p>
-
+                  <h2>4. Media Rules</h2>
                   <ul>
-                      <li>Explicit, NSFW, or inappropriate content.</li>
-                      <li>Violent, graphic, or disturbing material.</li>
-                      <li>Harassment, hate speech, or discriminatory content.</li>
-                      <li>Illegal, harmful, or sensitive material.</li>
-                      <li>Malware, malicious files, or harmful software.</li>
+                      <li>No explicit or NSFW content</li>
+                      <li>No violent or disturbing material</li>
+                      <li>No malware or malicious files</li>
                   </ul>
-
-                  <p>
-                      Any media deemed inappropriate by the administrators may be removed without notice.
-                  </p>
 
                   <hr>
 
-                  <h2>5. Reporting & Safety</h2>
-
+                  <h2>5. Reporting</h2>
                   <p>
-                      Users may report messages or content that violate these Terms.
-                      Reports may include the message content, sender information,
-                      timestamps, and related moderation data.
-                  </p>
-
-                  <p>
-                      Any policy breaches or safety concerns should also be reported
-                      to the Deputy Principal of ICT, Mr Cracknell.
+                      Users may report violations. Reports may include content, sender data, and timestamps.
+                      Issues should also be escalated to ICT staff.
                   </p>
 
                   <div class="warning">
-                      If you are in immediate danger, or if this is an emergency,
-                      please contact a trusted adult, teacher, or emergency services immediately.
+                      In emergencies, contact a trusted adult or emergency services immediately.
                   </div>
 
                   <hr>
 
                   <h2>6. Enforcement</h2>
-
-                  <p>Violations of these Terms may result in:</p>
-
                   <ul>
                       <li>Content removal</li>
                       <li>Temporary suspension</li>
                       <li>Permanent bans</li>
-                      <li>Reporting to St Bede’s College administration</li>
-                      <li>Referral to law enforcement or relevant authorities where necessary</li>
+                      <li>Escalation to administration or authorities</li>
                   </ul>
 
+                  <hr>
+
+                  <h2>7. Responsibility</h2>
                   <p>
-                      Enforcement decisions are made entirely at the discretion of the administrators.
+                      Users are responsible for their actions. Bypassing moderation or exploiting the system is prohibited.
                   </p>
 
                   <hr>
 
-                  <h2>7. User Responsibility</h2>
-
+                  <h2>8. Changes</h2>
                   <p>
-                      Users are solely responsible for the content they send through the Service.
-                      Attempting to bypass moderation systems, exploit vulnerabilities,
-                      impersonate others, or interfere with the operation of the Service
-                      is strictly prohibited.
-                  </p>
-
-                  <hr>
-
-                  <h2>8. Changes to These Terms</h2>
-
-                  <p>
-                      These Terms may be updated or modified at any time without prior notice.
-                      Continued use of the Service constitutes acceptance of the latest version
-                      of these Terms.
+                      Terms may change without notice. Continued use implies acceptance.
                   </p>
 
                   <div class="agree-box">
                       <label>
                           <input type="checkbox" id="agreeCheckbox">
-                          I have read and agree to the Terms of Service and the
-                          St Bede’s College ICT Acceptable Use Policy.
+                          I agree to these Terms and the ICT Acceptable Use Policy.
                       </label>
 
                       <br>
@@ -302,7 +209,18 @@ container:
 
               </div>
 
+              <script>
+                  const checkbox = document.getElementById("agreeCheckbox");
+                  const button = document.getElementById("agreeButton");
 
+                  checkbox.addEventListener("change", () => {
+                      button.disabled = !checkbox.checked;
+                  });
+
+                  button.addEventListener("click", () => {
+                      alert("Terms accepted.");
+                  });
+              </script>
 
           </body>
       </html>
