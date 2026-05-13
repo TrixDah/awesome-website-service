@@ -10,8 +10,9 @@ from anvil import alert
 import anvil.js
 
 class frmTOS(frmTOSTemplate):
-    def __init__(self, **properties):
+    def __init__(self, email, **properties):
         self.init_components(**properties)
+        self.email = email
 
         # this is how you bind js functions to anvil functions!
         # <div class="button-container">
@@ -27,7 +28,9 @@ class frmTOS(frmTOSTemplate):
         anvil.js.window.decline_tos = self.decline_tos
 
     def accept_tos(self):
+        anvil.server.call('accept_tos_for_email', self.email)
         anvil.open_form('frmLogin', True)
+        
 
     def decline_tos(self):
         anvil.open_form('frmLogin', False)
