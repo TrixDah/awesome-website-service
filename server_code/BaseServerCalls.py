@@ -223,8 +223,8 @@ def get_chat_messages(chat_row):
   )
 
 @anvil.server.callable
-def check_tos(sender_username):
-  user_row = app_tables.users.get(Username=sender_username)
+def has_accepted_tos(email):
+  user_row = app_tables.users.get(email=email)
   if user_row is not None: 
     has_accepted = user_row["AcceptedTOS"]
     return has_accepted
