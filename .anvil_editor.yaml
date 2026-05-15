@@ -11,7 +11,7 @@ unique_ids:
     frmMessaging.ItemTemplate1: '1776914644830693161186253.0377'
     frmMessaging.ItemTemplate2: '1776986181553389158412832.7599'
     frmTOS: '1778560350294257002464659.02567'
-    frmUsername: '1778487448307623904322324.6614'
+    frmUsernameAlert: '1778487448307623904322324.6614'
   modules: {}
   scripts: {}
   server_modules:

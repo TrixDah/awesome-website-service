@@ -1,6 +1,6 @@
 components:
 - layout_properties: {grid_position: 'SVGXQX,BVDIEY'}
-  name: label_1
+  name: lblTitle
   properties: {align: center, font_size: 30, text: 'Awesome Website Service™ '}
   type: Label
 - layout_properties: {grid_position: 'HCDKNL,MGOBHS'}
