@@ -12,7 +12,7 @@ import datetime
 msgCharLimit = 256
 
 class frmMessaging(frmMessagingTemplate):
-    def __init__(self, current_user, **properties):
+    def __init__(self, current_user: str, **properties):
         self.init_components(**properties)
     
         self.current_user = current_user
@@ -132,6 +132,7 @@ class frmMessaging(frmMessagingTemplate):
 
         self.cached_msgs = messages
         self.rpMessages.items = messages
+        anvil.server.call('mark_chat_read', self.current_chat, self.current_user)
 
         # instead of writing a if else statement for a few conditions, have each condition be an inline if statement or a primitive bool
         self.lblNoMessages.visible = len(messages) == 0
