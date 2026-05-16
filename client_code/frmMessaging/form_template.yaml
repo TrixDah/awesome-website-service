@@ -43,7 +43,8 @@ components:
   name: pnlSidebar
   properties: {}
   type: ColumnPanel
-- event_bindings: {}
+- data_bindings: []
+  event_bindings: {}
   layout_properties: {grid_position: 'IGAPXR,BDBCTI'}
   name: timer_1
   properties: {interval: 2}

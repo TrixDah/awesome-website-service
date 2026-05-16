@@ -33,9 +33,11 @@ class frmMessaging(frmMessagingTemplate):
         self.cached_ver = None
         self.cached_msgs = []
 
-        setInterval(self.refresh_messages, 3000)
+        self.__POLL()
 
-    def _st
+    def __POLL(self):
+        self.refresh_messages()
+        anvil.server.call_later(3, self.__POLL())
     
     def form_show(self, **event_args):
         # this runs the exact millisecond the form becomes visible
