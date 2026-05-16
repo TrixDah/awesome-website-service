@@ -121,7 +121,7 @@ class frmMessaging(frmMessagingTemplate):
         if not self.current_chat:
             return
 
-        # i think `call_s is slightly slower so its best to use call in all other situations, but we want polling to be quiet
+        # i think `call_s` is slightly slower than `call` so its best to use call in all other situations, but we want polling to be quiet
         ver = anvil.server.call_s('get_chat_version', self.current_chat)
 
         if ver == self.cached_ver:
