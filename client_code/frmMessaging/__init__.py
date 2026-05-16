@@ -27,6 +27,10 @@ class frmMessaging(frmMessagingTemplate):
     
         # initialize the dropdown
         self.drpNewUserSelect.items = anvil.server.call('get_usernames', self.current_user)
+
+        # caching
+        self.cached_ver = None
+        self.cached_msgs = []
     
     def form_show(self, **event_args):
         # this runs the exact millisecond the form becomes visible
@@ -101,17 +105,36 @@ class frmMessaging(frmMessagingTemplate):
         self.refresh_messages()
     
     def refresh_messages(self):
-        if self.current_chat:
-            messages = anvil.server.call('get_chat_messages', self.current_chat)
-            self.rpMessages.items = messages
+        # if self.current_chat:
+        #     messages = anvil.server.call('get_chat_messages', self.current_chat)
+        #     self.rpMessages.items = messages
 
-            # Show/hide placeholder based on message count
-            if len(messages) == 0:
-                self.lblNoMessages.visible = True
-                self.rpMessages.visible = False
-            else:
-                self.lblNoMessages.visible = False
-                self.rpMessages.visible = True
+        #     # Show/hide placeholder based on message count
+        #     if len(messages) == 0:
+        #         self.lblNoMessages.visible = True
+        #         self.rpMessages.visible = False
+        #     else:
+        #         self.lblNoMessages.visible = False
+        #         self.rpMessages.visible = True
+
+        if not self.current_chat:
+            return
+
+        ver = anvil.server.call('get_chat_version', self.current_chat)
+
+        if ver == self.cached_ver:
+            return
+
+        self.cached_ver = ver
+        messages = anvil.server.call('get_chat_messages', self.current_chat)
+
+        self.cached_msgs = messages
+        self.rpMessages.items = messages
+
+        # instead of writing a if else statement for a few conditions, have each condition be an inline if statement or a primitive bool
+        self.lblNoMessages.visible = len(messages) == 0
+        self.rpMessages.visible = len(messages) > 0
+        
     
     def btnSwitchChats_click(self, **event_args):
         now = datetime.datetime.now()

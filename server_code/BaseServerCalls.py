@@ -48,7 +48,15 @@ def scheduled_prune_messages():
 
 @anvil.server.callable
 def get_chat_version(chat):
-    last_msg = app_tables.messages.search(TargetChat=chat, order_by=)
+    msgs = app_tables.messages.search(TargetChat=chat)
+
+    if not msgs:
+        return None
+
+    if len(msgs) == 0
+
+    latest = max(msgs, key=lambda m: m["TimeSent"])
+    return latest["TimeSent"]
 
 @anvil.server.callable
 def verify_login(username, password):
