@@ -232,8 +232,8 @@ class frmMessaging(frmMessagingTemplate):
         self.last_refresh_time = now
         self.refresh_messages()
 
-    @handle("timer_1", "tick")
-    def timer_1_tick(self, **event_args):
+    @handle("pollingTimer", "tick")
+    def pollingTimer_tick(self, **event_args):
         """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
         self.refresh_messages()
 

@@ -46,7 +46,7 @@ components:
 - data_bindings: []
   event_bindings: {}
   layout_properties: {full_width_row: false, grid_position: 'IGAPXR,BDBCTI'}
-  name: timer_1
+  name: pollingTimer
   properties: {interval: 3}
   type: Timer
 - layout_properties: {grid_position: 'BQSKJL,IJNRMX'}
