@@ -47,6 +47,10 @@ def scheduled_prune_messages():
     print("pruning is off")
 
 @anvil.server.callable
+def get_chat_version(chat):
+    last
+
+@anvil.server.callable
 def verify_login(username, password):
   """Verify login credentials. Password is hashed on receipt."""
   password_hash = hashlib.sha256(password.encode()).hexdigest()

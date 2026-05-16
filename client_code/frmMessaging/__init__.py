@@ -205,7 +205,3 @@ class frmMessaging(frmMessagingTemplate):
             # Update the timestamp and run the refresh
         self.last_refresh_time = now
         self.refresh_messages()
-
-#
-#
-#
