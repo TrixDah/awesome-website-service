@@ -32,12 +32,6 @@ class frmMessaging(frmMessagingTemplate):
         # caching
         self.cached_ver = None
         self.cached_msgs = []
-
-        self.__POLL()
-
-    def __POLL(self):
-        self.refresh_messages()
-        anvil.server.call_later(3, self.__POLL())
     
     def form_show(self, **event_args):
         # this runs the exact millisecond the form becomes visible
@@ -127,13 +121,14 @@ class frmMessaging(frmMessagingTemplate):
         if not self.current_chat:
             return
 
-        ver = anvil.server.call('get_chat_version', self.current_chat)
+        # i think call_s is slightly slower so its best to use call in all other situations, but we want 
+        ver = anvil.server.call_s('get_chat_version', self.current_chat)
 
         if ver == self.cached_ver:
             return
 
         self.cached_ver = ver
-        messages = anvil.server.call('get_chat_messages', self.current_chat)
+        messages = anvil.server.call_s('get_chat_messages', self.current_chat)
 
         self.cached_msgs = messages
         self.rpMessages.items = messages
@@ -235,5 +230,10 @@ class frmMessaging(frmMessagingTemplate):
     
             # Update the timestamp and run the refresh
         self.last_refresh_time = now
+        self.refresh_messages()
+
+    @handle("timer_1", "tick")
+    def timer_1_tick(self, **event_args):
+        """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
         self.refresh_messages()
 
