@@ -237,3 +237,4 @@ class frmMessaging(frmMessagingTemplate):
         """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
         self.refresh_messages()
 
+#
