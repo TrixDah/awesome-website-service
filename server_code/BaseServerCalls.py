@@ -53,7 +53,8 @@ def get_chat_version(chat):
     if not msgs:
         return None
 
-    if len(msgs) == 0
+    if len(msgs) == 0:
+        return None
 
     latest = max(msgs, key=lambda m: m["TimeSent"])
     return latest["TimeSent"]

@@ -8,6 +8,7 @@ from anvil.tables import app_tables
 import time
 import datetime
 
+
 msgCharLimit = 256
 
 class frmMessaging(frmMessagingTemplate):
@@ -31,6 +32,10 @@ class frmMessaging(frmMessagingTemplate):
         # caching
         self.cached_ver = None
         self.cached_msgs = []
+
+        setInterval(self.refresh_messages, 3000)
+
+    def _st
     
     def form_show(self, **event_args):
         # this runs the exact millisecond the form becomes visible
@@ -196,6 +201,7 @@ class frmMessaging(frmMessagingTemplate):
                     else:
                         self.txtNewMessage.text = ""
                         self.file_loader_1.clear()  # Clear the image upload so it's ready for the next one!
+                        self.cached_ver = None
                         self.refresh_messages()
     
                 finally:
@@ -228,3 +234,4 @@ class frmMessaging(frmMessagingTemplate):
             # Update the timestamp and run the refresh
         self.last_refresh_time = now
         self.refresh_messages()
+
