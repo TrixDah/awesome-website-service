@@ -8,10 +8,11 @@ from anvil.tables import app_tables
 import time
 import datetime
 
+
 msgCharLimit = 256
 
 class frmMessaging(frmMessagingTemplate):
-    def __init__(self, current_user, **properties):
+    def __init__(self, current_user: str, **properties):
         self.init_components(**properties)
     
         self.current_user = current_user
@@ -27,6 +28,10 @@ class frmMessaging(frmMessagingTemplate):
     
         # initialize the dropdown
         self.drpNewUserSelect.items = anvil.server.call('get_usernames', self.current_user)
+
+        # caching
+        self.cached_ver = None
+        self.cached_msgs = []
     
     def form_show(self, **event_args):
         # this runs the exact millisecond the form becomes visible
@@ -101,17 +106,38 @@ class frmMessaging(frmMessagingTemplate):
         self.refresh_messages()
     
     def refresh_messages(self):
-        if self.current_chat:
-            messages = anvil.server.call('get_chat_messages', self.current_chat)
-            self.rpMessages.items = messages
+        # if self.current_chat:
+        #     messages = anvil.server.call('get_chat_messages', self.current_chat)
+        #     self.rpMessages.items = messages
 
-            # Show/hide placeholder based on message count
-            if len(messages) == 0:
-                self.lblNoMessages.visible = True
-                self.rpMessages.visible = False
-            else:
-                self.lblNoMessages.visible = False
-                self.rpMessages.visible = True
+        #     # Show/hide placeholder based on message count
+        #     if len(messages) == 0:
+        #         self.lblNoMessages.visible = True
+        #         self.rpMessages.visible = False
+        #     else:
+        #         self.lblNoMessages.visible = False
+        #         self.rpMessages.visible = True
+
+        if not self.current_chat:
+            return
+
+        # i think `call_s` is slightly slower than `call` so its best to use call in all other situations, but we want polling to be quiet
+        ver = anvil.server.call_s('get_chat_version', self.current_chat)
+
+        if ver == self.cached_ver:
+            return
+
+        self.cached_ver = ver
+        messages = anvil.server.call_s('get_chat_messages', self.current_chat)
+
+        self.cached_msgs = messages
+        self.rpMessages.items = messages
+        anvil.server.call('mark_chat_read', self.current_chat, self.current_user)
+
+        # instead of writing a if else statement for a few conditions, have each condition be an inline if statement or a primitive bool
+        self.lblNoMessages.visible = len(messages) == 0
+        self.rpMessages.visible = len(messages) > 0
+        
     
     def btnSwitchChats_click(self, **event_args):
         now = datetime.datetime.now()
@@ -173,6 +199,7 @@ class frmMessaging(frmMessagingTemplate):
                     else:
                         self.txtNewMessage.text = ""
                         self.file_loader_1.clear()  # Clear the image upload so it's ready for the next one!
+                        self.cached_ver = None
                         self.refresh_messages()
     
                 finally:
@@ -206,6 +233,9 @@ class frmMessaging(frmMessagingTemplate):
         self.last_refresh_time = now
         self.refresh_messages()
 
-#
-#
+    @handle("pollingTimer", "tick")
+    def pollingTimer_tick(self, **event_args):
+        """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
+        self.refresh_messages()
+
 #
