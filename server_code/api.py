@@ -20,6 +20,16 @@ import secrets
 #     content = "ping"
 #   return anvil.server.HttpResponse(200, content)
 
+@anvil.server.callable
+def create_token(owner, lifetime=10):
+    try:
+        token_hex = secrets.token_hex(32)
+        app_tables.tokens.add_row(token=token_hex, created_at=datetime.utcnow(), user=owner, lifetime=lifetime, revoked=False)
+        return token_hex
+
+    except Exception as e:
+        print("an error occured whilst creating the token", repr(e))
+
 def _token_is_expired(created_at, lifetime):
   if not created_at:
     return True
@@ -37,10 +47,10 @@ def _delete_tokens(rows):
             print("token failed to delete", repr(e))
   
 @anvil.server.callable
-def verify_token(token: str) -> dict:
+def _verify_token(token: str) -> dict:
   try:
     if not token:
-      return {"success": False, "code": 401, "message": "missing token"}
+      return {"success": False, "code": 401, "message": "401 Unauthorized: missing token"}
 
     token_returns = list(app_tables.tokens.search(token=token))
 
@@ -71,24 +81,15 @@ def verify_token(token: str) -> dict:
     return {"success": True, "code": 200, "message": "ok"}      
 
   except Exception as e:
-    print("verify_token exception:", repr(e))
-
-@anvil.server.callable
-def create_token(user, lifetime=10):
-    try:
-        token_hex = secrets.token_hex(32)
-        app_tables.tokens.add_row(token=token_hex, created_at=datetime.utcnow(), user=user, lifetime=lifetime, revoked=False)
-        return token_hex
-    
-    except Exception as e:
-        print("an error occured whilst creating the token", repr(e))
+    print("_verify_token exception:", repr(e))
+# ---- ENDPINT ----
 
 @anvil.server.http_endpoint("/ping/:content")
-def ping(content=None, **k):
+def __ping(content=None, **k):
     try:
         token = anvil.server.request.headers.get("Authorization")
 
-        result = verify_token(token)
+        result = _verify_token(token)
 
         if not result["success"]:
             return anvil.server.HttpResponse(
