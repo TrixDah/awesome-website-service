@@ -14,6 +14,9 @@ struct Args {
 
     #[arg(long)]
     force: bool,
+
+    #[arg(short, long)]
+    url: Option<String>,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -21,6 +24,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let client: Client = Client::builder()
         .timeout(std::time::Duration::from_secs(10))
+        .redirect(reqwest::redirect::Policy::none())
         .build()?;
 
     let force: &bool = &args.force;
@@ -35,18 +39,22 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
 
     let url = format!(
-        "https://awesomewebsiteservice.anvil.app/_/api/{}/{}/{}",
-        urlencoding::encode(&args.endpoint),
-        urlencoding::encode(&args.content),
-        urlencoding::encode(&args.token),
+        "{}/_/api/{}/{}",
+        args.url.unwrap().trim_end_matches('/'),
+        args.endpoint,
+        args.content
     );
 
     let resp = client
-        .get(&url)
+        .get(url.clone())
+        .header("Authorization", format!("Bearer {}", args.token))
         .send()?;
 
     let status: reqwest::StatusCode = resp.status();
-    let body: String = resp.text()?;
+    let mut body: String = resp.text()?;
+    if status.as_u16() == 404 {
+        body = String::from("not found!")
+    }
 
     println!("http status: {}", status);
     println!("response: {}", body);
