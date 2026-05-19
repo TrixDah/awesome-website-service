@@ -47,7 +47,7 @@ components:
   event_bindings: {}
   layout_properties: {full_width_row: false, grid_position: 'IGAPXR,BDBCTI'}
   name: pollingTimer
-  properties: {interval: 3}
+  properties: {interval: 0}
   type: Timer
 - layout_properties: {grid_position: 'BQSKJL,IJNRMX'}
   name: rpMessages
