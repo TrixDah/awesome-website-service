@@ -48,7 +48,7 @@ def _delete_tokens(rows):
 def _verify_token(token: str) -> dict:
   try:
     if not token:
-      return {"success": False, "code": 401, "message": "401 Unauthorized: missing token"}
+      return {"success": False, "code": 401, "message": "401 Unauthorized missing token"}
 
     token_returns = list(app_tables.tokens.search(token=token))
 
@@ -87,6 +87,7 @@ def _verify_token(token: str) -> dict:
 def _ping(content=None, **k):
     try:
         token = anvil.server.request.headers.get("Authorization")
+        print("AUTH HEADER:", token)
 
         result = _verify_token(token)
 
