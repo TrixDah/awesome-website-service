@@ -75,7 +75,6 @@ class frmMessaging(frmMessagingTemplate):
         self.btnSend.visible = False
         self.btnSwitchChats.visible = False
         self.file_loader_1.visible = False
-        self.btnRefresh.visible = False
         self.rpChatList.items = anvil.server.call_s('get_user_chats_data', self.current_user)
         self.lblWelcome.text = self._get_welcome_msg()
     
@@ -90,7 +89,6 @@ class frmMessaging(frmMessagingTemplate):
         self.btnSend.visible = True
         self.btnSwitchChats.visible = True
         self.file_loader_1.visible = True
-        self.btnRefresh.visible = True
 
         self.rpChatList.visible = False
         self.rpChatList.items = None
@@ -247,20 +245,6 @@ class frmMessaging(frmMessagingTemplate):
         anvil.users.logout()
         open_form('frmLogin')
     
-    @handle("btnRefresh", "click")
-    def btnRefresh_click(self, **event_args):
-        now = datetime.datetime.now()
-    
-        # Throttle: Only allow refresh if it's been more than 2 seconds
-        if (now - self.last_refresh_time).total_seconds() < 2:
-            # Optional: Notification to tell the user to slow down
-            # n = Notification("Refreshing too fast! Please wait a moment.", timeout=2)
-            # n.show()
-            return
-    
-            # Update the timestamp and run the refresh
-        self.last_refresh_time = now
-        self.refresh_messages()
 
     @handle("pollingTimer", "tick")
     def _poll(self, **event_args):
