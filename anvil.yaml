@@ -127,8 +127,8 @@ db_schema:
     indexes: []
     server: full
     title: Users
-metadata: {description: a awesome website service!, logo_img: 'asset:sick logo.png', title: Educational Enrichment Strategies}
-name: Awesome Website Service
+metadata: {description: An awesome website service!, logo_img: 'asset:sick logo.png', title: Awesome Website Service}
+name: REIDA23/LUCKB23 Awesome Website Service
 native_deps:
   head_html: |-
     <link
@@ -139,7 +139,7 @@ native_deps:
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
     </script>
-package_name: Awesome_Website_Service
+package_name: REIDA23_LUCKB23_Awesome_Website_Service
 runtime_options:
   client_version: '3'
   server_persist: true
