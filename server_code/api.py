@@ -113,21 +113,4 @@ def _ping(content=None, **k):
             body="internal server error"
         )
 
-# @anvil.server.callable
-# def create_cli_token(user, lifetime=10):
-#   token = secrets.token_hex(32)
-#   app_tables.tokens.add_row(token=token, user=user, created_at=datetime.utcnow(), lifetime=lifetime)
-#   return token
-
-# @anvil.server.http_endpoint("/get_user/by_username/:username/:token")
-# def get_user(username):
-#   user_to_ret
-#   if user_to_return is None:
-#     return anvil.server.HttpResponse(404, "404: user not found")
-
-#   return anvil.server.HttpResponse(
-#     status=200,
-#     body={
-#       "code": 200,
-#       "data": {"username": username, "ok": "ok"}
-#     })
+#
