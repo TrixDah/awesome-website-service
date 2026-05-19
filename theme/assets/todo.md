@@ -65,23 +65,12 @@
 * [ ] Securely store user and moderation data
 * [x] Review backend/database security practices
 
----
-
-## 5. Moderation & Admin Tools
-
-* [ ] Create admin dashboard/backend
-* [ ] Allow admins to review reported messages
-* [ ] Add ability to suspend user accounts
-* [ ] Maintain clear moderation audit trails
-* [ ] Log moderation actions securely
-
----
 
 ## 6. Final Review
 
 * [ ] Test reporting workflow end-to-end
 * [ ] Test blocking/muting functionality
 * [ ] Test profanity filter accuracy
-* [ ] Verify Terms of Service acceptance is mandatory
+* [x] Verify Terms of Service acceptance is mandatory
 * [ ] Review compliance with school safety expectations
 * [ ] Prepare demo version with restricted test accounts
