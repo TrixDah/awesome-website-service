@@ -86,8 +86,12 @@ def _verify_token(token: str) -> dict:
 @anvil.server.http_endpoint("/ping/:content")
 def _ping(content=None, **k):
     try:
-        token = anvil.server.request.headers.get("Authorization")
-        print("AUTH HEADER:", token)
+        token = anvil.server.request.headers.get("authorization")
+        
+        if token and token.startswith("Bearer "):
+            token = token[len("Bearer "):]
+            
+        print("HEADERS:", dict(anvil.server.request.headers))
 
         result = _verify_token(token)
 
