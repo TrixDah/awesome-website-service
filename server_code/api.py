@@ -9,8 +9,6 @@ from dataclasses import dataclass
 from datetime import datetime, timezone, timedelta
 import secrets
 
-# / ---- cli ---- /
-
 # DO NOT WRITE HTTP ENDPOINTS WITHOUT KNOWING WHAT YOUR DOING!!! https://anvil.works/docs/external-resources/http-apis
 
 # unfortunatley, authenticate_users doesnt work since we are logging in with google
@@ -82,10 +80,11 @@ def _verify_token(token: str) -> dict:
 
   except Exception as e:
     print("_verify_token exception:", repr(e))
-# ---- ENDPINT ----
+      
+# ---- ENDPOINTs ----
 
 @anvil.server.http_endpoint("/ping/:content")
-def __ping(content=None, **k):
+def _ping(content=None, **k):
     try:
         token = anvil.server.request.headers.get("Authorization")
 
