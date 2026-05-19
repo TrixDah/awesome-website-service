@@ -11,7 +11,7 @@ import datetime
 msgCharLimit = 256
 
 MIN_POLL = 3
-MAX_POLL = 25
+MAX_POLL = 13
 
 class frmMessaging(frmMessagingTemplate):
     def __init__(self, current_user: str, **properties):
