@@ -12,9 +12,8 @@ from enum import Enum
 
 msgCharLimit = 256
 
-class poll_rate(Enum):
-    MIN_POLL = 2
-    MAX_POLL = 30
+MIN_POLL = 2
+MAX_POLL = 30
 
 class frmMessaging(frmMessagingTemplate):
     def __init__(self, current_user: str, **properties):
