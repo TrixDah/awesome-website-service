@@ -50,11 +50,11 @@ def verify_token(token: str) -> dict:
       _delete_tokens(token_returns)
       return {"success": False, "code": 401, "message": "duplicate token detected"}
 
-    token = token_returns[0]
+    token_row = token_returns[0]
 
-    created_at = token['created_at']
-    lifetime = token['lifetime']
-    revoked = token['revoked']
+    created_at = token_row['created_at']
+    lifetime = token_row['lifetime']
+    revoked = token_row['revoked']
 
     if revoked:
       return {"success": False, "code": 401, "message": "revoked"}
@@ -82,28 +82,30 @@ def create_token(user, lifetime=10):
     except Exception as e:
         print("an error occured whilst creating the token", repr(e))
 
-@anvil.server.http_endpoint("/ping/:content/:token")
-def ping(content=None, token=None, **k):
-  try:
-    result = verify_token(token)
-    
-    if not result['success']:
-      return anvil.server.HttpResponse(
-        status=result["code"],
-        body=f'{result["code"]} {result["message"]}'
-      )
-      
-    return anvil.server.HttpResponse(
-      status=200,
-      body=content or "ping"
-    )
-    
-  except Exception as e:
-    print("ping endpoint exception:", repr(e))
-    return anvil.server.HttpResponse(
-      status=500,
-      body="internal server error"
-    )
+@anvil.server.http_endpoint("/ping/:content")
+def ping(content=None, **k):
+    try:
+        token = anvil.server.request.headers.get("Authorization")
+
+        result = verify_token(token)
+
+        if not result["success"]:
+            return anvil.server.HttpResponse(
+                status=result["code"],
+                body=result["message"]
+            )
+
+        return anvil.server.HttpResponse(
+            status=200,
+            body=content or "ping"
+        )
+
+    except Exception as e:
+        print("ping endpoint exception:", repr(e))
+        return anvil.server.HttpResponse(
+            status=500,
+            body="internal server error"
+        )
 
 # @anvil.server.callable
 # def create_cli_token(user, lifetime=10):
