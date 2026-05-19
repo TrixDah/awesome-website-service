@@ -40,7 +40,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let url = format!(
         "{}/_/api/{}/{}",
-        args.url.unwrap().trim_end_matches('/'),
+        args.url.unwrap_or("https://awesomewebsiteservice.anvil.app".to_string()).trim_end_matches('/'),
         args.endpoint,
         args.content
     );
