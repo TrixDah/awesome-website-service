@@ -43,11 +43,12 @@ components:
   name: pnlSidebar
   properties: {}
   type: ColumnPanel
-- data_bindings: []
+- data_bindings:
+  - {code: '0', property: interval, writeback: false}
   event_bindings: {}
   layout_properties: {full_width_row: false, grid_position: 'IGAPXR,BDBCTI'}
   name: pollingTimer
-  properties: {interval: 0}
+  properties: {interval: null}
   type: Timer
 - layout_properties: {grid_position: 'BQSKJL,IJNRMX'}
   name: rpMessages

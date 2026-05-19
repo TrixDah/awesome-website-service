@@ -7,13 +7,11 @@ import anvil.server
 from anvil.tables import app_tables
 import time
 import datetime
-from enum import Enum
-
 
 msgCharLimit = 256
 
-MIN_POLL = 2
-MAX_POLL = 30
+MIN_POLL = 3
+MAX_POLL = 25
 
 class frmMessaging(frmMessagingTemplate):
     def __init__(self, current_user: str, **properties):
@@ -37,7 +35,7 @@ class frmMessaging(frmMessagingTemplate):
         self.cached_ver = None
         self.cached_msgs = []
 
-        self.pollingTimer.interval = poll_rate.MIN_POLL
+        self.pollingTimer.interval = MIN_POLL
     
     def form_show(self, **event_args):
         # this runs the exact millisecond the form becomes visible
@@ -149,14 +147,14 @@ class frmMessaging(frmMessagingTemplate):
         if ver == self.cached_ver:
             self.pollingTimer.interval = min(
                 self.pollingTimer.interval * 2,
-                poll_rate.MAX_POLL
+                MAX_POLL
             )
             return
         
-        self.pollingTimer.interval = poll_rate.MIN_POLL
+        self.pollingTimer.interval = MIN_POLL
         
         # New messages/activity found
-        self.pollingTimer.interval = poll_rate.MIN_POLL
+        self.pollingTimer.interval = MIN_POLL
 
         self.cached_ver = ver
         messages = anvil.server.call_s('get_chat_messages', self.current_chat)
@@ -265,9 +263,6 @@ class frmMessaging(frmMessagingTemplate):
         self.refresh_messages()
 
     @handle("pollingTimer", "tick")
-    def pollingTimer_tick(self, **event_args):
+    def _poll(self, **event_args):
         """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
-        print("poll after", self.pollingTimer.interval)
         self.refresh_messages()
-
-#
