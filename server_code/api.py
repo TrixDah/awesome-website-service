@@ -29,11 +29,12 @@ def _token_is_expired(created_at, lifetime):
   ) > timedelta(minutes=lifetime)
 
 def _delete_tokens(rows):
-  for r in list(rows):
-    try:
-      r.delete()
-    except Exception as e:
-      print("token failed to delete", repr(e))
+    print("DUPED TOKEN DETECTED! DELETING")
+    for r in list(rows):
+        try:
+            r.delete()
+        except Exception as e:
+            print("token failed to delete", repr(e))
   
 @anvil.server.callable
 def verify_token(token: str) -> dict:
