@@ -1,6 +1,6 @@
 use clap::{Parser, Subcommand};
 use reqwest::blocking::Client;
-use std::{error::Error, fs};
+use std::{error::Error, fs, path::PathBuf};
 use dirs::config_dir;
 
 #[derive(Parser)]
@@ -17,23 +17,31 @@ enum Command {
         #[arg(short, long)]
         token: Option<String>,
     },
+
     /// clear saved token
     Logout,
+
+    /// returns the currently loaded token
+    Whoami,
+
     /// call an API endpoint
     Call {
         endpoint: String,
         content: String,
+
         #[arg(short, long)]
         token: Option<String>,
+
         #[arg(long)]
         force: bool,
+
         #[arg(short, long)]
         url: Option<String>,
     },
 }
 
 fn save_token(token: &str) -> Result<(), Box<dyn Error>> {
-    let dir = config_dir()
+    let dir: PathBuf = config_dir()
         .ok_or("could not find config directory")?
         .join("ACLS");
 
@@ -43,13 +51,13 @@ fn save_token(token: &str) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn load_token() -> Result<String, Box<dyn Error>> {
-    let path = config_dir()
+fn load_token() -> Result<Option<String>, Box<dyn Error>> {
+    let path: PathBuf = config_dir()
         .ok_or("could not find config directory")?
         .join("ACLS")
         .join("token");
 
-    Ok(fs::read_to_string(path)?)
+    Ok(Some(fs::read_to_string(path)?))
 }
 
 fn login(token: Option<String>) -> Result<(), Box<dyn Error>> {
@@ -63,8 +71,21 @@ fn login(token: Option<String>) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn logout() {
+fn logout() -> Result<(), Box<dyn Error>> {
+    let path: PathBuf = config_dir()
+        .ok_or("could not find config directory")?
+        .join("ACLS")
+        .join("token");
 
+    fs::write(path, [])?;
+
+    Ok(())
+}
+
+fn whoami() -> Result<(), Box<dyn Error>> {
+    println!("{}", load_token()?.unwrap_or("no token provided".to_string()));
+
+    Ok(())
 }
 
 fn call(
@@ -93,9 +114,18 @@ fn call(
         content
     );
 
+    let token_val = match token {
+        Some(t) => t,
+        None => match load_token()? {
+            Some(t) => t,
+            None => return Err("No token found! Run anvil_cli.exe login or add the --token arg".into())
+        }
+    };
+
+
     let resp = client
         .get(url)
-        .header("Authorization", format!("Bearer {}", token.unwrap_or(load_token()?)))
+        .header("Authorization", format!("Bearer {}", token_val))
         .send()?;
 
     let status = resp.status();
@@ -115,11 +145,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     let cli = Cli::parse();
 
     match cli.command {
-        Command::Login { token } => login(token)?,
-        Command::Logout => logout(),
-        Command::Call { endpoint, content, token, force, url } => {
-            call(endpoint, content, token, force, url)?
-        }
+        Command::Login { token } => 
+            login(token)?,
+        Command::Logout => 
+            logout()?,
+        Command::Call { endpoint, content, token, force, url } => 
+            call(endpoint, content, token, force, url)?,
+        Command::Whoami => 
+            whoami()?,
     }
 
     Ok(())
