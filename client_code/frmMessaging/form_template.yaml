@@ -1,6 +1,6 @@
 components:
 - layout_properties: {grid_position: 'SVGXQX,BVDIEY'}
-  name: label_1
+  name: lblTitle
   properties: {align: center, font_size: 30, text: 'Awesome Website Service™ '}
   type: Label
 - layout_properties: {grid_position: 'HCDKNL,MGOBHS'}
@@ -43,10 +43,12 @@ components:
   name: pnlSidebar
   properties: {}
   type: ColumnPanel
-- event_bindings: {}
-  layout_properties: {grid_position: 'IGAPXR,BDBCTI'}
-  name: timer_1
-  properties: {interval: 2}
+- data_bindings:
+  - {code: '0', property: interval, writeback: false}
+  event_bindings: {}
+  layout_properties: {full_width_row: false, grid_position: 'IGAPXR,BDBCTI'}
+  name: pollingTimer
+  properties: {interval: null}
   type: Timer
 - layout_properties: {grid_position: 'BQSKJL,IJNRMX'}
   name: rpMessages
@@ -77,11 +79,6 @@ components:
     name: file_loader_1
     properties: {file_types: image/*, text: Upload Image}
     type: FileLoader
-  - event_bindings: {}
-    layout_properties: {grid_position: 'TFYVCI,ADYCAI'}
-    name: btnRefresh
-    properties: {text: 'Refresh '}
-    type: Button
   - layout_properties: {grid_position: 'TFYVCI,TMYRRQ'}
     name: btnSend
     properties: {text: Send Message}
@@ -93,7 +90,7 @@ components:
     type: Button
   layout_properties: {grid_position: 'HDBPMA,ZPLZHD KDPAKY,RKJSSZ'}
   name: column_panel_2
-  properties: {col_widths: '{"ADYCAI":20,"ZHNBZI":20}'}
+  properties: {col_widths: '{"ADYCAI":16,"ZHNBZI":17,"IKNDTR":9,"ERKXEO":9,"TMYRRQ":9}'}
   type: ColumnPanel
 - components: []
   layout_properties: {grid_position: 'HDBPMA,ZPLZHD IAJBGH,ZIGLRF'}

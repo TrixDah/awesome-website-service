@@ -9,8 +9,6 @@ from dataclasses import dataclass
 from datetime import datetime, timezone, timedelta
 import secrets
 
-# / ---- cli ---- /
-
 # DO NOT WRITE HTTP ENDPOINTS WITHOUT KNOWING WHAT YOUR DOING!!! https://anvil.works/docs/external-resources/http-apis
 
 # unfortunatley, authenticate_users doesnt work since we are logging in with google
@@ -19,6 +17,16 @@ import secrets
 #   if content is None:
 #     content = "ping"
 #   return anvil.server.HttpResponse(200, content)
+
+@anvil.server.callable
+def create_token(owner, lifetime=10):
+    try:
+        token_hex = secrets.token_hex(32)
+        app_tables.tokens.add_row(token=token_hex, created_at=datetime.utcnow(), user=owner, lifetime=lifetime, revoked=False)
+        return token_hex
+
+    except Exception as e:
+        print("an error occured whilst creating the token", repr(e))
 
 def _token_is_expired(created_at, lifetime):
   if not created_at:
@@ -29,17 +37,18 @@ def _token_is_expired(created_at, lifetime):
   ) > timedelta(minutes=lifetime)
 
 def _delete_tokens(rows):
-  for r in list(rows):
-    try:
-      r.delete()
-    except Exception as e:
-      print("token failed to delete", repr(e))
+    print("DUPED TOKEN DETECTED! DELETING")
+    for r in list(rows):
+        try:
+            r.delete()
+        except Exception as e:
+            print("token failed to delete", repr(e))
   
 @anvil.server.callable
-def verify_token(token: str) -> dict:
+def _verify_token(token: str) -> dict:
   try:
     if not token:
-      return {"success": False, "code": 401, "message": "missing token"}
+      return {"success": False, "code": 401, "message": "401 Unauthorized missing token"}
 
     token_returns = list(app_tables.tokens.search(token=token))
 
@@ -50,11 +59,11 @@ def verify_token(token: str) -> dict:
       _delete_tokens(token_returns)
       return {"success": False, "code": 401, "message": "duplicate token detected"}
 
-    token = token_returns[0]
+    token_row = token_returns[0]
 
-    created_at = token['created_at']
-    lifetime = token['lifetime']
-    revoked = token['revoked']
+    created_at = token_row['created_at']
+    lifetime = token_row['lifetime']
+    revoked = token_row['revoked']
 
     if revoked:
       return {"success": False, "code": 401, "message": "revoked"}
@@ -70,40 +79,39 @@ def verify_token(token: str) -> dict:
     return {"success": True, "code": 200, "message": "ok"}      
 
   except Exception as e:
-    print("verify_token exception:", repr(e))
-
-@anvil.server.callable
-def create_token(user, lifetime=10):
-    try:
-        token_hex = secrets.token_hex(32)
-        app_tables.tokens.add_row(token=token_hex, created_at=datetime.utcnow(), user=user, lifetime=lifetime, revoked=False)
-        return token_hex
-    
-    except Exception as e:
-        print("an error occured whilst creating the token", repr(e))
-
-@anvil.server.http_endpoint("/ping/:content/:token")
-def ping(content=None, token=None, **k):
-  try:
-    result = verify_token(token)
-    
-    if not result['success']:
-      return anvil.server.HttpResponse(
-        status=result["code"],
-        body=f'{result["code"]} {result["message"]}'
-      )
+    print("_verify_token exception:", repr(e))
       
-    return anvil.server.HttpResponse(
-      status=200,
-      body=content or "ping"
-    )
-    
-  except Exception as e:
-    print("ping endpoint exception:", repr(e))
-    return anvil.server.HttpResponse(
-      status=500,
-      body="internal server error"
-    )
+# ---- ENDPOINTs ----
+
+@anvil.server.http_endpoint("/ping/:content")
+def _ping(content=None, **k):
+    try:
+        token = anvil.server.request.headers.get("authorization")
+        
+        if token and token.startswith("Bearer "):
+            token = token[len("Bearer "):]
+            
+        print("HEADERS:", dict(anvil.server.request.headers))
+
+        result = _verify_token(token)
+
+        if not result["success"]:
+            return anvil.server.HttpResponse(
+                status=result["code"],
+                body=result["message"]
+            )
+
+        return anvil.server.HttpResponse(
+            status=200,
+            body=content or "ping"
+        )
+
+    except Exception as e:
+        print("ping endpoint exception:", repr(e))
+        return anvil.server.HttpResponse(
+            status=500,
+            body="internal server error"
+        )
 
 # @anvil.server.callable
 # def create_cli_token(user, lifetime=10):
