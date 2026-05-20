@@ -70,7 +70,7 @@ components:
   properties: {}
   type: ColumnPanel
 - components:
-  - event_bindings: {click: btnLogout_click}
+  - event_bindings: {}
     layout_properties: {grid_position: 'TFYVCI,IKNDTR'}
     name: btnLogout
     properties: {background: '', text: Logout}
@@ -83,7 +83,7 @@ components:
     name: btnSend
     properties: {text: Send Message}
     type: Button
-  - event_bindings: {click: btnSwitchChats_click}
+  - event_bindings: {}
     layout_properties: {grid_position: 'TFYVCI,ZHNBZI'}
     name: btnSwitchChats
     properties: {text: '< Back '}
