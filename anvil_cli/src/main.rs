@@ -1,6 +1,6 @@
 use clap::{Parser, Subcommand};
 use reqwest::blocking::Client;
-use std::{error::Error, fs, path::PathBuf};
+use std::{error::Error, fs, path::PathBuf, time::Duration};
 use dirs::config_dir;
 
 #[derive(Parser)]
@@ -22,7 +22,10 @@ enum Command {
     Logout,
 
     /// returns the currently loaded token
-    Whoami,
+    Whoami {
+        #[arg(short, long)]
+        token: Option<String>,
+    },
 
     /// call an API endpoint
     Call {
@@ -57,7 +60,10 @@ fn load_token() -> Result<Option<String>, Box<dyn Error>> {
         .join("ACLS")
         .join("token");
 
-    Ok(Some(fs::read_to_string(path)?))
+    let token = fs::read_to_string(path)
+        .unwrap_or_else(|_| String::new());
+
+    return Ok((!token.is_empty()).then_some(token));
 }
 
 fn login(token: Option<String>) -> Result<(), Box<dyn Error>> {
@@ -82,10 +88,14 @@ fn logout() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn whoami() -> Result<(), Box<dyn Error>> {
-    println!("{}", load_token()?.unwrap_or("no token provided".to_string()));
+fn whoami(tok: Option<String>) -> Result<(), Box<dyn Error>> {
+    if let Some(t) = &tok { // TODO
+        println!("{}", t);
+        return Ok(());
+    }
+    println!("{}", load_token()?.unwrap_or("No token found! Run anvil_cli.exe login or add the --token arg".to_string()));
 
-    Ok(())
+    return Ok(());
 }
 
 fn call(
@@ -102,7 +112,7 @@ fn call(
     }
 
     let client = Client::builder()
-        .timeout(std::time::Duration::from_secs(10))
+        .timeout(Duration::from_secs(10))
         .redirect(reqwest::redirect::Policy::none())
         .build()?;
 
@@ -142,17 +152,18 @@ fn call(
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
+    use Command::*;
     let cli = Cli::parse();
 
     match cli.command {
-        Command::Login { token } => 
+        Login { token } => 
             login(token)?,
-        Command::Logout => 
+        Logout => 
             logout()?,
-        Command::Call { endpoint, content, token, force, url } => 
+        Call { endpoint, content, token, force, url } => 
             call(endpoint, content, token, force, url)?,
-        Command::Whoami => 
-            whoami()?,
+        Whoami {token} => 
+            whoami(token)?,
     }
 
     Ok(())
