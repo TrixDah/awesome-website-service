@@ -8,6 +8,8 @@ import anvil.server
 from dataclasses import dataclass
 from datetime import datetime, timezone, timedelta
 import secrets
+import time
+
 
 # DO NOT WRITE HTTP ENDPOINTS WITHOUT KNOWING WHAT YOUR DOING!!! https://anvil.works/docs/external-resources/http-apis
 
@@ -82,35 +84,37 @@ def _verify_token(token: str) -> dict:
     print("_verify_token exception:", repr(e))
       
 # ---- ENDPOINTs ----
-
 @anvil.server.http_endpoint("/ping/:content")
 def _ping(content=None, **k):
+    start = time.perf_counter()
+
     try:
-        token = anvil.server.request.headers.get("authorization")
-        
-        if token and token.startswith("Bearer "):
-            token = token[len("Bearer "):]
-            
-        print("HEADERS:", dict(anvil.server.request.headers))
+        token = anvil.server.request.headers.get("authorization", "")
+        token = token.removeprefix("Bearer ")
 
         result = _verify_token(token)
 
         if not result["success"]:
+            elapsed = (time.perf_counter() - start) * 1000
+
             return anvil.server.HttpResponse(
                 status=result["code"],
-                body=result["message"]
+                body=f"{result['message']} ({elapsed:.2f}ms)"
             )
+
+        elapsed = (time.perf_counter() - start) * 1000
 
         return anvil.server.HttpResponse(
             status=200,
-            body=content or "ping"
+            body=f"{content or 'ping'} ({elapsed:.2f}ms)"
         )
 
     except Exception as e:
         print("ping endpoint exception:", repr(e))
+
+        elapsed = (time.perf_counter() - start) * 1000
+
         return anvil.server.HttpResponse(
             status=500,
-            body="internal server error"
+            body=f"internal server error ({elapsed:.2f}ms)"
         )
-
-#
