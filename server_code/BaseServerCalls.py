@@ -130,7 +130,6 @@ def get_user_chats_data(username):
   if user_row is None:
       return []
     
-
   # 1. Handle General Chat automatically
   general_chat = app_tables.chats.get(ChatName="General Chat")
   if general_chat is not None:

@@ -7,6 +7,7 @@ import anvil.server
 from anvil.tables import app_tables
 import time
 import datetime
+from collections import OrderedDict
 
 msgCharLimit = 256
 
@@ -32,10 +33,13 @@ class frmMessaging(frmMessagingTemplate):
         self.drpNewUserSelect.items = anvil.server.call_s('get_usernames', self.current_user)
 
         # caching
-        self.cached_ver = None
-        self.cached_msgs = []
+        self.chat_cache = OrderedDict()
+        self.cache_limit = 10
 
-        self.pollingTimer.interval = MIN_POLL
+        self.chat_list_cache = {
+            "data": None,
+            "ver": None
+        }
     
     def form_show(self, **event_args):
         # this runs the exact millisecond the form becomes visible
@@ -45,15 +49,15 @@ class frmMessaging(frmMessagingTemplate):
         try:
             chat: str | None = self.current_chat['ChatName']
             if len(self.current_chat['Participants']) == 2:
-                chat = self._get_other_other_str(self.current_chat)
+                chat = self._get_other_str(self.current_chat)
         except TypeError:
             chat: str | None = None
         return f"logged in as {self.current_user}.{(' chatting with' + ' ' + chat) if chat else ''}"
 
-    def _get_other_other_str(self, chat_row):
+    def _get_other_str(self, chat_row):
         participants = chat_row['Participants'] or []
         if len(participants) != 2:
-            raise Exception("GOSH! someone has called _get_other_other_str non-privatly or on a group chat")
+            raise Exception("GOSH! someone has called _get_other_str non-privatly or on a group chat")
         for person in participants:
             if person['Username'] != self.current_user:
                 return person['Username']
@@ -75,8 +79,12 @@ class frmMessaging(frmMessagingTemplate):
         self.btnSend.visible = False
         self.btnSwitchChats.visible = False
         self.file_loader_1.visible = False
-        self.rpChatList.items = anvil.server.call_s('get_user_chats_data', self.current_user)
         self.lblWelcome.text = self._get_welcome_msg()
+
+        cached = self._get_chats(force=False)
+        
+        self.rpChatList.items = cached
+        self._refresh_chat_list()
     
     def show_messages_view(self):
         self.rpMessages.items = []
@@ -95,88 +103,121 @@ class frmMessaging(frmMessagingTemplate):
         self.drpNewUserSelect.visible = False
         self.btnCreateChat.visible = False
 
-        
+
+    def _get_chats(self, force: bool = False):
+        if not force and self.chat_list_cache["data"] is not None:
+            return self.chat_list_cache["data"]
+
+        chats = anvil.server.call_s('get_user_chats_data', self.current_user)
     
+        self.chat_list_cache["data"] = chats
+        return chats
+
     def set_active_chat(self, chat_row):
         self.current_chat = chat_row
         self.lblWelcome.text = self._get_welcome_msg()
     
-        # 1. Grab the default name and participants directly from the database row
-        display_name = chat_row['ChatName']
-        participants = chat_row['Participants'] or []
-    
-        # 2. If it's a DM (no formal ChatName set) and has exactly 2 people, find the other person's name
-        if len(participants) == 2:
-            display_name = self._get_other_other_str(chat_row)
-    
-            # 3. Fallback just in case
-        if not display_name:
-            display_name = "Direct Message"
-    
         self.show_messages_view()
+    
+        cache = self._get_cache(chat_row)
+    
+        # 1. instant render from cache (no waiting)
+        if cache["msgs"] is not None:
+            self.rpMessages.items = cache["msgs"]
+            self.lblNoMessages.visible = len(cache["msgs"]) == 0
+            self.rpMessages.visible = len(cache["msgs"]) > 0
+        else:
+            # fallback placeholder load
+            self.rpMessages.items = []
+            self.lblNoMessages.visible = True
+            self.rpMessages.visible = False
     
         anvil.server.call_s('mark_chat_read', self.current_chat, self.current_user)
     
-        self.refresh_messages(poll=False) # we want messages to load instantly and not call on the cached ver (all or nothing)
-    
-    def refresh_messages(self, poll: bool=True):
-        if not poll:
-            self.cached_msgs =  None
-            messages = None
-            if self.current_chat:
-                messages = anvil.server.call('get_chat_messages', self.current_chat)
-                self.rpMessages.items = messages
-    
-                if len(messages) == 0:
-                    self.lblNoMessages.visible = True
-                    self.rpMessages.visible = False
-                else:
-                    self.lblNoMessages.visible = False
-                    self.rpMessages.visible = True
-            return
+        # 2. silent sync (does NOT block UI)
+        self._sync_chat(self.current_chat)
 
+    @handle("btnLogout", "click")
+    def btnLogout_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        anvil.users.logout()
+        open_form('frmLogin')
+        
+    def refresh_messages(self, poll: bool = True):
         if not self.current_chat:
             return
+    
+        cache = self._get_cache(self.current_chat)
 
+        if not poll:
+            messages = anvil.server.call('get_chat_messages', self.current_chat)
+    
+            cache["msgs"] = messages
+            cache["ver"] = None
+    
+            self.rpMessages.items = messages
+    
+            self.lblNoMessages.visible = len(messages) == 0
+            self.rpMessages.visible = len(messages) > 0
+            return
+    
+        # polling
         ver = anvil.server.call_s('get_chat_version', self.current_chat)
-
-
-
-        if ver == self.cached_ver:
+    
+        if ver == cache["ver"]:
             self.pollingTimer.interval = min(
                 self.pollingTimer.interval * 2,
                 MAX_POLL
             )
             return
-        
+    
+        # if there is a cache discrepancy, there is activity
         self.pollingTimer.interval = MIN_POLL
-        
-        # New messages/activity found
-        self.pollingTimer.interval = MIN_POLL
-
-        self.cached_ver = ver
+    
         messages = anvil.server.call_s('get_chat_messages', self.current_chat)
-
-        self.cached_msgs = messages
+    
+        cache["ver"] = ver
+        cache["msgs"] = messages
+    
         self.rpMessages.items = messages
         anvil.server.call_s('mark_chat_read', self.current_chat, self.current_user)
-
-        # instead of writing a if else statement for a few conditions, have each condition be an inline if statement or a primitive bool
+    
         self.lblNoMessages.visible = len(messages) == 0
         self.rpMessages.visible = len(messages) > 0
-        
+
+    def _sync_chat(self, chat):
+        cache = self._get_cache(chat)
+
+        # step 1: get version silently
+        ver = anvil.server.call_s('get_chat_version', chat)
     
+        if ver == cache["ver"]:
+            return
+    
+        messages = anvil.server.call_s('get_chat_messages', chat)
+    
+        cache["ver"] = ver
+        cache["msgs"] = messages
+    
+        if self.current_chat == chat:
+            self.rpMessages.items = messages
+            self.lblNoMessages.visible = len(messages) == 0
+            self.rpMessages.visible = len(messages) > 0
+    
+            anvil.server.call_s('mark_chat_read', self.current_chat, self.current_user)
+    
+    @handle("btnSwitchChats", "click")
     def btnSwitchChats_click(self, **event_args):
         now = datetime.datetime.now()
-    
+
         # Check if 0.5 seconds have passed
         if (now - self.last_click_time).total_seconds() < 2:
             return
-    
+
         self.last_click_time = now
         self.current_chat = None
         self.show_chat_list_view()
-    
+
         self.last_click_time = now
         self.current_chat = None
         self.show_chat_list_view()
@@ -212,7 +253,7 @@ class frmMessaging(frmMessagingTemplate):
                 self.btnSend.enabled = False
     
                 try:
-                    # Pass the image_to_send to the server
+                    # pass the image_to_send to the server
                     result = anvil.server.call_s(
                         'send_message',
                         self.current_user,
@@ -239,14 +280,23 @@ class frmMessaging(frmMessagingTemplate):
     def txtNewMessage_pressed_enter(self, **event_args):
         """This method is called when the user presses Enter in this text box"""
         self.btnSend_click()  # simulate a send button click
-    
-    @handle("btnLogout", "click")
-    def btnLogout_click(self, **event_args):
-        anvil.users.logout()
-        open_form('frmLogin')
-    
 
     @handle("pollingTimer", "tick")
     def _poll(self, **event_args):
-        """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
-        self.refresh_messages()
+        if not self.current_chat:
+            return
+
+        self._sync_chat(self.current_chat)
+
+    def _get_cache(self, chat):
+        """Ensure cache entry exists and mark as recently used"""
+        if chat in self.chat_cache:
+            self.chat_cache.move_to_end(chat)
+            return self.chat_cache[chat]
+    
+        self.chat_cache[chat] = {"ver": None, "msgs": None}
+    
+        if len(self.chat_cache) > self.cache_limit:
+            self.chat_cache.popitem(last=False)
+    
+        return self.chat_cache[chat]
