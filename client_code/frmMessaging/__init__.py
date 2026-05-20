@@ -29,7 +29,6 @@ class frmMessaging(frmMessagingTemplate):
         # Wait until the form is fully open on the screen before loading the data!
         self.set_event_handler('show', self.form_show)
     
-        # initialize the dropdown
         self.drpNewUserSelect.items = anvil.server.call_s('get_usernames', self.current_user)
 
         # caching
@@ -130,20 +129,17 @@ class frmMessaging(frmMessagingTemplate):
     
         cache = self._get_cache(chat_row)
     
-        # 1. instant render from cache (no waiting)
         if cache["msgs"] is not None:
             self.rpMessages.items = cache["msgs"]
             self.lblNoMessages.visible = len(cache["msgs"]) == 0
             self.rpMessages.visible = len(cache["msgs"]) > 0
         else:
-            # fallback placeholder load
             self.rpMessages.items = []
             self.lblNoMessages.visible = True
             self.rpMessages.visible = False
     
         anvil.server.call_s('mark_chat_read', self.current_chat, self.current_user)
     
-        # 2. silent sync (does NOT block UI)
         self._sync_chat(self.current_chat)
 
     @handle("btnLogout", "click")
@@ -197,7 +193,6 @@ class frmMessaging(frmMessagingTemplate):
     def _sync_chat(self, chat):
         cache = self._get_cache(chat)
 
-        # step 1: get version silently
         ver = anvil.server.call_s('get_chat_version', chat)
     
         if ver == cache["ver"]:
