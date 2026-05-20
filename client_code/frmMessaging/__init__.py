@@ -82,7 +82,6 @@ class frmMessaging(frmMessagingTemplate):
         self.lblWelcome.text = self._get_welcome_msg()
 
         cached = self._get_chats(force=False)
-        
         self.rpChatList.items = cached
         self._refresh_chat_list()
     
@@ -112,6 +111,16 @@ class frmMessaging(frmMessagingTemplate):
     
         self.chat_list_cache["data"] = chats
         return chats
+
+    def _refresh_chat_list(self):
+        chats = anvil.server.call_s('get_user_chats_data', self.current_user)
+
+        old = self.chat_list_cache["data"]
+    
+        self.chat_list_cache["data"] = chats
+        
+        if chats != old:
+            self.rpChatList.items = chats
 
     def set_active_chat(self, chat_row):
         self.current_chat = chat_row
