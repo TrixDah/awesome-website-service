@@ -313,6 +313,11 @@ def delete_user_by_username(username):
         if user_row in read_by:
             message.update(ReadBy=[r for r in read_by if r != user_row])
 
+    print("messages: ")
+    for message_row in app_tables.messages.search(Sender=username):
+        print(message_row)
+        message_row.delete()
+
     user_row.delete()
 
     return f"User '{username}' deleted successfully."
