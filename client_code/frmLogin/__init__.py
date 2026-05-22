@@ -22,7 +22,7 @@ class frmLogin(frmLoginTemplate):
         self.lblErr.visible = True
         self.lblErr.text = "You cannot login unless you accept the TOS."
 
-    
+    if tos_accepted:
         self.btnLogin_click()
 
   @handle("btnLogin", "click")
