@@ -314,8 +314,8 @@ def delete_user_by_username(username):
             message.update(ReadBy=[r for r in read_by if r != user_row])
 
     user_row.delete()
-
     return f"User '{username}' deleted successfully."
+    
 @anvil.server.callable
 def add_username(user_row, username: str):
   user_row['Username'] = username
