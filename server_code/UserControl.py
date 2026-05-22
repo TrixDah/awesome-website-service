@@ -43,4 +43,6 @@ def delete_user_by_username(username):
 
     return f"User '{username}' deleted successfully."
 
-@
+@anvil.server.callable
+def activate_user(username):
+    """activates a user by their username"""
