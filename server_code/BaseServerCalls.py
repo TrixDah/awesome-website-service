@@ -316,6 +316,7 @@ def delete_user_by_username(username):
     user_row.delete()
 
     return f"User '{username}' deleted successfully."
+    
 @anvil.server.callable
 def add_username(user_row, username: str):
   user_row['Username'] = username
