@@ -11,7 +11,6 @@ def delete_user_by_username(username):
     """
     deletes all links to a user in a non-cascading way to ensure no null-pointers/dangling pointers
     """
-    # NPE in python!?
     user_row = app_tables.users.get(Username=username)
     if not user_row:
         return f"No user found with username '{username}'"
@@ -44,5 +43,11 @@ def delete_user_by_username(username):
     return f"User '{username}' deleted successfully."
 
 @anvil.server.callable
-def activate_user(username):
+def toggle_user(username):
     """activates a user by their username"""
+    user_row = app_tables.users.get(Username=username)
+    if not user_row:
+        return f"No user found with username '{username}'"
+
+    user_row['enabled'] = not user_row['enabled']
+    print(f"{username} has been {'enabled' or ''}")
